@@ -1,6 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
 import {useEffect, useState} from "react";
+
+const ROOT_URL = 'http://localhost:9090/pastorais';
 
 function App() {
 
@@ -19,13 +20,13 @@ function App() {
       })
     }
     console.debug({requestOptions});
-    fetch('http://localhost:9090/pastorais/create', requestOptions)
+    fetch(`${ROOT_URL}/create`, requestOptions)
       .then(response => response.json())
       .then(d => setData(d));
   };
 
   useEffect(() => {
-    fetch('http://localhost:9090/pastorais/current')
+    fetch(`${ROOT_URL}/current`)
       .then(response => response.json())
       .then(dat => setData(dat))
       .catch(e => console.error(e));

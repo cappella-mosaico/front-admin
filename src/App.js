@@ -6,23 +6,41 @@ function App() {
 
   const [data, setData] = useState({});
 
+  const publish = (e) => {
+    e.preventDefault();
+    const {autor: {value: autor}, titulo: {value: titulo}, descricao: {value: descricao}} = e.target.children;
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        autor,
+        titulo,
+        descricao
+      })
+    }
+    console.debug({requestOptions});
+    fetch('http://localhost:9090/pastorais/create', requestOptions)
+      .then(response => response.json())
+      .then(d => setData(d));
+  };
+
   useEffect(() => {
-    fetch('http://pastorais:8080/pastorais/p/pastoral')
+    fetch('http://localhost:9090/pastorais/current')
       .then(response => response.json())
       .then(dat => setData(dat))
       .catch(e => console.error(e));
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo"/>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        {data?.data?.children?.map(({data: topic}) => console.debug(topic) || (
-          <a key={topic.created} href={topic.url}>{topic.title}</a>))}
-      </header>
+    <div>
+        Admin Mosaico
+      <form onSubmit={publish}>
+        <input name="autor" />
+        <input name="titulo" />
+        <textarea name="descricao" />
+        <button type="submit">publicar</button>
+      </form>
+      {JSON.stringify(data)}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import './App.css';
 import {useEffect, useState} from "react";
 
-const ROOT_URL = 'http://localhost:9090/pastorais';
+const ROOT_URL = 'http://localhost:8080/pastorais';
 
 function PastoralForm({token, setToken}) {
 
@@ -9,9 +9,9 @@ function PastoralForm({token, setToken}) {
     return null;
   }
 
-  const publish = (e) => {
-    e.preventDefault();
-    const {autor: {value: autor}, titulo: {value: titulo}, descricao: {value: descricao}} = e.target.children;
+  const publish = (event) => {
+    event.preventDefault();
+    const {autor: {value: autor}, titulo: {value: titulo}, descricao: {value: descricao}} = event.target.children;
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -28,8 +28,8 @@ function PastoralForm({token, setToken}) {
     fetch(`${ROOT_URL}/create`, requestOptions)
       .then(response => response.json())
       .then(d => console.debug(d))
-      .catch(e => {
-        console.error(e);
+      .catch(error => {
+        console.error(error);
         setToken(null);
       });
   };
@@ -44,10 +44,10 @@ function PastoralForm({token, setToken}) {
 
 function AuthForm({token, setToken}) {
 
-  const login = (e) => {
-    e.preventDefault();
+  const login = (event) => {
+    event.preventDefault();
 
-    const {usuario: {value: usuario}, senha: {value: senha}} = e.target.children;
+    const {usuario: {value: usuario}, senha: {value: senha}} = event.target.children;
     const requestOptions = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -60,8 +60,8 @@ function AuthForm({token, setToken}) {
     fetch(`${ROOT_URL}/auth/login`, requestOptions)
       .then(response => (response.json()))
       .then(responseBody => setToken(responseBody))
-      .catch(e => {
-        console.error(e);
+      .catch(error => {
+        console.error(error);
         setToken(null);
       });
   };
@@ -71,8 +71,8 @@ function AuthForm({token, setToken}) {
   }
 
   return (<form onSubmit={login}>
-    <input placeholder="usuario" name="usuario"/>
-    <input type="password" name="senha" placeholder="senha"/>
+    <input placeholder="usuario" name="usuario" />
+    <input type="password" name="senha" placeholder="senha" />
     <button>login</button>
   </form>);
 }
@@ -86,7 +86,7 @@ function App() {
     fetch(`${ROOT_URL}/current`)
       .then(response => response.json())
       .then(d => setData(d))
-      .catch(e => console.error(e));
+      .catch(error => console.error(error));
   }, []);
 
   return (

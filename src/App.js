@@ -1,4 +1,4 @@
-import './App.css';
+// import './App.css';
 import {useEffect, useState} from "react";
 
 const ROOT_URL = 'http://localhost:8080/pastorais';
@@ -36,9 +36,12 @@ function PastoralForm({token, setToken}) {
 
   return (<form onSubmit={publish}>
     <input name="autor" placeholder="autor"/>
+    <br />
     <input name="titulo" placeholder="titulo"/>
-    <textarea name="descricao" placeholder="descricao"/>
-    <button>publicar</button>
+    <br />
+    <textarea name="descricao" placeholder="descricao" rows='10' cols='26'/>
+    <br />
+    <button>salvar</button>
   </form>);
 }
 
@@ -72,7 +75,9 @@ function AuthForm({token, setToken}) {
 
   return (<form onSubmit={login}>
     <input placeholder="usuario" name="usuario" />
+    <br />
     <input type="password" name="senha" placeholder="senha" />
+    <br /><br />
     <button>login</button>
   </form>);
 }
@@ -80,7 +85,16 @@ function AuthForm({token, setToken}) {
 function App() {
 
   const [data, setData] = useState({});
-  const [token, setToken] = useState();
+  const [token, setLocalStateToken] = useState(localStorage.getItem('token'));
+
+  const setToken = (newToken) => {
+    if (newToken) {
+      localStorage.setItem('token', newToken);
+    } else {
+      localStorage.clear();
+    }
+    setLocalStateToken(newToken);
+  }
 
   useEffect(() => {
     fetch(`${ROOT_URL}/current`)
@@ -90,12 +104,17 @@ function App() {
   }, []);
 
   return (
-    <div>
-      Admin Mosaico
-      <PastoralForm token={token} setToken={setToken}/>
+    <>
       <AuthForm token={token} setToken={setToken}/>
-      {JSON.stringify(data)}
-    </div>
+      <h1>Pastorais</h1>
+      <PastoralForm token={token} setToken={setToken}/>
+
+      <h4>{data?.titulo}</h4>
+      <p>
+        {data?.descricao}
+      </p>
+      <small>{data?.autor}</small>
+    </>
   );
 }
 

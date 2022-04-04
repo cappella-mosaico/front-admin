@@ -4,7 +4,7 @@ import {AuthForm} from "./auth/AuthForm";
 import {PastoralForm} from "./pastorais/PastoralForm";
 import {useToken} from "./auth/useToken";
 
-export const ROOT_URL = 'http://ipmosaico.gleeze.com:8888/pastorais';
+export const ROOT_URL = 'http://ipmosaico.duckdns.org:8888/pastorais';
 
 function App() {
   const {token, setToken} = useToken();

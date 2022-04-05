@@ -5,7 +5,7 @@ export const PastoraisList = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch(`${ROOT_URL}/latest`)
+    fetch(`${ROOT_URL}/public/latest?amount=1`)
       .then(response => response.json())
       .then(d => setData(d))
       .catch(error => console.error(error));

@@ -15,7 +15,7 @@ export const AuthForm = ({token, setToken}) => {
       })
     }
 
-    fetch(`${ROOT_URL}/auth/login`, requestOptions)
+    fetch(`${ROOT_URL}/v1/auth/login`, requestOptions)
       .then(response => (response.json()))
       .then(responseBody => setToken(responseBody))
       .catch(error => {
@@ -29,9 +29,9 @@ export const AuthForm = ({token, setToken}) => {
   }
 
   return (<form onSubmit={login}>
-    <input placeholder="usuario" name="usuario" />
+    <input placeholder="usuario" name="usuario" autoComplete="username" />
     <br />
-    <input type="password" name="senha" placeholder="senha" />
+    <input type="password" name="senha" placeholder="senha" autoComplete="current-password" />
     <br /><br />
     <button>login</button>
   </form>);

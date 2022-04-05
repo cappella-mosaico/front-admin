@@ -19,7 +19,7 @@ export const PastoralForm = ({token, setToken}) => {
       })
     }
 
-    fetch(`${ROOT_URL}/create`, requestOptions)
+    fetch(`${ROOT_URL}/v1/create`, requestOptions)
       .then(response => response.json())
       .then(d => console.debug(d))
       .catch(error => {

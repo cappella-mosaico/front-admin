@@ -5,8 +5,12 @@ import {PastoralForm} from "./pastorais/PastoralForm";
 import {useToken} from "./auth/useToken";
 import {useState} from "react";
 
-export const ROOT_URL = 'http://ipmosaico.duckdns.org:8888/pastorais';
+// localhost
 // export const ROOT_URL = 'http://localhost:9090/pastorais';
+// docker localhost
+// export const ROOT_URL = 'http://localhost:8080/pastorais';
+// production
+export const ROOT_URL = 'http://ipmosaico.duckdns.org:8888/pastorais';
 
 function App() {
   const { token, setToken } = useToken();

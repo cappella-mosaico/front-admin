@@ -1,22 +1,56 @@
-import {useEffect, useState} from "react";
+import { useCallback, useEffect } from "react";
 import {ROOT_URL} from "../App";
 
-export const PastoraisList = () => {
-  const [data, setData] = useState([]);
+export const PastoraisList = ({ token, setToken, pastorais, setPastorais }) => {
+  const notify = useCallback((pastoral) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(pastoral)
+    }
+
+    fetch(`${ROOT_URL}/v1/notify`, requestOptions)
+      .then(response => response.json())
+      .then(pastoral => {
+        const novasPastorais = pastorais.map(p => {
+          if (p.id === pastoral.id) {
+            p.notificado = pastoral.notificado;
+          }
+          return p;
+        });
+        console.debug({
+          novasPastorais
+        });
+        setPastorais(novasPastorais);
+      })
+      .catch(error => {
+        console.error(error);
+        setToken(null);
+      });
+  }, [token, pastorais]);
 
   useEffect(() => {
     fetch(`${ROOT_URL}/public/latest?amount=1`)
       .then(response => response.json())
-      .then(d => setData(d))
+      .then(d => setPastorais(d))
       .catch(error => console.error(error));
-  }, []);
+  }, [token]);
 
-  return (data?.map(each => (<div key={each.id}>
-      <h4>#{each.id} - {each.titulo}</h4>
+  return (pastorais?.map(pastoral => (<div key={pastoral.id}>
+      <h4>#{pastoral.id} - {pastoral.titulo}</h4>
       <p>
-        {each.descricao}
+        {pastoral.descricao}
       </p>
-      <small>{each.autor}</small>
+      <small>{pastoral.autor}</small>
+      <br />
+      <br />
+      { token && !pastoral.notificado &&
+        <button onClick={() => notify(pastoral)}>notificar</button>
+      }
+      <hr />
     </div>)
   ));
 }

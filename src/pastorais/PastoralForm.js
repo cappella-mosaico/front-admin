@@ -1,7 +1,7 @@
 import {ROOT_URL} from "../App";
 import {useCallback} from "react";
 
-export const PastoralForm = ({token, setToken}) => {
+export const PastoralForm = ({token, setToken, pastorais, setPastorais}) => {
 
   const publish = useCallback((event) => {
     event.preventDefault();
@@ -21,7 +21,9 @@ export const PastoralForm = ({token, setToken}) => {
 
     fetch(`${ROOT_URL}/v1/create`, requestOptions)
       .then(response => response.json())
-      .then(d => console.debug(d))
+      .then(pastoral => {
+          setPastorais([pastoral, ...pastorais]);
+        })
       .catch(error => {
         console.error(error);
         setToken(null);

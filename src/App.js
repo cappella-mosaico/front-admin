@@ -3,19 +3,31 @@ import {PastoraisList} from "./pastorais/PastoraisList";
 import {AuthForm} from "./auth/AuthForm";
 import {PastoralForm} from "./pastorais/PastoralForm";
 import {useToken} from "./auth/useToken";
+import {useState} from "react";
 
 export const ROOT_URL = 'http://ipmosaico.duckdns.org:8888/pastorais';
 // export const ROOT_URL = 'http://localhost:9090/pastorais';
 
 function App() {
-  const {token, setToken} = useToken();
+  const { token, setToken } = useToken();
+  const [ pastorais, setPastorais ] = useState([]);
 
   return (
     <>
-      <AuthForm token={token} setToken={setToken}/>
+      <AuthForm token={token}
+                setToken={setToken}/>
+
       <h1>Pastorais</h1>
-      <PastoralForm token={token} setToken={setToken}/>
-      <PastoraisList />
+
+      <PastoralForm token={token}
+                    setToken={setToken}
+                    pastorais={pastorais}
+                    setPastorais={setPastorais}/>
+
+      <PastoraisList token={token}
+                     setToken={setToken}
+                     pastorais={pastorais}
+                     setPastorais={setPastorais}/>
     </>
   );
 }

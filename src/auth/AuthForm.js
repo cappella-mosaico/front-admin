@@ -27,7 +27,7 @@ export const AuthForm = ({token, setToken}) => {
   }, [token, setToken]);
 
   if (token) {
-    return (<button onClick={() => setToken(null)}>logout</button>)
+    return (<button onClick={() => setToken(null)}>sair</button>)
   }
 
   return (<form onSubmit={login}>
@@ -35,6 +35,6 @@ export const AuthForm = ({token, setToken}) => {
     <br />
     <input type="password" name="senha" placeholder="senha" autoComplete="current-password" />
     <br /><br />
-    <button>login</button>
+    <button>entrar</button>
   </form>);
 }

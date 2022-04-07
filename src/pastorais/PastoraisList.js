@@ -1,41 +1,12 @@
 import { useCallback, useEffect } from "react";
 import {ROOT_URL} from "../App";
+import {NotifyAction} from "./actions/NotifyAction";
+import {DeleteAction} from "./actions/DeleteAction";
 
 export const PastoraisList = ({ token, setToken, pastorais, setPastorais }) => {
-  const notify = useCallback((pastoral) => {
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: JSON.stringify(pastoral)
-    }
-
-    fetch(`${ROOT_URL}/v1/notify`, requestOptions)
-      .then(response => response.json())
-      .then(pastoral => {
-        const novasPastorais = pastorais.map(p => {
-          if (p.id === pastoral.id) {
-            p.notificado = pastoral.notificado;
-          }
-          return p;
-        });
-        console.debug({
-          novasPastorais
-        });
-        setPastorais(novasPastorais);
-      })
-      .catch(error => {
-        console.error(error);
-        if (token) {
-          setToken(null);
-        }
-      });
-  }, [token, setToken, pastorais, setPastorais]);
 
   useEffect(() => {
-    fetch(`${ROOT_URL}/public/latest?amount=1`)
+    fetch(`${ROOT_URL}/public/latest?amount=5`)
       .then(response => response.json())
       .then(d => {
         if (pastorais.length !== d.length) {
@@ -54,7 +25,10 @@ export const PastoraisList = ({ token, setToken, pastorais, setPastorais }) => {
       <br />
       <br />
       { token && !pastoral.notificado &&
-        <button onClick={() => notify(pastoral)}>notificar</button>
+        <NotifyAction {...{token, setToken, pastorais, setPastorais, pastoral}} />
+      }
+      { token &&
+        <DeleteAction {...{token, setToken, pastorais, setPastorais, pastoral}} />
       }
       <hr />
     </div>)

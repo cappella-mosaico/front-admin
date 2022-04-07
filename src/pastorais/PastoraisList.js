@@ -28,16 +28,22 @@ export const PastoraisList = ({ token, setToken, pastorais, setPastorais }) => {
       })
       .catch(error => {
         console.error(error);
-        setToken(null);
+        if (token) {
+          setToken(null);
+        }
       });
-  }, [token, pastorais]);
+  }, [token, setToken, pastorais, setPastorais]);
 
   useEffect(() => {
     fetch(`${ROOT_URL}/public/latest?amount=1`)
       .then(response => response.json())
-      .then(d => setPastorais(d))
+      .then(d => {
+        if (pastorais.length !== d.length) {
+          setPastorais(d)
+        }
+      })
       .catch(error => console.error(error));
-  }, [token]);
+  }, [token, setPastorais]);
 
   return (pastorais?.map(pastoral => (<div key={pastoral.id}>
       <h4>#{pastoral.id} - {pastoral.titulo}</h4>

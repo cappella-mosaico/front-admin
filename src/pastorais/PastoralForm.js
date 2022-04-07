@@ -23,12 +23,17 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais}) => {
       .then(response => response.json())
       .then(pastoral => {
           setPastorais([pastoral, ...pastorais]);
+          document.getElementsByName('autor').item(0).value = '';
+          document.getElementsByName('titulo').item(0).value = '';
+          document.getElementsByName('descricao').item(0).value = '';
         })
       .catch(error => {
         console.error(error);
-        setToken(null);
+        if (token) {
+          setToken(null);
+        }
       });
-  }, [token]);
+  }, [token, setToken, pastorais, setPastorais]);
 
   if (!token) {
     return null;
@@ -39,7 +44,7 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais}) => {
     <br />
     <input name="titulo" placeholder="titulo"/>
     <br />
-    <textarea name="descricao" placeholder="descricao" rows='10' cols='26'/>
+    <textarea name="descricao" placeholder="descricao" />
     <br />
     <button>salvar</button>
   </form>);

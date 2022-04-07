@@ -20,9 +20,11 @@ export const AuthForm = ({token, setToken}) => {
       .then(responseBody => setToken(responseBody))
       .catch(error => {
         console.error(error);
-        setToken(null);
+        if (token) {
+          setToken(null);
+        }
       });
-  }, [token]);
+  }, [token, setToken]);
 
   if (token) {
     return (<button onClick={() => setToken(null)}>logout</button>)

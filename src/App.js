@@ -21,7 +21,7 @@ function App() {
       <AuthForm token={token}
                 setToken={setToken}/>
 
-      <h1>Pastorais</h1>
+      {pastorais.length > 1 && <h1>Pastorais</h1>}
 
       <PastoralForm token={token}
                     setToken={setToken}
@@ -34,6 +34,6 @@ function App() {
                      setPastorais={setPastorais}/>
     </>
   );
-}
+};
 
 export default App;

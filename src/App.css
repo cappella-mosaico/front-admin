@@ -4,11 +4,25 @@ body {
 
 input {
   padding: 0.5rem;
-  margin: 0.25rem;
+  margin: 0.5rem;
   font-size: large;
+}
+
+textarea {
+  width: 95%;
+  max-width: 1000px;
+  min-height: 300px;
+  margin: 0.5rem;
+  font-size: large;
+  padding: 0.5rem;
+}
+
+p {
+    max-width: 1000px;
 }
 
 button {
   padding: 0.5rem;
   cursor: pointer;
+  margin: 0.5rem;
 }

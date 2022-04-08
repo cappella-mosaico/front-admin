@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import {ROOT_URL} from "../App";
 import {NotifyAction} from "./actions/NotifyAction";
 import {DeleteAction} from "./actions/DeleteAction";
@@ -6,15 +6,17 @@ import {DeleteAction} from "./actions/DeleteAction";
 export const PastoraisList = ({ token, setToken, pastorais, setPastorais }) => {
 
   useEffect(() => {
-    fetch(`${ROOT_URL}/public/latest?amount=5`)
-      .then(response => response.json())
-      .then(d => {
-        if (pastorais.length !== d.length) {
-          setPastorais(d)
-        }
-      })
-      .catch(error => console.error(error));
-  }, [token, setPastorais]);
+    if (token) {
+      fetch(`${ROOT_URL}/public/latest?amount=5`)
+        .then(response => response.json())
+        .then(d => {
+          if (pastorais.length !== d.length) {
+            setPastorais(d)
+          }
+        })
+        .catch(error => console.error(error));
+    }
+  }, [token, setPastorais, pastorais.length]);
 
   return (pastorais?.map(pastoral => (<div key={pastoral.id}>
       <h4>#{pastoral.id} - {pastoral.titulo}</h4>

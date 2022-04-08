@@ -37,12 +37,13 @@ export const DeleteAction = ({
       });
   }, [token, setToken, pastorais, setPastorais]);
 
-  return (<button onClick={
-    () => {
-      if (window.confirm('deseja apagar "' + pastoral.titulo + "\"?")) {
-        deleete(pastoral);
-      }
-    }
-  }
+  return (<button className="marginalized"
+                  onClick={
+                    () => {
+                      if (window.confirm('deseja apagar "' + pastoral.titulo + "\"?")) {
+                        deleete(pastoral);
+                      }
+                    }
+                  }
   >apagar</button>)
 }

@@ -44,7 +44,7 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais}) => {
     <br />
     <input name="titulo" placeholder="titulo"/>
     <br />
-    <textarea name="descricao" placeholder="descricao" />
+    <textarea name="descricao" placeholder="descricao" className="marginalized" />
     <br />
     <button>salvar</button>
   </form>);

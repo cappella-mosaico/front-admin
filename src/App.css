@@ -23,5 +23,32 @@ p {
 button {
   padding: 0.5rem;
   cursor: pointer;
+}
+
+.auth {
+  width: 100%;
+}
+
+.marginalized {
   margin: 0.25rem 0.25rem 0.25rem 0.5rem;
+}
+
+.logo {
+  width: 100%;
+}
+
+.loginContainer {
+  width: 400px;
+}
+
+@media screen and (max-width: 600px) {
+
+  .loginContainer {
+    width: 100%;
+  }
+
+  .marginalized {
+    margin: 0;
+  }
+
 }

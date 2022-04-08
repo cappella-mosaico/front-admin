@@ -1,7 +1,8 @@
 import {useCallback} from "react";
 import {ROOT_URL} from "../../App";
 
-export const NotifyAction = ({ token,
+export const NotifyAction = ({
+                               token,
                                setToken,
                                pastorais,
                                setPastorais,
@@ -39,13 +40,13 @@ export const NotifyAction = ({ token,
       });
   }, [token, setToken, pastorais, setPastorais]);
 
-  return (<button onClick={
+  return (<button className="marginalized"
+                  onClick={
+                    () => {
+                      if (window.confirm('deseja notificar "' + pastoral.titulo + "\"?")) {
+                        notify(pastoral);
+                      }
+                    }
 
-    () => {
-      if (window.confirm('deseja notificar "' + pastoral.titulo + "\"?")) {
-        notify(pastoral);
-      }
-    }
-
-  }>notificar</button>)
+                  }>notificar</button>)
 }

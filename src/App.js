@@ -11,7 +11,7 @@ import logo from "./logo512.png";
 // docker localhost
 // export const ROOT_URL = 'http://localhost:8080/pastorais';
 // production
-export const ROOT_URL = 'http://ipmosaico.duckdns.org:8888/pastorais';
+export const ROOT_URL = 'http://admin.ipmosaico.com:8888/pastorais';
 
 function App() {
   const { token, setToken } = useToken();

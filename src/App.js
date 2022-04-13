@@ -1,10 +1,9 @@
 import './App.css';
-import {PastoraisList} from "./pastorais/PastoraisList";
 import {AuthForm} from "./auth/AuthForm";
-import {PastoralForm} from "./pastorais/PastoralForm";
 import {useToken} from "./auth/useToken";
 import {useState} from "react";
 import logo from "./logo512.png";
+import {Pastorais} from "./pastorais/Pastorais";
 
 // localhost
 // export const ROOT_URL = 'http://localhost:9090/pastorais';
@@ -27,17 +26,11 @@ function App() {
                   setToken={setToken}/>
       </div>
 
-      {pastorais.length > 0 && <h1>Pastorais</h1>}
 
-      <PastoralForm token={token}
-                    setToken={setToken}
-                    pastorais={pastorais}
-                    setPastorais={setPastorais}/>
-
-      <PastoraisList token={token}
-                     setToken={setToken}
-                     pastorais={pastorais}
-                     setPastorais={setPastorais}/>
+      <Pastorais token={token}
+                 setToken={setToken}
+                 pastorais={pastorais}
+                 setPastorais={setPastorais} />
     </>
   );
 };

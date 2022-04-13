@@ -2,8 +2,9 @@ import { useEffect } from "react";
 import {ROOT_URL} from "../App";
 import {NotifyAction} from "./actions/NotifyAction";
 import {DeleteAction} from "./actions/DeleteAction";
+import {SelectAction} from "./actions/SelectAction";
 
-export const PastoraisList = ({ token, setToken, pastorais, setPastorais }) => {
+export const PastoraisList = ({ token, setToken, pastorais, setPastorais, selectPastoral }) => {
 
   useEffect(() => {
     if (token) {
@@ -28,6 +29,9 @@ export const PastoraisList = ({ token, setToken, pastorais, setPastorais }) => {
       <br />
       { token && !pastoral.notificado &&
         <NotifyAction {...{token, setToken, pastorais, setPastorais, pastoral}} />
+      }
+      { token &&
+        <SelectAction {...{token, setToken, pastorais, setPastorais, pastoral, selectPastoral}} />
       }
       { token &&
         <DeleteAction {...{token, setToken, pastorais, setPastorais, pastoral}} />

@@ -1,54 +1,38 @@
-body {
-  background-color: rgb(250, 250, 250);
+.App {
+  text-align: center;
 }
 
-input {
-  padding: 0.5rem;
-  margin: 0.25rem 0.25rem 0.25rem 0.5rem;
-  font-size: large;
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
 }
 
-textarea {
-  width: 95%;
-  max-width: 1000px;
-  min-height: 300px;
-  font-size: large;
-  padding: 0.5rem;
-}
-
-p {
-    max-width: 1000px;
-}
-
-button {
-  padding: 0.5rem;
-  cursor: pointer;
-}
-
-.auth {
-  width: 100%;
-}
-
-.marginalized {
-  margin: 0.25rem 0.25rem 0.25rem 0.5rem;
-}
-
-.logo {
-  width: 100%;
-}
-
-.loginContainer {
-  width: 400px;
-}
-
-@media screen and (max-width: 600px) {
-
-  .loginContainer {
-    width: 100%;
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
   }
+}
 
-  .marginalized {
-    margin: 0;
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
   }
-
+  to {
+    transform: rotate(360deg);
+  }
 }

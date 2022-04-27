@@ -1,11 +1,11 @@
 import './App.css';
 import {AuthForm} from "./auth/AuthForm";
 import {useToken} from "./auth/useToken";
-import {useState} from "react";
+
 import logo from "./logo512.png";
 import {Pastorais} from "./pastorais/Pastorais";
 import { Link, Route, Routes } from "react-router-dom";
-import {Financeiro} from "./financeiro/Financeiro";
+import {Relatorio} from "./financeiro/Relatorio";
 
 // localhost
 // export const ROOT_URL = 'http://localhost:9090';
@@ -45,8 +45,8 @@ function App() {
                        setToken={setToken} />
           } />
           <Route path="financeiro" element={
-            <Financeiro token={token}
-                        setToken={setToken} />
+            <Relatorio token={token}
+                       setToken={setToken} />
           } />
 
         </Routes></>
@@ -55,5 +55,10 @@ function App() {
     </>
   );
 };
+
+export const zeroPad = (num, places) => {
+  var zero = places - num.toString().length + 1;
+  return Array(+(zero > 0 && zero)).join("0") + num;
+}
 
 export default App;

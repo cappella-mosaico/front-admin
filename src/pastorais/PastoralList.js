@@ -4,7 +4,7 @@ import {NotifyAction} from "./actions/NotifyAction";
 import {DeleteAction} from "./actions/DeleteAction";
 import {SelectAction} from "./actions/SelectAction";
 
-export const PastoraisList = ({ token, setToken, pastorais, setPastorais, selectPastoral }) => {
+export const PastoralList = ({ token, setToken, pastorais, setPastorais, selectPastoral }) => {
 
   useEffect(() => {
     if (token) {

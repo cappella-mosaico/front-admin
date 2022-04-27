@@ -1,5 +1,5 @@
 import {PastoralForm} from "./PastoralForm";
-import {PastoraisList} from "./PastoraisList";
+import {PastoralList} from "./PastoralList";
 import {useState} from "react";
 
 export const Pastorais = ({ token, setToken }) => {
@@ -19,10 +19,10 @@ export const Pastorais = ({ token, setToken }) => {
                   selectedPastoral={selectedPastoral}
                   clearPastoral={clearPastoral}/>
 
-    <PastoraisList token={token}
-                   setToken={setToken}
-                   pastorais={pastorais}
-                   setPastorais={setPastorais}
-                   selectPastoral={selectPastoral}/>
+    <PastoralList token={token}
+                  setToken={setToken}
+                  pastorais={pastorais}
+                  setPastorais={setPastorais}
+                  selectPastoral={selectPastoral}/>
    </>);
 }

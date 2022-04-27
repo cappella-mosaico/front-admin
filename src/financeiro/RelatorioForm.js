@@ -1,8 +1,8 @@
-import {useCallback} from "react";
+import {useCallback, useEffect} from "react";
+import {FINANCEIRO_URL} from "./Relatorio";
+import {zeroPad} from "../App";
 
-const ROOT_URL = 'http://localhost:8081';
-
-export const FinanceiroForm = ({
+export const RelatorioForm = ({
                                  token,
                                  setToken,
                                  relatorios,
@@ -10,6 +10,19 @@ export const FinanceiroForm = ({
                                  selectedRelatorio,
                                  clearRelatorio
                                }) => {
+
+  useEffect(() => {
+    const relatorio = relatorios.filter(p => p.id === selectedRelatorio)?.[0];
+    if (relatorio) {
+      document.getElementsByName('id').item(0).value = relatorio.id;
+      const anoMes = relatorio.anoMes && `${relatorio.anoMes[0]}-${zeroPad(relatorio.anoMes[1], 2)}-01`;
+      console.debug(anoMes);
+      document.getElementsByName('anoMes').item(0).value = anoMes;
+      document.getElementsByName('entradas').item(0).value = relatorio.entradas;
+      document.getElementsByName('saidas').item(0).value = relatorio.saidas;
+      document.getElementsByName('orcado').item(0).value = relatorio.orcado;
+    }
+  }, [selectedRelatorio, relatorios]);
 
   const resetForm = () => {
     clearRelatorio();
@@ -44,7 +57,7 @@ export const FinanceiroForm = ({
       })
     }
 
-    fetch(`${ROOT_URL}/financeiro/v1/persist`, requestOptions)
+    fetch(`${FINANCEIRO_URL}/financeiro/v1/persist`, requestOptions)
       .then(response => response.json())
       .then(relatorio => {
         console.debug(relatorio);
@@ -74,11 +87,11 @@ export const FinanceiroForm = ({
     <input name="id" type="hidden"/>
     <input name="anoMes" placeholder="ano/mês" type="date"/>
     <br/>
-    <input name="entradas" placeholder="entradas" type="number"/>
+    <input name="entradas" placeholder="entradas" step="any" type="number"/>
     <br/>
-    <input name="saidas" placeholder="saída" type="number"/>
+    <input name="saidas" placeholder="saídas" step="any" type="number"/>
     <br/>
-    <input name="orcado" placeholder="orçado" type="number"/>
+    <input name="orcado" placeholder="orçado" step="any" type="number"/>
     <br/>
     <button className="marginalized">salvar</button>
     {selectedRelatorio && <button className="marginalized" type="reset" onClick={resetForm}>cancelar</button>}

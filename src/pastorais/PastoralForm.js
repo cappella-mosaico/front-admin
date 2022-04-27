@@ -34,7 +34,7 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais, selected
       })
     }
 
-    fetch(`${ROOT_URL}/v1/persist`, requestOptions)
+    fetch(`${ROOT_URL}/pastorais/v1/persist`, requestOptions)
       .then(response => response.json())
       .then(pastoral => {
         const novasPastorais = new Map();

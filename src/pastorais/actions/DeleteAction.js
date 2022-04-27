@@ -18,7 +18,7 @@ export const DeleteAction = ({
       body: JSON.stringify(pastoral)
     }
 
-    fetch(`${ROOT_URL}/v1/delete`, requestOptions)
+    fetch(`${ROOT_URL}/pastorais/v1/delete`, requestOptions)
       .then(response => {
         if (!response.ok) {
           throw new Error(response.toString());

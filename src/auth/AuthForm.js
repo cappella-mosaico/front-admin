@@ -15,7 +15,7 @@ export const AuthForm = ({token, setToken}) => {
       })
     }
 
-    fetch(`${ROOT_URL}/v1/auth/login`, requestOptions)
+    fetch(`${ROOT_URL}/pastorais/v1/auth/login`, requestOptions)
       .then(response => (response.json()))
       .then(responseBody => setToken(responseBody))
       .catch(error => {

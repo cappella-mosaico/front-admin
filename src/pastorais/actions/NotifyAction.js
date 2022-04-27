@@ -18,7 +18,7 @@ export const NotifyAction = ({
       body: JSON.stringify(pastoral)
     }
 
-    fetch(`${ROOT_URL}/v1/notify`, requestOptions)
+    fetch(`${ROOT_URL}/pastorais/v1/notify`, requestOptions)
       .then(response => response.json())
       .then(pastoral => {
         const novasPastorais = pastorais.map(p => {

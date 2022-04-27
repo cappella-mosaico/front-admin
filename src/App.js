@@ -8,11 +8,11 @@ import { Link, Route, Routes } from "react-router-dom";
 import {Financeiro} from "./financeiro/Financeiro";
 
 // localhost
-// export const ROOT_URL = 'http://localhost:9090/pastorais';
+// export const ROOT_URL = 'http://localhost:9090';
 // docker localhost
-export const ROOT_URL = 'http://localhost:8080/pastorais';
+export const ROOT_URL = 'http://localhost:8080';
 // production
-// export const ROOT_URL = 'http://admin.ipmosaico.com:8888/pastorais';
+// export const ROOT_URL = 'http://admin.ipmosaico.com:8888';
 
 function App() {
   const { token, setToken } = useToken();

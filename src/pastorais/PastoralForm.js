@@ -78,6 +78,6 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais, selected
     <br />
     <textarea name="descricao" placeholder="descricao" className="marginalized" />
     <br />
-    <button>salvar</button>
+    <button className="marginalized">salvar</button>
   </form>);
 }

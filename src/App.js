@@ -4,11 +4,13 @@ import {useToken} from "./auth/useToken";
 import {useState} from "react";
 import logo from "./logo512.png";
 import {Pastorais} from "./pastorais/Pastorais";
+import { Link, Route, Routes } from "react-router-dom";
+import {Financeiro} from "./financeiro/Financeiro";
 
 // localhost
 // export const ROOT_URL = 'http://localhost:9090/pastorais';
 // docker localhost
- export const ROOT_URL = 'http://localhost:8080/pastorais';
+export const ROOT_URL = 'http://localhost:8080/pastorais';
 // production
 // export const ROOT_URL = 'http://admin.ipmosaico.com:8888/pastorais';
 
@@ -27,10 +29,33 @@ function App() {
       </div>
 
 
-      <Pastorais token={token}
-                 setToken={setToken}
-                 pastorais={pastorais}
-                 setPastorais={setPastorais} />
+      { token &&
+      <>
+        <Link to="pastorais"
+              className="marginalized">Pastorais</Link>
+        <Link to="financeiro"
+              className="marginalized">Financeiro</Link>
+
+        <Routes>
+          <Route index element={
+            <Pastorais token={token}
+                       setToken={setToken}
+                       pastorais={pastorais}
+                       setPastorais={setPastorais} />
+          } />
+          <Route path="pastorais" element={
+            <Pastorais token={token}
+                       setToken={setToken}
+                       pastorais={pastorais}
+                       setPastorais={setPastorais} />
+          } />
+          <Route path="financeiro" element={
+            <Financeiro />
+          } />
+
+        </Routes></>
+      }
+
     </>
   );
 };

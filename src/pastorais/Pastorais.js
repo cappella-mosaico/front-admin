@@ -9,7 +9,7 @@ export const Pastorais = ({token, setToken, pastorais, setPastorais}) => {
   }
 
   return (<>
-    {pastorais.length > 0 && <h1>Pastorais</h1>}
+    <h1>Pastorais</h1>
 
     <PastoralForm token={token}
                   setToken={setToken}

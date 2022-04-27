@@ -13,6 +13,14 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais, selected
     }
   }, [selectedPastoral, pastorais]);
 
+  const resetForm = () => {
+    clearPastoral();
+    document.getElementsByName('id').item(0).value = '';
+    document.getElementsByName('autor').item(0).value = '';
+    document.getElementsByName('titulo').item(0).value = '';
+    document.getElementsByName('descricao').item(0).value = '';
+  }
+
   const publish = useCallback((event) => {
     event.preventDefault();
     const { id: {value: id},
@@ -20,6 +28,12 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais, selected
             titulo: {value: titulo},
             descricao: {value: descricao}
     } = event.target.children;
+
+    if (!autor?.trim() || !titulo?.trim() || !descricao?.trim()) {
+      alert('preencher campos');
+      return;
+    }
+
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -45,18 +59,11 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais, selected
         } else {
           // if this is a new item, I'm making sure it's added to the top
           const reversed = Array.from(novasPastorais.values()).reverse();
-          console.debug(reversed);
           reversed.push(pastoral)
           setPastorais(reversed.reverse());
         }
 
-
-
-        clearPastoral();
-        document.getElementsByName('id').item(0).value = '';
-        document.getElementsByName('autor').item(0).value = '';
-        document.getElementsByName('titulo').item(0).value = '';
-        document.getElementsByName('descricao').item(0).value = '';
+        resetForm();
       })
       .catch(error => {
         console.error(error);
@@ -79,5 +86,6 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais, selected
     <textarea name="descricao" placeholder="descricao" className="marginalized" />
     <br />
     <button className="marginalized">salvar</button>
+    {selectedPastoral && <button className="marginalized" type="reset" onClick={resetForm}>cancelar</button>}
   </form>);
 }

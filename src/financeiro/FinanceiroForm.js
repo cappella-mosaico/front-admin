@@ -1,12 +1,33 @@
 import {useCallback} from "react";
 
-export const FinanceiroForm = ({token, setToken}) => {
+const ROOT_URL = 'http://localhost:8081';
+
+export const FinanceiroForm = ({
+                                 token,
+                                 setToken,
+                                 relatorios,
+                                 setRelatorios,
+                                 selectedRelatorio,
+                                 clearRelatorio
+                               }) => {
+
+  const resetForm = () => {
+    clearRelatorio();
+    document.getElementsByName('id').item(0).value = '';
+    document.getElementsByName('anoMes').item(0).value = '';
+    document.getElementsByName('entradas').item(0).value = '';
+    document.getElementsByName('saidas').item(0).value = '';
+    document.getElementsByName('orcado').item(0).value = '';
+  }
+
   const publish = useCallback((event) => {
     event.preventDefault();
-    const { id: {value: id},
-      autor: {value: autor},
-      titulo: {value: titulo},
-      descricao: {value: descricao}
+    const {
+      id: {value: id},
+      anoMes: {value: anoMes},
+      entradas: {value: entradas},
+      saidas: {value: saidas},
+      orcado: {value: orcado}
     } = event.target.children;
     const requestOptions = {
       method: 'POST',
@@ -16,35 +37,30 @@ export const FinanceiroForm = ({token, setToken}) => {
       },
       body: JSON.stringify({
         id,
-        autor,
-        titulo,
-        descricao
+        anoMes: anoMes?.substring(0, 7),
+        entradas,
+        saidas,
+        orcado,
       })
     }
 
     fetch(`${ROOT_URL}/financeiro/v1/persist`, requestOptions)
       .then(response => response.json())
-      .then(pastoral => {
-        const novasPastorais = new Map();
-        pastorais.forEach(p => novasPastorais.set(p.id, p));
-        if (novasPastorais.get(pastoral.id)) {
-          novasPastorais.set(pastoral.id, pastoral);
-          setPastorais([...novasPastorais.values()]);
+      .then(relatorio => {
+        console.debug(relatorio);
+        const novosRelatorios = new Map();
+        relatorios.forEach(p => novosRelatorios.set(p.id, p));
+        if (novosRelatorios.get(relatorio.id)) {
+          novosRelatorios.set(relatorio.id, relatorio);
+          setRelatorios([...novosRelatorios.values()]);
         } else {
           // if this is a new item, I'm making sure it's added to the top
-          const reversed = Array.from(novasPastorais.values()).reverse();
-          console.debug(reversed);
-          reversed.push(pastoral)
-          setPastorais(reversed.reverse());
+          const reversed = Array.from(novosRelatorios.values()).reverse();
+          reversed.push(relatorio)
+          setRelatorios(reversed.reverse());
         }
 
-
-
-        clearPastoral();
-        document.getElementsByName('id').item(0).value = '';
-        document.getElementsByName('autor').item(0).value = '';
-        document.getElementsByName('titulo').item(0).value = '';
-        document.getElementsByName('descricao').item(0).value = '';
+        resetForm();
       })
       .catch(error => {
         console.error(error);
@@ -56,14 +72,15 @@ export const FinanceiroForm = ({token, setToken}) => {
 
   return (<form onSubmit={publish}>
     <input name="id" type="hidden"/>
-    <input name="anomes" placeholder="ano/mês" type="date"/>
+    <input name="anoMes" placeholder="ano/mês" type="date"/>
     <br/>
-    <input name="entrada" placeholder="entrada"/>
+    <input name="entradas" placeholder="entradas" type="number"/>
     <br/>
-    <input name="saida" placeholder="saída"/>
+    <input name="saidas" placeholder="saída" type="number"/>
     <br/>
-    <input name="orcado" placeholder="orçado"/>
+    <input name="orcado" placeholder="orçado" type="number"/>
     <br/>
     <button className="marginalized">salvar</button>
+    {selectedRelatorio && <button className="marginalized" type="reset" onClick={resetForm}>cancelar</button>}
   </form>);
 }

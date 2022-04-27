@@ -2,7 +2,8 @@ import {PastoralForm} from "./PastoralForm";
 import {PastoraisList} from "./PastoraisList";
 import {useState} from "react";
 
-export const Pastorais = ({token, setToken, pastorais, setPastorais}) => {
+export const Pastorais = ({ token, setToken }) => {
+  const [ pastorais, setPastorais ] = useState([]);
   const [selectedPastoral, selectPastoral] = useState();
   const clearPastoral = () => {
     selectPastoral(null);

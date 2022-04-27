@@ -16,7 +16,6 @@ export const ROOT_URL = 'http://localhost:8080';
 
 function App() {
   const { token, setToken } = useToken();
-  const [ pastorais, setPastorais ] = useState([]);
 
   return (
     <>
@@ -39,18 +38,15 @@ function App() {
         <Routes>
           <Route index element={
             <Pastorais token={token}
-                       setToken={setToken}
-                       pastorais={pastorais}
-                       setPastorais={setPastorais} />
+                       setToken={setToken} />
           } />
           <Route path="pastorais" element={
             <Pastorais token={token}
-                       setToken={setToken}
-                       pastorais={pastorais}
-                       setPastorais={setPastorais} />
+                       setToken={setToken} />
           } />
           <Route path="financeiro" element={
-            <Financeiro />
+            <Financeiro token={token}
+                        setToken={setToken} />
           } />
 
         </Routes></>

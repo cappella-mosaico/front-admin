@@ -38,7 +38,7 @@ export const DeleteAction = ({
       });
   }, [token, setToken, relatorios, setRelatorios]);
 
-  return (<button className="marginalized"
+  return (<button
                   onClick={
                     () => {
                       if (window.confirm('deseja apagar "' + relatorio.id + "\"?")) {

@@ -86,14 +86,12 @@ export const RelatorioForm = ({
   return (<form onSubmit={publish}>
     <input name="id" type="hidden"/>
     <input name="anoMes" placeholder="ano/mês" type="date"/>
-    <br/>
     <input name="entradas" placeholder="entradas" step="any" type="number"/>
-    <br/>
     <input name="saidas" placeholder="saídas" step="any" type="number"/>
-    <br/>
     <input name="orcado" placeholder="orçado" step="any" type="number"/>
-    <br/>
-    <button className="marginalized">salvar</button>
-    {selectedRelatorio && <button className="marginalized" type="reset" onClick={resetForm}>cancelar</button>}
+    <div className="grid">
+      <button>salvar</button>
+      {selectedRelatorio && <button type="reset" className="secondary" onClick={resetForm}>cancelar</button>}
+    </div>
   </form>);
 }

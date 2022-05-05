@@ -40,7 +40,7 @@ export const NotifyAction = ({
       });
   }, [token, setToken, pastorais, setPastorais]);
 
-  return (<button className="marginalized"
+  return (<button
                   onClick={
                     () => {
                       if (window.confirm('deseja notificar "' + pastoral.titulo + "\"?")) {

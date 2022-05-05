@@ -1,4 +1,4 @@
-import './App.css';
+//import './App.css';
 import {AuthForm} from "./auth/AuthForm";
 import {useToken} from "./auth/useToken";
 
@@ -19,22 +19,17 @@ function App() {
 
   return (
     <>
-      <div className="loginContainer">
-        <img src={logo}
-             alt="Logo"
-             className="logo marginalized" />
-        <AuthForm token={token}
-                  setToken={setToken}/>
-      </div>
-
+      <img src={logo}
+           alt="Logo"/>
 
       { token &&
       <>
-        <Link to="pastorais"
-              className="marginalized">Pastorais</Link>
-        <Link to="financeiro"
-              className="marginalized">Financeiro</Link>
-
+        <nav>
+          <ul>
+            <li><Link to="pastorais">Pastorais</Link></li>
+            <li><Link to="financeiro">Financeiro</Link></li>
+          </ul>
+        </nav>
         <Routes>
           <Route index element={
             <Pastorais token={token}
@@ -49,9 +44,11 @@ function App() {
                        setToken={setToken} />
           } />
 
-        </Routes></>
+        </Routes>
+      </>
       }
-
+      <AuthForm token={token}
+                setToken={setToken}/>
     </>
   );
 };

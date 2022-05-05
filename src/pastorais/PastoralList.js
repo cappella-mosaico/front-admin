@@ -27,15 +27,17 @@ export const PastoralList = ({ token, setToken, pastorais, setPastorais, selectP
       <small>{pastoral.autor}</small>
       <br />
       <br />
-      { token && !pastoral.notificado &&
-        <NotifyAction {...{token, setToken, pastorais, setPastorais, pastoral}} />
-      }
-      { token &&
-        <SelectAction {...{token, setToken, pastorais, setPastorais, pastoral, selectPastoral}} />
-      }
-      { token &&
-        <DeleteAction {...{token, setToken, pastorais, setPastorais, pastoral}} />
-      }
+      <div className="grid">
+        { token && !pastoral.notificado &&
+          <NotifyAction {...{token, setToken, pastorais, setPastorais, pastoral}} />
+        }
+        { token &&
+          <SelectAction {...{token, setToken, pastorais, setPastorais, pastoral, selectPastoral}} />
+        }
+        { token &&
+          <DeleteAction {...{token, setToken, pastorais, setPastorais, pastoral}} />
+        }
+      </div>
       <hr />
     </div>)
   ));

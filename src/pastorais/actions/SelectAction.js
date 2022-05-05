@@ -2,7 +2,7 @@ export const SelectAction = ({
                                pastoral,
                                selectPastoral
                              }) => {
-  return (<button className="marginalized"
+  return (<button
                   onClick={() => selectPastoral(pastoral.id)}
   >editar</button>)
 }

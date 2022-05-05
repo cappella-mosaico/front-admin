@@ -37,7 +37,7 @@ export const DeleteAction = ({
       });
   }, [token, setToken, pastorais, setPastorais]);
 
-  return (<button className="marginalized"
+  return (<button
                   onClick={
                     () => {
                       if (window.confirm('deseja apagar "' + pastoral.titulo + "\"?")) {

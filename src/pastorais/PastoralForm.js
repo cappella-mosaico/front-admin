@@ -80,12 +80,11 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais, selected
   return (<form onSubmit={publish}>
     <input name="id" type="hidden"/>
     <input name="autor" placeholder="autor"/>
-    <br />
     <input name="titulo" placeholder="titulo"/>
-    <br />
-    <textarea name="descricao" placeholder="descricao" className="marginalized" />
-    <br />
-    <button className="marginalized">salvar</button>
-    {selectedPastoral && <button className="marginalized" type="reset" onClick={resetForm}>cancelar</button>}
+    <textarea name="descricao" placeholder="descricao" />
+    <div className="grid">
+      <button>salvar</button>
+      {selectedPastoral && <button type="reset" className="secondary" onClick={resetForm}>cancelar</button>}
+    </div>
   </form>);
 }

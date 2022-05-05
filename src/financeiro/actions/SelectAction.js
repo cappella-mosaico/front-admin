@@ -2,7 +2,7 @@ export const SelectAction = ({
                                entity,
                                select
                              }) => {
-  return (<button className="marginalized"
+  return (<button
                   onClick={() => select(entity.id)}
   >editar</button>)
 }

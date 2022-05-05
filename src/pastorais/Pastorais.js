@@ -11,14 +11,12 @@ export const Pastorais = ({ token, setToken }) => {
 
   return (<>
     <h1>Pastorais</h1>
-
     <PastoralForm token={token}
                   setToken={setToken}
                   pastorais={pastorais}
                   setPastorais={setPastorais}
                   selectedPastoral={selectedPastoral}
                   clearPastoral={clearPastoral}/>
-
     <PastoralList token={token}
                   setToken={setToken}
                   pastorais={pastorais}

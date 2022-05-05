@@ -34,15 +34,17 @@ export const RelatorioList = ({token, setToken, relatorios, setRelatorios, selec
       </label>
       <br/>
       <br/>
-      {/*{token && !relatorio.notificado &&
-      <NotifyAction {...{token, setToken, relatorios, setRelatorios, relatorio}} />
-      }*/}
-      {token &&
-      <SelectAction entity={relatorio} select={selectRelatorio}/>
-      }
-      {token &&
-      <DeleteAction {...{token, setToken, relatorios, setRelatorios, relatorio}} />
-      }
+      <div className="grid">
+        {/*{token && !relatorio.notificado &&
+        <NotifyAction {...{token, setToken, relatorios, setRelatorios, relatorio}} />
+        }*/}
+        {token &&
+        <SelectAction entity={relatorio} select={selectRelatorio}/>
+        }
+        {token &&
+        <DeleteAction {...{token, setToken, relatorios, setRelatorios, relatorio}} />
+        }
+      </div>
       <hr/>
     </div>)
   ));

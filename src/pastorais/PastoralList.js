@@ -8,7 +8,7 @@ export const PastoralList = ({ token, setToken, pastorais, setPastorais, selectP
 
   useEffect(() => {
     if (token) {
-      fetch(`${ROOT_URL}/pastorais/public/latest?amount=5`)
+      fetch(`${ROOT_URL}/pastorais?amount=5`)
         .then(response => response.json())
         .then(d => {
           if (pastorais.length !== d.length) {

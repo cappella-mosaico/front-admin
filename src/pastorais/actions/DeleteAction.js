@@ -8,17 +8,13 @@ export const DeleteAction = ({
                                setPastorais,
                                pastoral
                              }) => {
-  const deleete = useCallback((pastoral) => {
-    const requestOptions = {
-      method: 'POST',
+  const deleete = useCallback(({id}) => {
+    fetch(`${ROOT_URL}/pastorais/${id}`, {
+      method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
-      body: JSON.stringify(pastoral)
-    }
-
-    fetch(`${ROOT_URL}/pastorais/v1/delete`, requestOptions)
+    })
       .then(response => {
         if (!response.ok) {
           throw new Error(response.toString());

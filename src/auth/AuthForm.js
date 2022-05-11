@@ -5,19 +5,19 @@ export const AuthForm = ({token, setToken}) => {
   const login = useCallback((event) => {
     event.preventDefault();
 
-    const {usuario: {value: usuario}, senha: {value: senha}} = event.target.children;
+    const {usuario: {value: username}, senha: {value: password}} = event.target.children;
     const requestOptions = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-        usuario,
-        senha,
+        username,
+        password
       })
     }
 
-    fetch(`${ROOT_URL}/pastorais/v1/auth/login`, requestOptions)
+    fetch(`${ROOT_URL}/login`, requestOptions)
       .then(response => (response.json()))
-      .then(responseBody => setToken(responseBody))
+      .then(responseBody => setToken(responseBody.token))
       .catch(error => {
         console.error(error);
         if (token) {

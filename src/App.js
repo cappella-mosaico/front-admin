@@ -10,7 +10,7 @@ import {Relatorio} from "./financeiro/Relatorio";
 // localhost
 // export const ROOT_URL = 'http://localhost:9090';
 // docker localhost
-export const ROOT_URL = 'http://0.0.0.0:8080';
+export const ROOT_URL = 'http://localhost:8082';
 // production
 // export const ROOT_URL = 'http://admin.ipmosaico.com:8888';
 

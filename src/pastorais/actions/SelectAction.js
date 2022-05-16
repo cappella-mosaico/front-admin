@@ -3,6 +3,9 @@ export const SelectAction = ({
                                selectPastoral
                              }) => {
   return (<button
-                  onClick={() => selectPastoral(pastoral.id)}
+                  onClick={() => {
+                    selectPastoral(pastoral.id);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
   >editar</button>)
 }

@@ -1,14 +1,13 @@
+import {ROOT_URL} from "../App";
 import {useEffect} from "react";
-import {NotifyAction} from "./actions/NotifyAction";
 import {DeleteAction} from "./actions/DeleteAction";
 import {SelectAction} from "./actions/SelectAction";
-import {FINANCEIRO_URL} from "./Relatorio";
 
 export const RelatorioList = ({token, setToken, relatorios, setRelatorios, selectRelatorio}) => {
 
   useEffect(() => {
     if (token) {
-      fetch(`${FINANCEIRO_URL}/financeiro/public/latest?amount=5`)
+      fetch(`${ROOT_URL}/financeiro?amount=5`)
         .then(response => response.json())
         .then(d => {
           if (relatorios.length !== d.length) {
@@ -35,9 +34,6 @@ export const RelatorioList = ({token, setToken, relatorios, setRelatorios, selec
       <br/>
       <br/>
       <div className="grid">
-        {/*{token && !relatorio.notificado &&
-        <NotifyAction {...{token, setToken, relatorios, setRelatorios, relatorio}} />
-        }*/}
         {token &&
         <SelectAction entity={relatorio} select={selectRelatorio}/>
         }

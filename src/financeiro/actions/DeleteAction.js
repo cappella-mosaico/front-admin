@@ -1,6 +1,5 @@
+import {ROOT_URL} from "../../App";
 import {useCallback} from "react";
-
-import {FINANCEIRO_URL} from "../Relatorio";
 
 export const DeleteAction = ({
                                token,
@@ -9,17 +8,13 @@ export const DeleteAction = ({
                                setRelatorios,
                                relatorio
                              }) => {
-  const deleete = useCallback((relatorio) => {
-    const requestOptions = {
-      method: 'POST',
+  const _delete = useCallback(({ id }) => {
+    fetch(`${ROOT_URL}/financeiro/${id}`, {
+      method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
-      body: JSON.stringify(relatorio)
-    }
-
-    fetch(`${FINANCEIRO_URL}/financeiro/v1/delete`, requestOptions)
+    })
       .then(response => {
         if (!response.ok) {
           throw new Error(response.toString());
@@ -42,7 +37,7 @@ export const DeleteAction = ({
                   onClick={
                     () => {
                       if (window.confirm('deseja apagar "' + relatorio.id + "\"?")) {
-                        deleete(relatorio);
+                        _delete(relatorio);
                       }
                     }
                   }

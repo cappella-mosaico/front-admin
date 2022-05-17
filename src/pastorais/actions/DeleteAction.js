@@ -8,7 +8,7 @@ export const DeleteAction = ({
                                setPastorais,
                                pastoral
                              }) => {
-  const deleete = useCallback(({id}) => {
+  const _delete = useCallback(({id}) => {
     fetch(`${ROOT_URL}/pastorais/${id}`, {
       method: 'DELETE',
       headers: {
@@ -37,7 +37,7 @@ export const DeleteAction = ({
                   onClick={
                     () => {
                       if (window.confirm('deseja apagar "' + pastoral.titulo + "\"?")) {
-                        deleete(pastoral);
+                        _delete(pastoral);
                       }
                     }
                   }

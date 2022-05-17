@@ -1,6 +1,5 @@
 import {useCallback, useEffect} from "react";
-import {FINANCEIRO_URL} from "./Relatorio";
-import {zeroPad} from "../App";
+import {zeroPad, ROOT_URL} from "../App";
 
 export const RelatorioForm = ({
                                  token,
@@ -57,10 +56,9 @@ export const RelatorioForm = ({
       })
     }
 
-    fetch(`${FINANCEIRO_URL}/financeiro/v1/persist`, requestOptions)
+    fetch(`${ROOT_URL}/financeiro`, requestOptions)
       .then(response => response.json())
       .then(relatorio => {
-        console.debug(relatorio);
         const novosRelatorios = new Map();
         relatorios.forEach(p => novosRelatorios.set(p.id, p));
         if (novosRelatorios.get(relatorio.id)) {

@@ -79,7 +79,7 @@ export const RelatorioForm = ({
           setToken(null);
         }
       });
-  }, [token, setToken]);
+  }, [token, setToken, relatorios]);
 
   return (<form onSubmit={publish}>
     <input name="id" type="hidden"/>

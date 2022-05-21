@@ -8,22 +8,19 @@ export const NotifyAction = ({
                                setPastorais,
                                pastoral
                              }) => {
-  const notify = useCallback((pastoral) => {
-    const requestOptions = {
-      method: 'POST',
+  const notify = useCallback((pastoralToNotify) => {
+    fetch(`${ROOT_URL}/pastorais/${pastoralToNotify.id}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
-      body: JSON.stringify(pastoral)
-    }
-
-    fetch(`${ROOT_URL}/pastorais/v1/notify`, requestOptions)
+    })
       .then(response => response.json())
-      .then(pastoral => {
+      .then(notifiedPastoral => {
         const novasPastorais = pastorais.map(p => {
-          if (p.id === pastoral.id) {
-            p.notificado = pastoral.notificado;
+          if (p.id === notifiedPastoral.id) {
+            p.notificado = notifiedPastoral.notificado;
           }
           return p;
         });

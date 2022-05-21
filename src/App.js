@@ -7,12 +7,7 @@ import {Pastorais} from "./pastorais/Pastorais";
 import { Link, Route, Routes } from "react-router-dom";
 import {Relatorio} from "./financeiro/Relatorio";
 
-// localhost
-// export const ROOT_URL = 'http://localhost:9090';
-// docker localhost
 export const ROOT_URL = `${process.env.REACT_APP_IPMOSAICO_ROOT_URL}`;
-// production
-// export const ROOT_URL = 'http://admin.ipmosaico.com:8888';
 
 function App() {
   const { token, setToken } = useToken();

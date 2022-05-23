@@ -3,6 +3,7 @@ FROM node:lts-alpine3.15 as build
 
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
+ARG REACT_APP_IPMOSAICO_ROOT_URL=${REACT_APP_IPMOSAICO_ROOT_URL}
 COPY package.json ./
 COPY package-lock.json ./
 RUN npm ci

@@ -1,8 +1,0 @@
-export const Evento = ({evento}) => {
-  return (<div>
-
-  <h4>{evento.id}</h4>
-  <strong>{evento.titulo}</strong>
-
-  </div>);
-}

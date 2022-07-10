@@ -1,5 +1,0 @@
-export const Participante = ({participante}) => {
-
-  return (<div>{participante.nome}</div>);
-
-}

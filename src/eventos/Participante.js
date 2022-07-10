@@ -15,7 +15,6 @@ export const Participante = ({eventoId, participante, token}) => {
         .then(response => response.json())
         .then(d => {
           setDependentes(d);
-          setLoaded(true);
         })
         .catch(error => console.error(error));
 

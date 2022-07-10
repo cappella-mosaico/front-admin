@@ -1,4 +1,3 @@
-//import './App.css';
 import {AuthForm} from "./auth/AuthForm";
 import {useToken} from "./auth/useToken";
 
@@ -6,6 +5,7 @@ import logo from "./logo512.png";
 import {Pastorais} from "./pastorais/Pastorais";
 import { Link, Route, Routes } from "react-router-dom";
 import {Relatorio} from "./financeiro/Relatorio";
+import {Eventos} from "./eventos/Eventos";
 
 export const ROOT_URL = `${process.env.REACT_APP_IPMOSAICO_ROOT_URL}`;
 
@@ -23,6 +23,7 @@ function App() {
           <ul>
             <li><Link to="pastorais">Pastorais</Link></li>
             <li><Link to="financeiro">Financeiro</Link></li>
+            <li><Link to="eventos">Eventos</Link></li>
           </ul>
         </nav>
         <Routes>
@@ -36,6 +37,10 @@ function App() {
           } />
           <Route path="financeiro" element={
             <Relatorio token={token}
+                       setToken={setToken} />
+          } />
+          <Route path="eventos" element={
+            <Eventos token={token}
                        setToken={setToken} />
           } />
 

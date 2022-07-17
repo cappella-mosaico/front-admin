@@ -10,7 +10,7 @@ import {Eventos} from "./eventos/Eventos";
 export const ROOT_URL = `${process.env.REACT_APP_IPMOSAICO_ROOT_URL}`;
 
 function App() {
-  const { token, setToken } = useToken();
+  const { token, setToken, tokenExpirationTime } = useToken();
 
   return (
     <>
@@ -48,7 +48,8 @@ function App() {
       </>
       }
       <AuthForm token={token}
-                setToken={setToken}/>
+                setToken={setToken}
+                tokenExpirationTime={tokenExpirationTime}/>
     </>
   );
 };

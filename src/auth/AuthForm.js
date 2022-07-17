@@ -1,7 +1,7 @@
-import {ROOT_URL} from "../App";
-import {useCallback} from "react";
+import { useCallback, useEffect } from "react";
+import { ROOT_URL } from "../App";
 
-export const AuthForm = ({token, setToken}) => {
+export const AuthForm = ({token, setToken, tokenExpirationTime}) => {
   const login = useCallback((event) => {
     event.preventDefault();
 
@@ -25,6 +25,17 @@ export const AuthForm = ({token, setToken}) => {
         }
       });
   }, [token, setToken]);
+
+  useEffect(() => {
+    const intervalId = token && setInterval(() => {
+      if (tokenExpirationTime < Date.now()) {
+        setToken(null);
+        clearInterval(intervalId);
+      }
+
+    }, 1000);
+    return () => clearInterval(intervalId);
+  });
 
   if (token) {
     return (<button className="contrast"

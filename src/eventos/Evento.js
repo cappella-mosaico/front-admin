@@ -25,7 +25,7 @@ export const Evento = ({evento, token}) => {
 
   return (
     <div>
-      <strong>{evento.titulo} ({participantes.length})</strong>
+      <strong>{evento.titulo} ({evento.quantidadePessoas})</strong>
       {participantes.map(p => <Participante key={p.id} participante={p} eventoId={evento.id} token={token} />)}
     </div>
   );

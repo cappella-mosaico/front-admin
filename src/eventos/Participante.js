@@ -37,13 +37,17 @@ export const Participante = ({eventoId, participante, token}) => {
   useEffect(loadDependentes, [eventoId, participante, token])
 
   return (
-    <div>
+    <>
+    <tr>
+      <td>{participante.nome}</td>
+      <td>
+        <input type="checkbox" 
+               checked={isento}
+               onChange={handleChange} />
+      </td>
+    </tr>
 
-      <input type="checkbox" 
-        checked={isento}
-        onChange={handleChange} />
-      {participante.nome}
-      <br />
+
       {dependentes.map(d => <Dependente 
                        key={d.id} 
                        dependente={d}
@@ -51,7 +55,6 @@ export const Participante = ({eventoId, participante, token}) => {
                        eventoId={eventoId}
                        participanteId={participante.id} /> 
                       )}
-
-    </div>
+    </>
   );
 }

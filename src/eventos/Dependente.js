@@ -18,11 +18,12 @@ export const Dependente = ({dependente, token, participanteId, eventoId}) => {
     .catch(error => console.error(error));
   }
 
-  return (<>
-            <input type="checkbox"
-                   checked={isento}
-                   onChange={handleChange} />
-            &nbsp;&nbsp;&nbsp;&nbsp;\__ {dependente.nome}
-            <br/>
-          </>)
+  return (<tr>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;\__ {dependente.nome}</td>
+            <td>
+              <input type="checkbox"
+                     checked={isento}
+                     onChange={handleChange} />
+            </td>          
+          </tr>)
 }

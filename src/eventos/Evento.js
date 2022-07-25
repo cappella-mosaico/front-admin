@@ -28,11 +28,19 @@ export const Evento = ({evento, token}) => {
       <strong>{evento.titulo}</strong> possui 
       <strong>&nbsp;{participantes.length}</strong> famílias somando
       <strong>&nbsp;{evento.quantidadePessoas}</strong> pessoas
-      {participantes.map(p => <Participante 
+      <table>
+        <tbody>
+          <tr>
+            <th>Nome</th>
+            <th>Isento</th>
+          </tr>
+          {participantes.map(p => <Participante 
                                 key={p.id} 
                                 participante={p} 
                                 eventoId={evento.id} 
                                 token={token} />)}
+        </tbody>
+      </table>
     </div>
   );
 }

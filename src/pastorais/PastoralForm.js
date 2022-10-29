@@ -1,7 +1,9 @@
 import {ROOT_URL} from "../App";
-import {useCallback, useEffect} from "react";
+import {useCallback, useEffect, useState} from "react";
 
 export const PastoralForm = ({token, setToken, pastorais, setPastorais, selectedPastoral, clearPastoral}) => {
+
+  const [descricao, setDescricao] = useState('');
 
   useEffect(() => {
     const pastoral = pastorais.filter(p => p.id === selectedPastoral)?.[0];
@@ -10,6 +12,7 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais, selected
       document.getElementsByName('autor').item(0).value = pastoral.autor;
       document.getElementsByName('titulo').item(0).value = pastoral.titulo;
       document.getElementsByName('descricao').item(0).value = pastoral.descricao;
+      setDescricao(pastoral.descricao);
     }
   }, [selectedPastoral, pastorais]);
 
@@ -19,6 +22,7 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais, selected
     document.getElementsByName('autor').item(0).value = '';
     document.getElementsByName('titulo').item(0).value = '';
     document.getElementsByName('descricao').item(0).value = '';
+    setDescricao('');
   }
 
   const publish = useCallback((event) => {
@@ -81,7 +85,13 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais, selected
     <input name="id" type="hidden"/>
     <input name="autor" placeholder="autor"/>
     <input name="titulo" placeholder="titulo"/>
-    <textarea name="descricao" placeholder="descricao" />
+    <textarea
+          name="descricao"
+          placeholder="descricao"
+          value={descricao}
+          onChange={((e) => setDescricao(e.target.value))}
+          {...(descricao ? {style: {height: '50rem'}} : {})}
+          />
     <div className="grid">
       <button>salvar</button>
       {selectedPastoral && <button type="reset" className="secondary" onClick={resetForm}>cancelar</button>}

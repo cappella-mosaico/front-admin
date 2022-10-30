@@ -8,7 +8,7 @@ export const Evento = ({evento, token}) => {
   const [participantes, setParticipantes] = useState([]);
 
   useEffect(() => {
-    if (token) {
+    if (token && showParticipantes) {
       fetch(`${ROOT_URL}/eventos/${evento.id}/participantes`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -20,7 +20,17 @@ export const Evento = ({evento, token}) => {
         })
         .catch(error => console.error(error));
     }
-  }, [token]);
+  }, [token, showParticipantes]);
+
+  if (!showParticipantes) {
+    return (
+      <div>
+        <span>{evento.titulo} de {new Date(evento.dataInicial).toLocaleString('pt-BR')} à {new Date(evento.dataFinal).toLocaleString('pt-BR')} </span>
+        <br />
+        <a href="#" onClick={() => setShowParticipantes(true)}>mostrar participantes</a>
+      </div>
+    );
+  }
 
 
   return (
@@ -28,6 +38,8 @@ export const Evento = ({evento, token}) => {
       <strong>{evento.titulo}</strong> possui 
       <strong>&nbsp;{participantes.length}</strong> famílias somando
       <strong>&nbsp;{evento.quantidadePessoas}</strong> pessoas
+      <br />
+      <a href="#" onClick={() => setShowParticipantes(false)}> esconder participantes</a>
       <table>
         <tbody>
           <tr>

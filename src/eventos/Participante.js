@@ -6,7 +6,9 @@ export const Participante = ({eventoId, participante, token}) => {
 
   const [dependentes, setDependentes] = useState([]);
   const [isento, setIsento] = useState(participante.isento);
-  const handleChange = () => {
+  const [valorPago, setValorPago] = useState(participante.valorPago);
+
+  const handleIsentoChange = () => {
     participante.isento = !isento;
     participante.eventoId = eventoId;
     fetch(`${ROOT_URL}/eventos/participante`, {
@@ -18,6 +20,21 @@ export const Participante = ({eventoId, participante, token}) => {
       body: JSON.stringify(participante),
     })
       .then(response => setIsento(!isento))
+    .catch(error => console.error(error));
+  }
+
+  const handleValorChange = ({target: { value: valorPago }}) => {
+    participante.valorPago = valorPago;
+    participante.eventoId = eventoId;
+    fetch(`${ROOT_URL}/eventos/participante`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(participante),
+    })
+      .then(response => setValorPago(valorPago))
     .catch(error => console.error(error));
   }
 
@@ -39,21 +56,29 @@ export const Participante = ({eventoId, participante, token}) => {
   return (
     <>
     <tr>
-      <td>{participante.nome}</td>
+      <td><strong><h5>{participante.nome}</h5></strong></td>
+      <td>{participante.idade}</td>
       <td>
-        <input type="checkbox" 
+        <input type="number"
+               min="0.00"
+               step="0.01"
+               value={valorPago}
+               onChange={handleValorChange} />
+      </td>
+      <td>
+        <input type="checkbox"
                checked={isento}
-               onChange={handleChange} />
+               onChange={handleIsentoChange} />
       </td>
     </tr>
 
 
-      {dependentes.map(d => <Dependente 
-                       key={d.id} 
+      {dependentes.map(d => <Dependente
+                       key={d.id}
                        dependente={d}
                        token={token}
                        eventoId={eventoId}
-                       participanteId={participante.id} /> 
+                       participanteId={participante.id} />
                       )}
     </>
   );

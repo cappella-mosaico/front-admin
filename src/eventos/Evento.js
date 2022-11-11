@@ -44,6 +44,8 @@ export const Evento = ({evento, token}) => {
         <tbody>
           <tr>
             <th>Nome</th>
+            <th>Idade</th>
+            <th>Valor Pago</th>
             <th>Isento</th>
           </tr>
           {participantes.map(p => <Participante 

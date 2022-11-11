@@ -19,7 +19,9 @@ export const Dependente = ({dependente, token, participanteId, eventoId}) => {
   }
 
   return (<tr>
-            <td>&nbsp;&nbsp;&nbsp;&nbsp;\__ {dependente.nome}</td>
+            <td><small>{dependente.nome}</small></td>
+            <td>{dependente.idade}</td>
+            <td></td>
             <td>
               <input type="checkbox"
                      checked={isento}

@@ -5,8 +5,9 @@ import { ROOT_URL } from '../App.js';
 export const Participante = ({eventoId, participante, token}) => {
 
   const [dependentes, setDependentes] = useState([]);
-  const [isento, setIsento] = useState(participante.isento);
   const [valorPago, setValorPago] = useState(participante.valorPago);
+  const [isento, setIsento] = useState(participante.isento);
+  const [idade, setIdade] = useState(participante.idade);
 
   const handleIsentoChange = () => {
     participante.isento = !isento;
@@ -38,6 +39,21 @@ export const Participante = ({eventoId, participante, token}) => {
     .catch(error => console.error(error));
   }
 
+  const handleIdadeChange = ({target: { value: idade }}) => {
+    participante.idade = idade;
+    participante.eventoId = eventoId;
+    fetch(`${ROOT_URL}/eventos/participante`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(participante),
+    })
+      .then(response => setIdade(idade))
+    .catch(error => console.error(error));
+  }
+
   const loadDependentes = () => {
     fetch(`${ROOT_URL}/eventos/${eventoId}/${participante.id}/dependentes`, {
       headers: {
@@ -57,7 +73,10 @@ export const Participante = ({eventoId, participante, token}) => {
     <>
     <tr>
       <td><strong><h5>{participante.nome}</h5></strong></td>
-      <td>{participante.idade}</td>
+      <td><input type="number"
+                 step="1"
+                 value={idade}
+                 onChange={handleIdadeChange} /></td>
       <td>
         <input type="number"
                min="0.00"

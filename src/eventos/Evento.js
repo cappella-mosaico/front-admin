@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { CSVLink } from 'react-csv';
 import { Participante } from './Participante';
 import { ROOT_URL } from '../App.js';
 
@@ -6,6 +7,8 @@ export const Evento = ({evento, token}) => {
 
   const [showParticipantes, setShowParticipantes] = useState(false);
   const [participantes, setParticipantes] = useState([]);
+  const [showExportButton, setShowExportButton] = useState(false);
+  const familias = useRef([]);
 
   useEffect(() => {
     if (token && showParticipantes) {
@@ -40,6 +43,13 @@ export const Evento = ({evento, token}) => {
       <strong>&nbsp;{evento.quantidadePessoas}</strong> pessoas
       <br />
       <a href="#" onClick={() => setShowParticipantes(false)}> esconder participantes</a>
+      <br />
+      
+      {!showExportButton && <a href="#" onClick={() => {setShowExportButton(true)}}>exportar participantes</a>}
+      {showExportButton && <CSVLink data={familias.current}>
+        ## DOWNLOAD ##
+      </CSVLink>}
+      
       <table>
         <tbody>
           <tr>
@@ -52,7 +62,8 @@ export const Evento = ({evento, token}) => {
                                 key={p.id} 
                                 participante={p} 
                                 eventoId={evento.id} 
-                                token={token} />)}
+                                token={token}
+                                familias={familias}/>)}
         </tbody>
       </table>
     </div>

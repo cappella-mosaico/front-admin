@@ -7,7 +7,7 @@ export const RelatorioList = ({token, setToken, relatorios, setRelatorios, selec
 
   useEffect(() => {
     if (token) {
-      fetch(`${ROOT_URL}/financeiro?amount=5`)
+      fetch(`${ROOT_URL}/financeiro?amount=12`)
         .then(response => response.json())
         .then(d => {
           if (relatorios.length !== d.length) {

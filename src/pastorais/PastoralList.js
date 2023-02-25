@@ -20,7 +20,7 @@ export const PastoralList = ({ token, setToken, pastorais, setPastorais, selectP
   }, [token, setPastorais, pastorais.length]);
 
   return (pastorais?.map(pastoral => (<div key={pastoral.id}>
-      <h4>#{pastoral.id} - {pastoral.titulo}</h4>
+      <h4>#{pastoral.id} - {pastoral.titulo}</h4> <span>({pastoral.pequenoTitulo})</span>
       <div style={{whiteSpace: "pre-wrap"}}>{pastoral.descricao}</div>
       <small>{pastoral.autor}</small>
       <br />

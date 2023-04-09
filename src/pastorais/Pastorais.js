@@ -10,7 +10,7 @@ export const Pastorais = ({ token, setToken }) => {
   }
 
   return (<>
-    <h1>Pastorais</h1>
+    <h3>Manutenção de Pastorais</h3>
     <PastoralForm token={token}
                   setToken={setToken}
                   pastorais={pastorais}

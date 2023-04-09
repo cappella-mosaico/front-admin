@@ -10,7 +10,7 @@ export const Relatorio = ({token, setToken}) => {
   }
 
   return (<>
-    <h1>Resultados Financeiros Mensais</h1>
+    <h3>Resultados Financeiros Mensais</h3>
     <RelatorioForm
       token={token}
       setToken={setToken}

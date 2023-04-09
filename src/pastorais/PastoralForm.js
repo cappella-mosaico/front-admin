@@ -33,8 +33,18 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais, selected
             descricao: {value: descricao}
     } = event.target.children;
 
-    if (!autor?.trim() || !titulo?.trim() || !descricao?.trim()) {
-      alert('preencher campos');
+    if (!autor?.trim()) {
+      alert('Toda pastoral precisa de um autor.');
+      return;
+    }
+
+    if (!titulo?.trim()) {
+      alert('É importante preencher o título da pastoral.');
+      return;
+    }
+
+    if (!descricao?.trim()) {
+      alert('Você se esqueceu de preencher a pastoral.');
       return;
     }
 

@@ -17,5 +17,11 @@ export const Eventos = ({token}) => {
     }
   }, [token]);
 
-  return (eventos.map(e => <Evento key={e.id} evento={e} token={token} />));
+  return (<>
+          <h3>Eventos</h3>
+          {eventos.map(e => <Evento key={e.id}
+                       evento={e}
+                       token={token} />)}
+          </>
+         );
 }

@@ -3,10 +3,11 @@ import {useToken} from "./auth/useToken";
 
 import logo from "./logo512.png";
 import {Pastorais} from "./pastorais/Pastorais";
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, NavLink } from "react-router-dom";
 import {Relatorio} from "./financeiro/Relatorio";
 import {Eventos} from "./eventos/Eventos";
 import {Compromissos} from "./compromissos/Compromissos";
+import "./style.css";
 
 export const ROOT_URL = `${process.env.REACT_APP_IPMOSAICO_ROOT_URL}`;
 
@@ -15,18 +16,15 @@ function App() {
 
   return (
     <>
-      <img src={logo}
-           alt="Logo"/>
+      <h1>Administração do aplicativo da IP Mosaico</h1>
 
       { token &&
       <>
-        <nav>
-          <ul>
-            <li><Link to="pastorais">Pastorais</Link></li>
-            <li><Link to="financeiro">Financeiro</Link></li>
-            <li><Link to="eventos">Eventos</Link></li>
-            <li><Link to="compromissos">Compromissos</Link></li>
-          </ul>
+        <nav style={{backgroundColor: 'whitesmoke', padding: '4px 12px 4px 12px', borderRadius: '4px'}}>
+          <NavLink to="pastorais">Pastorais</NavLink>
+          <NavLink to="financeiro">Financeiro</NavLink>
+          <NavLink to="eventos">Eventos</NavLink>
+          <NavLink to="compromissos">Compromissos</NavLink>
         </nav>
         <Routes>
           <Route index element={

@@ -1,3 +1,3 @@
 export const Compromisso = ({ compromisso, token }) => {
-  return (<b>{JSON.stringify(compromisso)}</b>);
+  return (<>{compromisso.id} - {compromisso.nome} - {compromisso.createdAt}<br /></>);
 }

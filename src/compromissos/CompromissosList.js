@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { ROOT_URL } from '../App.js';
 import { Compromisso } from './Compromisso';
 
-export const CompromissosList = ({ token }) => {
-  const [compromissos, setCompromissos] = useState([]);
+export const CompromissosList = ({ token, compromissos, addCompromisso, setCompromissos }) => {
 
   useEffect(() => {
     if (token) {
@@ -16,5 +15,8 @@ export const CompromissosList = ({ token }) => {
     }
   }, [token]);
 
-  return (compromissos.map(c => <Compromisso key={c.id} compromisso={c} token={token} />));
+  return (compromissos.map(c => <Compromisso
+                           key={c.id}
+                           compromisso={c}
+                           token={token} />));
 }

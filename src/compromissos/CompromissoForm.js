@@ -1,19 +1,18 @@
 import {ROOT_URL} from "../App";
 import { useState } from 'react';
 
-export const CompromissoForm = ({ token }) => {
+const DEFAULT_TIPO = 'ESCALA';
+const DEFAULT_MINISTERIO = 'Música';
+
+export const CompromissoForm = ({ token, setToken, addCompromisso }) => {
   
-  const [tipo, setTipo] = useState('ESCALA');
-  const [ministerio, setMinisterio] = useState('Música');
+  const [tipo, setTipo] = useState(DEFAULT_TIPO);
+  const [ministerio, setMinisterio] = useState(DEFAULT_MINISTERIO);
 
   const resetForm = () => {
-    /*clearPastoral();
-    document.getElementsByName('id').item(0).value = '';
-    document.getElementsByName('autor').item(0).value = '';
-    document.getElementsByName('titulo').item(0).value = '';
-    document.getElementsByName('descricao').item(0).value = '';
-    setDescricao('');*/
-    console.log('resetForm');
+    document.getElementById('formCompromisso').reset();
+    setTipo(DEFAULT_TIPO);
+    setMinisterio(DEFAULT_MINISTERIO)
   }
 
   const publish = (e) => {
@@ -47,22 +46,17 @@ export const CompromissoForm = ({ token }) => {
     }
 
     fetch(`${ROOT_URL}/compromissos`, requestOptions)
-      .then(response => console.log('response') || response.json())
+      .then(response => response.json())
       .then(compromisso => {
-        console.log(compromisso);
-        const novosCompromissos = new Map();
-        //compromissos.forEach(p => novasPastorais.set(p.id, p));
-        /*if (novasPastorais.get(pastoral.id)) {
-          novasPastorais.set(pastoral.id, pastoral);
-          setPastorais([...novasPastorais.values()]);
+        if (compromisso.id) {
+          alert(`O compromisso ${compromisso.nome} foi cadastrado com sucesso.`)
+          resetForm();
+          addCompromisso(compromisso);
         } else {
-          // if this is a new item, I'm making sure it's added to the top
-          const reversed = Array.from(novasPastorais.values()).reverse();
-          reversed.push(pastoral)
-          setPastorais(reversed.reverse());
-        }*/
-
-        resetForm();
+          const error = `Falha ao cadastrar o compromisso.`;
+          alert(error);
+          throw new Error(error);
+        }
       })
       .catch(error => {
         console.error(error);
@@ -73,7 +67,7 @@ export const CompromissoForm = ({ token }) => {
 
   }
 
-  return (<form onSubmit={publish}>
+  return (<form id="formCompromisso" onSubmit={publish}>
             <input type="hidden" name="id" />
             <input type="text" name="nome" placeholder="Nome" />
             <input type="text" name="local" placeholder="Local" />

@@ -6,7 +6,7 @@ import { CompromissosFilter } from './CompromissosFilter';
 export const CompromissosList = ({ token, compromissos, addCompromisso, setCompromissos }) => {
 
   const [ministerioFilter, setMinisterioFilter] = useState("Música");
-  const [passadoFilter, setPassadoFilter] = useState(true);
+  const [passadoFilter, setPassadoFilter] = useState(false);
 
   useEffect(() => {
     if (token) {

@@ -1,19 +1,36 @@
 export const CompromissosFilter = ({ ministerio, passado, setMinisterio, setPassado }) => {
-  const flipMinisterio = () => {
-    if (ministerio == "Música") {
-      setMinisterio("Mídia");
-    } else {
-      setMinisterio("Música");
-    }
-  }
+  return (<>
+            <hr />
+            <h5>Filtros</h5>
+            <div className="grid">
+              <fieldset>
+                <legend>Ministério</legend>
+                <label htmlFor="musicaFilter">
+                  <input type="radio"
+                         id="musicaFilter"
+                         name="ministerio"
+                         value="Música"
+                         defaultChecked
+                         onChange={(e) => setMinisterio(e.target.value)} />
+                  Música
+                </label>
+                <label htmlFor="midiaFilter">
+                  <input type="radio"
+                         id="midiaFilter"
+                         name="ministerio"
+                         value="Mídia"
+                         onChange={(e) => setMinisterio(e.target.value)} />
+                  Mídia
+                </label>
+              </fieldset>
 
-  const flipPassado = () => {
-    setPassado(!passado);
-  }
-
-  return (<span>
-          { ministerio } - { passado }
-          <button onClick={flipMinisterio}>flip ministerio</button>
-          <button onClick={flipPassado}>flip passado</button>
-          </span>)
-}
+              <label htmlFor="passadoCheck">
+                <input type="checkbox"
+                       id="passadoCheck"
+                       checked={passado}
+                       onChange={() => setPassado(!passado)} />
+                Visualizar compromissos antigos
+              </label>
+            </div>
+          </>);
+};

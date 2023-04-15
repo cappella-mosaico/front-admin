@@ -1,4 +1,4 @@
-import {ROOT_URL} from "../App";
+import { ROOT_URL } from "../App";
 import { useState } from 'react';
 
 const DEFAULT_TIPO = 'ESCALA';
@@ -49,7 +49,7 @@ export const CompromissoForm = ({ token, setToken, addCompromisso }) => {
       .then(response => response.json())
       .then(compromisso => {
         if (compromisso.id) {
-          alert(`O compromisso ${compromisso.nome} foi cadastrado com sucesso.`)
+          alert(`O compromisso ${compromisso.nome} foi cadastrado com sucesso.`);
           resetForm();
           addCompromisso(compromisso);
         } else {

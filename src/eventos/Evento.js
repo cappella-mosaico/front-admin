@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { CSVLink } from 'react-csv';
 import { Participante } from './Participante';
+import { ParticipanteForm } from './ParticipanteForm';
 import { ROOT_URL } from '../App.js';
 
-export const Evento = ({evento, token}) => {
+export const Evento = ({evento, token, setToken}) => {
 
   const [showParticipantes, setShowParticipantes] = useState(false);
+  const [showFormParticipantes, setShowFormParticipantes] = useState(false);
   const [participantes, setParticipantes] = useState([]);
   const [showExportButton, setShowExportButton] = useState(false);
   const familias = useRef([]);
@@ -41,31 +43,34 @@ export const Evento = ({evento, token}) => {
       <strong>{evento.titulo}</strong> possui 
       <strong>&nbsp;{participantes.length}</strong> famílias somando
       <strong>&nbsp;{evento.quantidadePessoas}</strong> pessoas
-      <br />
-      <a href="#" onClick={() => setShowParticipantes(false)}> esconder participantes</a>
-      <br />
+      <hr />
+      {showFormParticipantes && <ParticipanteForm token={token} 
+                                                  setToken={setToken}
+                                                  eventoId={evento.id}/>}
       
-      {!showExportButton && <a href="#" onClick={() => {setShowExportButton(true)}}>exportar participantes</a>}
-      {showExportButton && <CSVLink data={familias.current}>
-        ## DOWNLOAD ##
-      </CSVLink>}
+      <div className="grid">
+        <button onClick={() => setShowFormParticipantes(true)}>adicionar participante</button>
+        <button onClick={() => setShowParticipantes(false)}>esconder participantes</button>
+        {!showExportButton && <button onClick={() => setShowExportButton(true)}>exportar participantes</button>}
+        {showExportButton && <CSVLink data={familias.current}>## DOWNLOAD ##</CSVLink>}
+      </div>
       
       <table>
-        <tbody>
-          <tr>
-            <th>Nome</th>
-            <th>Idade</th>
-            <th>Valor Pago</th>
-            <th>Isento</th>
-          </tr>
-          {participantes.map(p => <Participante 
-                                key={p.id} 
-                                participante={p} 
-                                eventoId={evento.id} 
-                                token={token}
-                                familias={familias}/>)}
-        </tbody>
-      </table>
+      <tbody>
+        <tr>
+          <th>Nome</th>
+          <th>Idade</th>
+          <th>Valor Pago</th>
+          <th>Isento</th>
+        </tr>
+        {participantes.map(p => <Participante 
+                                  key={p.id} 
+                                  participante={p} 
+                                  eventoId={evento.id} 
+                                  token={token}
+                                  familias={familias}/>)}
+      </tbody>
+    </table>
     </div>
   );
-}
+};

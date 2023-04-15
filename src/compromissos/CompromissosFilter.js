@@ -22,6 +22,22 @@ export const CompromissosFilter = ({ ministerio, passado, setMinisterio, setPass
                          onChange={(e) => setMinisterio(e.target.value)} />
                   Mídia
                 </label>
+                <label htmlFor="infantilFilter">
+                  <input type="radio"
+                         id="infantilFilter"
+                         name="ministerio"
+                         value="MOSAIKIDS"
+                         onChange={(e) => setMinisterio(e.target.value)} />
+                  MOSAIKIDS
+                </label>
+                <label htmlFor="acampamentoFilter">
+                  <input type="radio"
+                         id="acampamentoFilter"
+                         name="ministerio"
+                         value="Acampamento"
+                         onChange={(e) => setMinisterio(e.target.value)} />
+                  Acampamento
+                </label>
               </fieldset>
 
               <label htmlFor="passadoCheck">

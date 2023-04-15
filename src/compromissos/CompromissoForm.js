@@ -86,6 +86,10 @@ export const CompromissoForm = ({ token, setToken, addCompromisso }) => {
                 <input type="radio" id="evento" name="tipo" value="EVENTO" onChange={(e) => setTipo(e.target.value)}/>
                 Evento
               </label>
+              <label htmlFor="reuniao">
+                <input type="radio" id="reuniao" name="tipo" value="REUNIÃO" onChange={(e) => setTipo(e.target.value)}/>
+                Reunião
+              </label>
             </fieldset>
             <fieldset>
               <legend>Ministério</legend>
@@ -96,6 +100,14 @@ export const CompromissoForm = ({ token, setToken, addCompromisso }) => {
               <label htmlFor="midia">
                 <input type="radio" id="midia" name="ministerio" value="Mídia" onChange={(e) => setMinisterio(e.target.value)} />
                 Mídia
+              </label>
+              <label htmlFor="infantil">
+                <input type="radio" id="infantil" name="ministerio" value="MOSAIKIDS" onChange={(e) => setMinisterio(e.target.value)} />
+                MOSAIKIDS
+              </label>
+              <label htmlFor="acampamento">
+                <input type="radio" id="acampamento" name="ministerio" value="Acampamento" onChange={(e) => setMinisterio(e.target.value)} />
+                Acampamento
               </label>
             </fieldset>
           </div>

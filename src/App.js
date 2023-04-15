@@ -20,7 +20,7 @@ function App() {
 
       { token &&
       <>
-        <nav style={{backgroundColor: 'whitesmoke', padding: '4px 12px 4px 12px', borderRadius: '4px'}}>
+        <nav className="grid">
           <NavLink to="pastorais">Pastorais</NavLink>
           <NavLink to="financeiro">Financeiro</NavLink>
           <NavLink to="eventos">Eventos</NavLink>

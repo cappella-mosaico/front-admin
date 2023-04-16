@@ -1,4 +1,6 @@
-export const Compromisso = ({ compromisso, token }) => {
+import { DeleteAction } from "./DeleteAction";
+
+export const Compromisso = ({ compromisso, token, setToken, deleteCompromissoListado }) => {
   console.log(compromisso);
   const date = new Date(compromisso.inicio);
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
@@ -39,7 +41,7 @@ export const Compromisso = ({ compromisso, token }) => {
             </div>
             <footer className="grid">
               <button>editar</button>
-              <button>apagar</button>
+              <DeleteAction token={token} setToken={setToken} compromisso={compromisso} deleteCompromissoListado={deleteCompromissoListado} />
             </footer>
           </article>);
 };

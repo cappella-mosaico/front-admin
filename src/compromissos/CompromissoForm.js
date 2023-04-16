@@ -87,7 +87,7 @@ export const CompromissoForm = ({ token, setToken, addCompromisso }) => {
                 Evento
               </label>
               <label htmlFor="reuniao">
-                <input type="radio" id="reuniao" name="tipo" value="REUNIÃO" onChange={(e) => setTipo(e.target.value)}/>
+                <input type="radio" id="reuniao" name="tipo" value="REUNIAO" onChange={(e) => setTipo(e.target.value)}/>
                 Reunião
               </label>
             </fieldset>

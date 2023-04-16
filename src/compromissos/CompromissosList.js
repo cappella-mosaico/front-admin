@@ -3,10 +3,15 @@ import { ROOT_URL } from '../App.js';
 import { Compromisso } from './Compromisso';
 import { CompromissosFilter } from './CompromissosFilter';
 
-export const CompromissosList = ({ token, compromissos, addCompromisso, setCompromissos }) => {
+export const CompromissosList = ({ token, setToken, compromissos, addCompromisso, setCompromissos }) => {
 
   const [ministerioFilter, setMinisterioFilter] = useState("Música");
   const [passadoFilter, setPassadoFilter] = useState(false);
+
+  const deleteCompromissoListado = (compromissoId) => {
+    const novos = compromissos.filter(c => c.id !== compromissoId);
+    setCompromissos(novos);
+  };
 
   useEffect(() => {
     if (token) {
@@ -28,6 +33,8 @@ export const CompromissosList = ({ token, compromissos, addCompromisso, setCompr
             {compromissos.map(c => <Compromisso
                                      key={c.id}
                                      compromisso={c}
-                                     token={token} />)}
+                                     token={token}
+                                     setToken={setToken} 
+                                     deleteCompromissoListado={deleteCompromissoListado}/>)}
           </>);
 };

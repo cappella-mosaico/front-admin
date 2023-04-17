@@ -15,7 +15,7 @@ export const RelatorioForm = ({
     if (relatorio) {
       document.getElementsByName('id').item(0).value = relatorio.id;
       const anoMes = relatorio.anoMes && `${relatorio.anoMes[0]}-${zeroPad(relatorio.anoMes[1], 2)}-01`;
-      console.debug(anoMes);
+
       document.getElementsByName('anoMes').item(0).value = anoMes;
       document.getElementsByName('entradas').item(0).value = relatorio.entradas;
       document.getElementsByName('saidas').item(0).value = relatorio.saidas;
@@ -30,7 +30,7 @@ export const RelatorioForm = ({
     document.getElementsByName('entradas').item(0).value = '';
     document.getElementsByName('saidas').item(0).value = '';
     document.getElementsByName('orcado').item(0).value = '';
-  }
+  };
 
   const publish = useCallback((event) => {
     event.preventDefault();

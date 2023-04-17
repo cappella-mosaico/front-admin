@@ -1,7 +1,7 @@
 import { DeleteAction } from "./DeleteAction";
+import { SelectAction } from "./SelectAction";
 
-export const Compromisso = ({ compromisso, token, setToken, deleteCompromissoListado }) => {
-  console.log(compromisso);
+export const Compromisso = ({ compromisso, token, setToken, deleteCompromissoListado, select }) => {
   const date = new Date(compromisso.inicio);
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
   const formattedDate = date.toLocaleDateString('pt-BR', options);
@@ -40,8 +40,12 @@ export const Compromisso = ({ compromisso, token, setToken, deleteCompromissoLis
               </div>
             </div>
             <footer className="grid">
-              <button>editar</button>
-              <DeleteAction token={token} setToken={setToken} compromisso={compromisso} deleteCompromissoListado={deleteCompromissoListado} />
+              <SelectAction entity={compromisso}
+                            select={select}/>
+              <DeleteAction token={token}
+                            setToken={setToken}
+                            compromisso={compromisso}
+                            deleteCompromissoListado={deleteCompromissoListado} />
             </footer>
           </article>);
 };

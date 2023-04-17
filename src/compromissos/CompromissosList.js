@@ -3,23 +3,21 @@ import { ROOT_URL } from '../App.js';
 import { Compromisso } from './Compromisso';
 import { CompromissosFilter } from './CompromissosFilter';
 
-export const CompromissosList = ({ token, setToken, compromissos, addCompromisso, setCompromissos }) => {
+export const CompromissosList = ({ token,
+                                   setToken,
+                                   compromissos,
+                                   setCompromissos,
+                                   deleteCompromissoListado,
+                                   select }) => {
 
   const [ministerioFilter, setMinisterioFilter] = useState("Música");
   const [passadoFilter, setPassadoFilter] = useState(false);
-
-  const deleteCompromissoListado = (compromissoId) => {
-    const novos = compromissos.filter(c => c.id !== compromissoId);
-    setCompromissos(novos);
-  };
 
   useEffect(() => {
     if (token) {
       fetch(`${ROOT_URL}/compromissos?ministerio=${ministerioFilter}&compromissosDoPassado=${passadoFilter}`)
         .then(response => response.json())
-        .then(d => {
-          setCompromissos(d);
-        })
+        .then(d => setCompromissos(d))
         .catch(error => console.error(error));
     }
   }, [token, ministerioFilter, passadoFilter]);
@@ -34,7 +32,9 @@ export const CompromissosList = ({ token, setToken, compromissos, addCompromisso
                                      key={c.id}
                                      compromisso={c}
                                      token={token}
-                                     setToken={setToken} 
-                                     deleteCompromissoListado={deleteCompromissoListado}/>)}
+                                     setToken={setToken}
+                                     deleteCompromissoListado={deleteCompromissoListado}
+                                     select={select} />
+                             )}
           </>);
 };

@@ -4,7 +4,21 @@ import { CompromissoForm } from './CompromissoForm';
 
 export const Compromissos = ({ token, setToken }) => {
   const [compromissos, setCompromissos] = useState([]);
+  const [selected, select] = useState();
+  const clearSelected = () => {
+    select(null);
+  };
   const addCompromisso = (c) => setCompromissos([c, ...compromissos]);
+
+  const deleteCompromissoListado = (compromissoId) => {
+    const semItemRemovido = compromissos.filter(c => c.id !== compromissoId);
+    setCompromissos(semItemRemovido);
+  };
+
+  const updateCompromisso = (compromisso) => {
+    const semItemRemovido = compromissos.filter(c => c.id !== compromisso.id);
+    setCompromissos([compromisso, ...semItemRemovido]);
+  };
 
   return (<>
           <h3>Compromissos e Equipes</h3>
@@ -12,13 +26,17 @@ export const Compromissos = ({ token, setToken }) => {
           <CompromissoForm
             token={token}
             setToken={setToken}
-            addCompromisso={addCompromisso} />
+            updateCompromisso={updateCompromisso}
+            addCompromisso={addCompromisso}
+            selected={selected}
+            clearSelected={clearSelected} />
 
           <CompromissosList
             token={token}
             compromissos={compromissos}
-            addCompromisso={addCompromisso}
-            setCompromissos={setCompromissos}/>
+            deleteCompromissoListado={deleteCompromissoListado}
+            setCompromissos={setCompromissos}
+            select={select} />
           </>);
 
 };

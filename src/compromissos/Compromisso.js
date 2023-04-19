@@ -5,32 +5,29 @@ export const Compromisso = ({ compromisso, token, setToken, deleteCompromissoLis
   const date = new Date(compromisso.inicio);
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
   const formattedDate = date.toLocaleDateString('pt-BR', options);
-  const formattedTime = date.toLocaleTimeString('pt-BR', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false });
-  const formattedDateTime = `${formattedDate} ${formattedTime}`;
+  const formattedDateTime = `${formattedDate}`;
   return (<article>
-            <header><strong>{compromisso.tipo} - {compromisso.ministerio}</strong></header>
+            <header>
+              <hgroup>
+                <h5>{compromisso.tipo} - {compromisso.ministerio}</h5>
+                <h6>#{compromisso.id.split("-")[0]}</h6>
+              </hgroup>
+            </header>
+
             <div className="grid">
               <table>
                 <tbody>
                   <tr>
-                    <td><b>equipes:</b></td>
-                    <td>{compromisso.equipes}</td>
+                    <td><b>Equipe:</b></td>
+                    <td>{compromisso.equipe}</td>
                   </tr>
                   <tr>
-                    <td><b>nome:</b></td>
+                    <td><b>Nome:</b></td>
                     <td>{compromisso.nome}</td>
                   </tr>
                   <tr>
-                    <td><b>inicio:</b></td>
+                    <td><b>Domingo:</b></td>
                     <td>{formattedDateTime}</td>
-                  </tr>
-                  <tr>
-                    <td><b>local:</b></td>
-                    <td>{compromisso.local}</td>
-                  </tr>
-                  <tr>
-                    <td><b>endereco:</b></td>
-                    <td>{compromisso.endereco}</td>
                   </tr>
                 </tbody>
               </table>

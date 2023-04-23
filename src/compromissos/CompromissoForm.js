@@ -69,7 +69,8 @@ export const CompromissoForm = ({
           fim: "2023-04-22T21:00:00",
           imagem,
           tipo,
-          ministerio
+          ministerio,
+          equipe
         })
       };
 

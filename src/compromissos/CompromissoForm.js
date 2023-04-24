@@ -37,6 +37,7 @@ export const CompromissoForm = ({
         setNome(selected.nome);
         setInicio(selected.inicio.split("T")[0]);
         setImagem(selected.imagem || "");
+        setEquipe(selected.equipes[0].participantes || "");
       }
 
     }, [selected]);
@@ -48,6 +49,7 @@ export const CompromissoForm = ({
       setNome("");
       setInicio(getNextSunday());
       setImagem("");
+      setEquipe("");
       clearSelected();
     };
 

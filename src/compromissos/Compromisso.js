@@ -6,7 +6,7 @@ export const Compromisso = ({ compromisso, token, setToken, deleteCompromissoLis
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
   const formattedDate = date.toLocaleDateString('pt-BR', options);
   const formattedDateTime = `${formattedDate}`;
-  console.log(compromisso);
+
   return (<article>
             <header>
               <hgroup>

@@ -6,10 +6,11 @@ export const Compromisso = ({ compromisso, token, setToken, deleteCompromissoLis
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
   const formattedDate = date.toLocaleDateString('pt-BR', options);
   const formattedDateTime = `${formattedDate}`;
+  console.log(compromisso);
   return (<article>
             <header>
               <hgroup>
-                <h5>{compromisso.tipo} - {compromisso.ministerio}</h5>
+                <h5>{compromisso.ministerio}</h5>
                 <h6>#{compromisso.id.split("-")[0]}</h6>
               </hgroup>
             </header>
@@ -18,8 +19,12 @@ export const Compromisso = ({ compromisso, token, setToken, deleteCompromissoLis
               <table>
                 <tbody>
                   <tr>
+                    <td><b>Líder</b></td>
+                    <td>{compromisso.equipes[0].lider}</td>
+                  </tr>
+                  <tr>
                     <td><b>Equipe:</b></td>
-                    <td>{compromisso.equipe}</td>
+                    <td>{compromisso.equipes[0].participantes}</td>
                   </tr>
                   <tr>
                     <td><b>Nome:</b></td>

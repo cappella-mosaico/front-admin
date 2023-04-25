@@ -10,14 +10,14 @@ export const CompromissosList = ({ token,
                                    deleteCompromissoListado,
                                    select }) => {
 
-  const [ministerioFilter, setMinisterioFilter] = useState("Música");
+  const [ministerioFilter, setMinisterioFilter] = useState("MUSICA");
   const [passadoFilter, setPassadoFilter] = useState(false);
 
   useEffect(() => {
     if (token) {
       fetch(`${ROOT_URL}/compromissos?ministerio=${ministerioFilter}&compromissosDoPassado=${passadoFilter}`)
         .then(response => response.json())
-        .then(d => { 
+        .then(d => {
           d.map(comp => comp.equipes.forEach(e => e.equipe = e.equipe.join(", ")));
           setCompromissos(d);
         }).catch(error => console.error(error));

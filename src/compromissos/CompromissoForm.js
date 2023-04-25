@@ -2,7 +2,7 @@ import { ROOT_URL } from "../App";
 import { useState, useCallback, useEffect } from 'react';
 
 const DEFAULT_TIPO = 'ESCALA';
-const DEFAULT_MINISTERIO = 'Música';
+const DEFAULT_MINISTERIO = 'MUSICA';
 
 function getNextSunday() {
   const today = new Date();
@@ -28,7 +28,6 @@ export const CompromissoForm = ({
     const [id, setId] = useState(selected?.id || "");
     const [nome, setNome] = useState(selected?.nome || "");
     const [inicio, setInicio] = useState(selected?.inicio || getNextSunday());
-    const [imagem, setImagem] = useState(selected?.imagem || "");
     const [equipe, setEquipe] = useState(selected?.equipe || "");
 
     useEffect(() => {
@@ -36,7 +35,6 @@ export const CompromissoForm = ({
         setId(selected.id);
         setNome(selected.nome);
         setInicio(selected.inicio.split("T")[0]);
-        setImagem(selected.imagem || "");
         setEquipe(selected.equipes[0].equipe || "");
       }
 
@@ -48,7 +46,6 @@ export const CompromissoForm = ({
       setId("");
       setNome("");
       setInicio(getNextSunday());
-      setImagem("");
       setEquipe("");
       clearSelected();
     };
@@ -69,7 +66,6 @@ export const CompromissoForm = ({
           endereco: "Rua T-53, 480 - Setor Marista",
           inicio: inicio + "T00:00:00",
           fim: "2023-04-22T21:00:00",
-          imagem,
           tipo,
           ministerio,
           equipe
@@ -110,31 +106,14 @@ export const CompromissoForm = ({
                      value={id}
                      onChange={(e) => setId(e.target.value)} />
               <div className="grid">
-                {/**
-                    <fieldset>
-                    <legend>Tipo</legend>
-                    <label htmlFor="escala">
-                    <input type="radio" name="tipo" onChange={(e) => setTipo(e.target.value)} id="escala" value="ESCALA" checked={tipo == "ESCALA"} />
-                    Escala
-                    </label>
-                    <label htmlFor="evento">
-                    <input type="radio" name="tipo" onChange={(e) => setTipo(e.target.value)} id="evento" value="EVENTO" checked={tipo == "EVENTO"} />
-                    Evento
-                    </label>
-                    <label htmlFor="reuniao">
-                    <input type="radio" name="tipo" onChange={(e) => setTipo(e.target.value)} id="reuniao" value="REUNIAO" checked={tipo == "REUNIAO"} />
-                    Reunião
-                    </label>
-                    </fieldset>
-                 */}
                 <fieldset>
                   <legend>Ministério:</legend>
                   <label htmlFor="musica">
-                    <input type="radio" id="musica" name="ministerio" value="Música" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "Música"} />
+                    <input type="radio" id="musica" name="ministerio" value="MUSICA" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MUSICA"} />
                     Música
                   </label>
                   <label htmlFor="midia">
-                    <input type="radio" id="midia" name="ministerio" value="Mídia" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "Mídia"} />
+                    <input type="radio" id="midia" name="ministerio" value="MIDIA" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MIDIA"} />
                     Mídia
                   </label>
                   <label htmlFor="infantil">
@@ -142,11 +121,11 @@ export const CompromissoForm = ({
                     MOSAIKIDS
                   </label>
                   <label htmlFor="diaconos">
-                    <input type="radio" id="diaconos" name="ministerio" value="Diáconos" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "Diáconos"} />
+                    <input type="radio" id="diaconos" name="ministerio" value="DIACONOS" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "DIACONOS"} />
                     Diáconos
                   </label>
                   <label htmlFor="acampamento">
-                    <input type="radio" id="acampamento" name="ministerio" value="Acampamento" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "Acampamento"} />
+                    <input type="radio" id="acampamento" name="ministerio" value="ACAMPAMENTO" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "ACAMPAMENTO"} />
                     Acampamento
                   </label>
                 </fieldset>
@@ -161,9 +140,6 @@ export const CompromissoForm = ({
                            onChange={(e) => setNome(e.target.value)}
                            required />
                   </label>
-
-                  {/*<input type="text" name="local" placeholder="Local" />*/}
-                  {/*<input type="text" name="endereco" placeholder="Endereço" />*/}
                   <label htmlFor="inicio">
                     Domingo:
                     <input type="date"
@@ -175,7 +151,6 @@ export const CompromissoForm = ({
                            onChange={(e) => setInicio(e.target.value)}
                            required />
                   </label>
-                  {/*<input type="datetime-local" name="fim" placeholder="Fim" />*/}
                   <label htmlFor="equipe">
                     Equipe:
                     <textarea id="equipe"
@@ -184,15 +159,6 @@ export const CompromissoForm = ({
                               onChange={(e) => setEquipe(e.target.value)}
                               required />
                   </label>
-                  <label>
-                    Imagem:
-                    <input type="text"
-                           name="imagem"
-                           placeholder="http://endereco.da/imagem.png"
-                           value={imagem}
-                           onChange={(e) => setImagem(e.target.value)} />
-                  </label>
-
                 </fieldset>
               </div>
               <div className="grid">

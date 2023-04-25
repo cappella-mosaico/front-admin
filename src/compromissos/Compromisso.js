@@ -24,7 +24,7 @@ export const Compromisso = ({ compromisso, token, setToken, deleteCompromissoLis
                   </tr>
                   <tr>
                     <td><b>Equipe:</b></td>
-                    <td>{compromisso.equipes[0].participantes}</td>
+                    <td>{compromisso.equipes[0].equipe}</td>
                   </tr>
                   <tr>
                     <td><b>Nome:</b></td>

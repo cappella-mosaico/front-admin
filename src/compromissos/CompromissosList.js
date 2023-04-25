@@ -17,8 +17,10 @@ export const CompromissosList = ({ token,
     if (token) {
       fetch(`${ROOT_URL}/compromissos?ministerio=${ministerioFilter}&compromissosDoPassado=${passadoFilter}`)
         .then(response => response.json())
-        .then(d => setCompromissos(d))
-        .catch(error => console.error(error));
+        .then(d => { 
+          d.map(comp => comp.equipes.forEach(e => e.equipe = e.equipe.join(", ")));
+          setCompromissos(d);
+        }).catch(error => console.error(error));
     }
   }, [token, ministerioFilter, passadoFilter]);
 

@@ -37,7 +37,7 @@ export const CompromissoForm = ({
         setNome(selected.nome);
         setInicio(selected.inicio.split("T")[0]);
         setImagem(selected.imagem || "");
-        setEquipe(selected.equipes[0].participantes || "");
+        setEquipe(selected.equipes[0].equipe || "");
       }
 
     }, [selected]);
@@ -81,6 +81,7 @@ export const CompromissoForm = ({
         .then(compromisso => {
           if (compromisso.id) {
             resetForm();
+            compromisso.equipes[0].equipe = compromisso.equipes[0].equipe.join(", ");
             if (selected) {
               alert(`O compromisso ${compromisso.nome} alterado com sucesso.`);
               updateCompromisso(compromisso);

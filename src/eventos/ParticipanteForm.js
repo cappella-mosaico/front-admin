@@ -1,7 +1,7 @@
 import { ROOT_URL } from "../App";
 import { useState } from 'react';
 
-export const ParticipanteForm = ({ eventoId, token, setToken }) => {
+export const ParticipanteForm = ({ eventoId, token, setToken, hideForm }) => {
   
   const resetForm = () => {
     console.log("resetFormParticipante");
@@ -64,6 +64,7 @@ export const ParticipanteForm = ({ eventoId, token, setToken }) => {
       <input type="text" name="idade" placeholder="Idade" />
       <div className="grid">
         <button>salvar participante</button>
+        <button onClick={hideForm}>esconder formulario</button>
       </div>
     </form>
 

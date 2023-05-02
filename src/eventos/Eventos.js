@@ -16,7 +16,6 @@ export const Eventos = ({ token, setToken }) => {
   }, [token]);
 
   return (<>
-          <h3>Eventos</h3>
           {eventos.map(e => <Evento key={e.id}
                                     evento={e}
                                     token={token}

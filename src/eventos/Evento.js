@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { CSVLink } from 'react-csv';
 import { Participante } from './Participante';
 import { ParticipanteForm } from './ParticipanteForm';
@@ -10,7 +10,19 @@ export const Evento = ({evento, token, setToken}) => {
   const [showFormParticipantes, setShowFormParticipantes] = useState(false);
   const [participantes, setParticipantes] = useState([]);
   const [showExportButton, setShowExportButton] = useState(false);
+  const [allowExport, setAllowExport] = useState(true);
+  const [exportLoading, setExportLoading] = useState(false);
   const familias = useRef([]);
+
+  const temporarilyDisallowExport = () => {
+    setExportLoading(true);
+    setAllowExport(false);
+    setTimeout(() => {
+      setShowExportButton(true);
+      setAllowExport(true);
+      setExportLoading(false);
+    }, 2000);
+  };
 
   useEffect(() => {
     if (token && showParticipantes) {
@@ -24,6 +36,17 @@ export const Evento = ({evento, token, setToken}) => {
         .catch(error => console.error(error));
     }
   }, [token, showParticipantes]);
+
+  const DownloadButton = () => {
+    if (showExportButton && allowExport) {
+      return <CSVLink data={familias.current}><button>baixar inscritos</button></CSVLink>;
+    } else {
+      return <button aria-busy={exportLoading} 
+                     onClick={() => setShowExportButton(true)}>
+               carregando
+             </button>;
+    }
+  };
 
   return (
     <>
@@ -57,8 +80,7 @@ export const Evento = ({evento, token, setToken}) => {
          <div className="grid">
            <button onClick={() => setShowFormParticipantes(true)}>adicionar participante</button>
            <button onClick={() => setShowParticipantes(false)}>esconder participantes</button>
-           {!showExportButton && <button onClick={() => setShowExportButton(true)}>exportar participantes</button>}
-           {showExportButton && <CSVLink data={familias.current}>## DOWNLOAD ##</CSVLink>}
+           <DownloadButton />
          </div>
          
          <table>
@@ -74,7 +96,9 @@ export const Evento = ({evento, token, setToken}) => {
                                        participante={p} 
                                        eventoId={evento.id} 
                                        token={token}
-                                       familias={familias}/>)}
+                                       familias={familias}
+                                       familiaLoadCallback={temporarilyDisallowExport}
+/>)}
            </tbody>
          </table>
        </>

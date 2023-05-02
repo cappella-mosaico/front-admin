@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Dependente } from './Dependente.js';
 import { ROOT_URL } from '../App.js';
 
-export const Participante = ({eventoId, participante, token, familias }) => {
+export const Participante = ({eventoId, participante, token, familias, familiaLoadCallback }) => {
 
   const [dependentes, setDependentes] = useState([]);
   const [valorPago, setValorPago] = useState(participante.valorPago);
@@ -10,10 +10,11 @@ export const Participante = ({eventoId, participante, token, familias }) => {
   const [idade, setIdade] = useState(participante.idade);
   const addFamilia = (participante, dependentes) => {
       if (!familias.current.map(f => f.id).includes(participante.id)) {
-          familias.current.push(participante);
-          dependentes.forEach(d => familias.current.push(d));
+        familias.current.push(participante);
+        dependentes.forEach(d => familias.current.push(d));
+        familiaLoadCallback();
       }
-  }
+  };
 
   const handleIsentoChange = () => {
     participante.isento = !isento;

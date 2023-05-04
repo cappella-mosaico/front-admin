@@ -1,5 +1,6 @@
 import { ROOT_URL } from "../App";
 import { useState, useCallback, useEffect } from 'react';
+import { DomingoSelector } from './DomingoSelector';
 
 const DEFAULT_TIPO = 'ESCALA';
 const DEFAULT_MINISTERIO = 'MUSICA';
@@ -13,6 +14,13 @@ function getNextSunday() {
   const day = String(nextSunday.getDate()).padStart(2, '0');
   const formattedDate = `${year}-${month}-${day}`;
   return formattedDate;
+}
+
+function isEbd(inicio) {
+  if (!inicio) {
+    return false;
+  }
+  return new Date(inicio).getHours() < 12;
 }
 
 export const CompromissoForm = ({
@@ -29,6 +37,7 @@ export const CompromissoForm = ({
     const [nome, setNome] = useState(selected?.nome || "");
     const [inicio, setInicio] = useState(selected?.inicio || getNextSunday());
     const [equipe, setEquipe] = useState(selected?.equipe || "");
+    const [ebd, setEbd] = useState(isEbd(selected?.inicio));
 
     useEffect(() => {
       if (selected) {
@@ -36,17 +45,20 @@ export const CompromissoForm = ({
         setNome(selected.nome);
         setInicio(selected.inicio.split("T")[0]);
         setEquipe(selected.equipes[0].equipe || "");
+        setEbd(isEbd(selected.inicio));
       }
 
     }, [selected]);
 
     const resetForm = () => {
+      const nextSunday = getNextSunday();
       setTipo(DEFAULT_TIPO);
       setMinisterio(DEFAULT_MINISTERIO);
       setId("");
       setNome("");
-      setInicio(getNextSunday());
+      setInicio(nextSunday);
       setEquipe("");
+      setEbd(isEbd(nextSunday));
       clearSelected();
     };
 
@@ -64,7 +76,7 @@ export const CompromissoForm = ({
           nome,
           local: "IP Mosaico",
           endereco: "Rua T-53, 480 - Setor Marista",
-          inicio: inicio + "T00:00:00",
+          inicio: inicio + (ebd ? "T10:00:00" : "T19:00:00"),
           fim: "2023-04-22T21:00:00",
           tipo,
           ministerio,
@@ -131,6 +143,11 @@ export const CompromissoForm = ({
                 </fieldset>
 
                 <fieldset>
+                  <label htmlFor="ebd">
+                    EBD:&nbsp;
+                    <input type="checkbox" id="ebd" onChange={(e) => setEbd(!ebd)} checked={ebd} />
+                  </label>
+                  <DomingoSelector value={inicio} handleChange={(e) => setInicio(e.target.value)} />
                   <label>
                     Nome:
                     <input type="text"
@@ -140,24 +157,14 @@ export const CompromissoForm = ({
                            onChange={(e) => setNome(e.target.value)}
                            required />
                   </label>
-                  <label htmlFor="inicio">
-                    Domingo:
-                    <input type="date"
-                           name="inicio"
-                           value={inicio}
-                           min="2023-04-23"
-                           max="2030-12-28"
-                           step="7"
-                           onChange={(e) => setInicio(e.target.value)}
-                           required />
-                  </label>
                   <label htmlFor="equipe">
                     Equipe:
-                    <textarea id="equipe"
-                              placeholder="José, Maria, João"
-                              value={equipe}
-                              onChange={(e) => setEquipe(e.target.value)}
-                              required />
+                    <input id="equipe"
+                           type="text"
+                           placeholder="José, Maria, João"
+                           value={equipe}
+                           onChange={(e) => setEquipe(e.target.value)}
+                           required />
                   </label>
                 </fieldset>
               </div>

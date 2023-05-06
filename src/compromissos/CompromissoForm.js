@@ -143,11 +143,12 @@ export const CompromissoForm = ({
                 </fieldset>
 
                 <fieldset>
+                  <DomingoSelector value={inicio} 
+                                   selectDomingo={ domingo => setInicio(domingo) } />
                   <label htmlFor="ebd">
                     EBD:&nbsp;
                     <input type="checkbox" id="ebd" onChange={(e) => setEbd(!ebd)} checked={ebd} />
                   </label>
-                  <DomingoSelector value={inicio} handleChange={(e) => setInicio(e.target.value)} />
                   <label>
                     Nome:
                     <input type="text"

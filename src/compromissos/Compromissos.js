@@ -5,9 +5,7 @@ import { CompromissoForm } from './CompromissoForm';
 export const Compromissos = ({ token, setToken }) => {
   const [compromissos, setCompromissos] = useState([]);
   const [selected, select] = useState();
-  const clearSelected = () => {
-    select(null);
-  };
+  const clearSelected = () => select(null);
   const addCompromisso = (c) => setCompromissos([c, ...compromissos]);
 
   const deleteCompromissoListado = (compromissoId) => {
@@ -29,14 +27,9 @@ export const Compromissos = ({ token, setToken }) => {
             updateCompromisso={updateCompromisso}
             addCompromisso={addCompromisso}
             selected={selected}
-            clearSelected={clearSelected} />
-
-          <CompromissosList
-            token={token}
-            compromissos={compromissos}
-            deleteCompromissoListado={deleteCompromissoListado}
-            setCompromissos={setCompromissos}
-            select={select} />
+            clearSelected={clearSelected}
+            select={select}
+          />
           </>);
 
 };

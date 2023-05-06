@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { ReactComponent as TeamIcon } from './team_icon.svg';
 
 function getSundaysInMonth(date) {
   const year = date.getFullYear();
@@ -55,13 +56,20 @@ function formatDate(date) {
   return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + (date.getUTCDate() -1).toString().padStart(2, "0");
 }
 
-export const DomingoSelector = ({ value, selectDomingo }) => {
+export const DomingoSelector = ({ value, selectDomingo, select, clearSelected, compromissos }) => {
   const [selectedSunday, setSelectedSunday] = useState(new Date(value.split('-')[0], value.split('-')[1]-1, value.split('-')[2]));
   const [domingos, setDomingos] = useState([]);
 
   useEffect(() => {
     setDomingos(getSundaysInMonth(selectedSunday));
     selectDomingo(selectedSunday.toISOString().substring(0, 10));
+
+    const compromissoAtThisDate = compromissos.get(selectedSunday.toISOString().substring(0, 10));
+    if (compromissoAtThisDate) {
+      select(compromissoAtThisDate);
+    } else {
+      clearSelected();
+    }
   }, [selectedSunday]);
 
   useEffect(() => {
@@ -72,13 +80,15 @@ export const DomingoSelector = ({ value, selectDomingo }) => {
     <>
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
           { domingos.map(d => {
-            const selectedStyle = d.getTime() == selectedSunday.getTime() ? { backgroundColor: 'darkslategray' } : {};
+            const selectedStyle = d.getTime() == selectedSunday.getTime() ? { backgroundColor: '#101820' } : {};
+            const hasAssociatedTeam = compromissos.get(d.toISOString().substring(0, 10));
             return (<button key={d}
-                            style={{maxWidth: '70px', ...selectedStyle}}
+                            style={{maxWidth: '70px', minHeight: '92.8px', ...selectedStyle}}
                             onClick={(e) => {
                               e.preventDefault();
                               setSelectedSunday(d);
                             }}>
+                      { hasAssociatedTeam && <TeamIcon /> }
                       {d.getDate()}
                     </button>);
           })

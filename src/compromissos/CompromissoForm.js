@@ -28,6 +28,7 @@ export const CompromissoForm = ({
   setToken,
   addCompromisso,
   updateCompromisso,
+  select,
   selected,
   clearSelected }) => {
 
@@ -39,6 +40,9 @@ export const CompromissoForm = ({
     const [equipe, setEquipe] = useState(selected?.equipe || "");
     const [ebd, setEbd] = useState(isEbd(selected?.inicio));
 
+    const [compromissos, setCompromissos] = useState([]);
+    const [compromissosByDate, setCompromissosByDate] = useState(new Map());
+
     useEffect(() => {
       if (selected) {
         setId(selected.id);
@@ -46,9 +50,40 @@ export const CompromissoForm = ({
         setInicio(selected.inicio.split("T")[0]);
         setEquipe(selected.equipes[0].equipe || "");
         setEbd(isEbd(selected.inicio));
+      } else {
+        setTipo(DEFAULT_TIPO);
+        setId("");
+        setNome("");
+        setEquipe("");
+        setEbd(false);
       }
 
     }, [selected]);
+
+    useEffect(() => {
+      if (token) {
+        fetch(`${ROOT_URL}/compromissos?ministerio=${ministerio}&compromissosDoPassado=true`)
+          .then(response => response.json())
+          .then(d => {
+            d.map(comp => comp.equipes.forEach(e => e.equipe = e.equipe.join(", ")));
+            setCompromissos(d);
+          }).catch(error => console.error(error));
+      }
+    }, [token, ministerio]);
+
+    useEffect(() => {
+      const byDate = compromissos.reduce((acc, obj) => {
+        acc.set(obj.inicio.substr(0, 10), obj);
+        return acc;
+      }, new Map());
+      setCompromissosByDate(byDate);
+
+      if (byDate.get(inicio)) {
+        select(byDate.get(inicio));
+      } else {
+        clearSelected();
+      }
+    }, [compromissos]);
 
     const resetForm = () => {
       const nextSunday = getNextSunday();
@@ -140,11 +175,21 @@ export const CompromissoForm = ({
                     <input type="radio" id="acampamento" name="ministerio" value="ACAMPAMENTO" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "ACAMPAMENTO"} />
                     Acampamento
                   </label>
+                  {id && <h4>#{id.substring(0, 6)}</h4>}
                 </fieldset>
+
+                <ul>
+                  <li>mosaikids precisa inserir vários compromissos para o mesmo dia, uns de EBD e uns dos subministerios</li>
+                  <li>os outros ministerios talvez também precisem cadastrar duas escalas por causa da EBD (mas não acho que seja o caso)</li>
+                </ul>
 
                 <fieldset>
                   <DomingoSelector value={inicio} 
-                                   selectDomingo={ domingo => setInicio(domingo) } />
+                                   selectDomingo={ domingo => setInicio(domingo) }
+                                   compromissos={compromissosByDate}
+                                   select={select}
+                                   clearSelected={clearSelected}
+                  />
                   <label htmlFor="ebd">
                     EBD:&nbsp;
                     <input type="checkbox" id="ebd" onChange={(e) => setEbd(!ebd)} checked={ebd} />

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ReactComponent as TeamIcon } from './team_icon.svg';
+import { Sunday } from './Sunday';
 
 function getSundaysInMonth(date) {
   const year = date.getFullYear();
@@ -56,8 +56,8 @@ function formatDate(date) {
   return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + (date.getUTCDate() -1).toString().padStart(2, "0");
 }
 
-export const DomingoSelector = ({ value, selectDomingo, select, clearSelected, compromissos }) => {
-  const [selectedSunday, setSelectedSunday] = useState(new Date(value.split('-')[0], value.split('-')[1]-1, value.split('-')[2]));
+export const SundaySelector = ({ value, selectDomingo, select, clearSelected, compromissos }) => {
+  const [selectedSunday, selectSunday] = useState(new Date(value.split('-')[0], value.split('-')[1]-1, value.split('-')[2]));
   const [domingos, setDomingos] = useState([]);
 
   useEffect(() => {
@@ -73,24 +73,21 @@ export const DomingoSelector = ({ value, selectDomingo, select, clearSelected, c
   }, [selectedSunday]);
 
   useEffect(() => {
-    setSelectedSunday(new Date(value.split('-')[0], value.split('-')[1]-1, value.split('-')[2]));
+    selectSunday(new Date(value.split('-')[0], value.split('-')[1]-1, value.split('-')[2]));
   }, [value]);
 
   return (
     <>
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
           { domingos.map(d => {
-            const selectedStyle = d.getTime() == selectedSunday.getTime() ? { backgroundColor: '#101820' } : {};
+            const selectedStyle = d.getTime() == selectedSunday.getTime() ? { backgroundColor: '#101820', borderColor: '#101820' } : {};
             const hasAssociatedTeam = compromissos.get(d.toISOString().substring(0, 10));
-            return (<button key={d}
-                            style={{maxWidth: '70px', minHeight: '92.8px', ...selectedStyle}}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setSelectedSunday(d);
-                            }}>
-                      { hasAssociatedTeam && <TeamIcon /> }
-                      {d.getDate()}
-                    </button>);
+            return (<Sunday key={d}
+                            sunday={d}
+                            selectedStyle={selectedStyle}
+                            hasAssociatedTeam={hasAssociatedTeam}
+                            selectSunday={selectSunday}
+                    />);
           })
           }
         </div>
@@ -100,7 +97,7 @@ export const DomingoSelector = ({ value, selectDomingo, select, clearSelected, c
             onClick={(e) => {
               e.preventDefault();
               const previousMonth = getFirstSundayOfPreviousMonth(selectedSunday);
-              setSelectedSunday(previousMonth);
+              selectSunday(previousMonth);
           }}>
             &lsaquo;&lsaquo;
           </button>
@@ -114,7 +111,7 @@ export const DomingoSelector = ({ value, selectDomingo, select, clearSelected, c
                   onClick={(e) => {
                     e.preventDefault();
                     const nextMonth = getFirstSundayOfNextMonth(selectedSunday);
-                    setSelectedSunday(nextMonth);
+                    selectSunday(nextMonth);
                   }}>
             &rsaquo;&rsaquo;
           </button>

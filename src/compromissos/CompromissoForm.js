@@ -1,6 +1,6 @@
 import { ROOT_URL } from "../App";
 import { useState, useCallback, useEffect } from 'react';
-import { DomingoSelector } from './DomingoSelector';
+import { SundaySelector } from './SundaySelector';
 
 const DEFAULT_TIPO = 'ESCALA';
 const DEFAULT_MINISTERIO = 'MUSICA';
@@ -175,16 +175,88 @@ export const CompromissoForm = ({
                     <input type="radio" id="acampamento" name="ministerio" value="ACAMPAMENTO" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "ACAMPAMENTO"} />
                     Acampamento
                   </label>
-                  {id && <h4>#{id.substring(0, 6)}</h4>}
+                  <table>
+                    <thead>
+                      <tr>
+                        <td>Nome</td>
+                        <td>História</td>
+                        <td>Atividade</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style={{color: '#C0392B'}}>3-5 anos</td>
+                        <td>
+                          ☀ João
+                          <br />
+                          🌙 Maria
+                        </td>
+                        <td>
+                          ☀ João
+                          <br />
+                          🌙 Maria
+                        </td>
+                        {/*                      <td><button>editar</button></td>
+                           <td><button>apagar</button></td>*/}
+                      </tr>
+                      <tr>
+                        <td style={{color: '#8E44AD'}}>6-11 anos</td>
+                        <td>
+                          ☀ Mateus
+                          <br />
+                          🌙 Mia, Isaac
+                        </td>
+                        <td>
+                          ☀ Mateus
+                          <br />
+                          🌙 Mia, Isaac
+                        </td>
+                        {/*                      <td><button>editar</button></td>
+                           <td><button>apagar</button></td>*/}
+                      </tr>
+                      <tr>
+                        <td style={{color: '#27AE60'}}>Berçário</td>
+                        <td>
+                          ☀ Joyce, Fabiana
+                          <br />
+                          🌙 Mariana, Alana
+                        </td>
+                        <td>
+                          ☀ Joyce, Fabiana
+                          <br />
+                          🌙 Mariana, Alana
+                        </td>
+                        {/*                      <td><button>editar</button></td>
+                           <td><button>apagar</button></td>*/}
+                      </tr>
+                      <tr>
+                        <td style={{color: '#34495E'}}>Louvor</td>
+                        <td>
+                          ☀ Walvir
+                          <br />
+                          🌙 Alberto
+                        </td>
+                        <td>
+                          ☀ Walvir
+                          <br />
+                          🌙 Alberto
+                        </td>
+                        {/*                      <td><button>editar</button></td>
+                           <td><button>apagar</button></td>*/}
+                      </tr>
+                    </tbody>
+                  </table>
                 </fieldset>
 
-                <ul>
+{/*                <ul>
                   <li>mosaikids precisa inserir vários compromissos para o mesmo dia, uns de EBD e uns dos subministerios</li>
+                  <li>mosaikids precisa visualizar quais compromissos deveriam estar cadastrados, mas não estão</li>
+                  <li>mosaikids precisa visualizar com facilidade quem foi cadastrado em cada dia e o que vai fazer</li>
                   <li>os outros ministerios talvez também precisem cadastrar duas escalas por causa da EBD (mas não acho que seja o caso)</li>
-                </ul>
+                </ul>*/}
 
                 <fieldset>
-                  <DomingoSelector value={inicio} 
+                  <SundaySelector value={inicio}
                                    selectDomingo={ domingo => setInicio(domingo) }
                                    compromissos={compromissosByDate}
                                    select={select}

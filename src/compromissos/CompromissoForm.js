@@ -257,10 +257,11 @@ export const CompromissoForm = ({
 
                 <fieldset>
                   <SundaySelector value={inicio}
-                                   selectDomingo={ domingo => setInicio(domingo) }
-                                   compromissos={compromissosByDate}
-                                   select={select}
-                                   clearSelected={clearSelected}
+                                  selectDomingo={ domingo => setInicio(domingo) }
+                                  compromissos={compromissosByDate}
+                                  select={select}
+                                  clearSelected={clearSelected}
+                                  enhanced={ministerio === 'MOSAIKIDS'}
                   />
                   <label htmlFor="ebd">
                     EBD:&nbsp;

@@ -56,16 +56,17 @@ function formatDate(date) {
   return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + (date.getUTCDate() -1).toString().padStart(2, "0");
 }
 
-export const SundaySelector = ({ value, selectDomingo, select, clearSelected, compromissos, enhanced }) => {
+export const SundaySelector = ({ value, selectDomingo, select, clearSelected, compromissos, enhanced, salas }) => {
   const [selectedSunday, selectSunday] = useState(new Date(value.split('-')[0], value.split('-')[1]-1, value.split('-')[2]));
   const [domingos, setDomingos] = useState([]);
+  const [compromissosBySunday, setCompromissosBySunday] = useState();
 
   useEffect(() => {
     setDomingos(getSundaysInMonth(selectedSunday));
     selectDomingo(selectedSunday.toISOString().substring(0, 10));
 
     const compromissoAtThisDate = compromissos.get(selectedSunday.toISOString().substring(0, 10));
-    if (compromissoAtThisDate) {
+    if (compromissoAtThisDate && !enhanced) {
       select(compromissoAtThisDate);
     } else {
       clearSelected();
@@ -76,11 +77,13 @@ export const SundaySelector = ({ value, selectDomingo, select, clearSelected, co
     selectSunday(new Date(value.split('-')[0], value.split('-')[1]-1, value.split('-')[2]));
   }, [value]);
 
+  useEffect(() => setCompromissosBySunday(compromissos.get(value)), [value, compromissos]);
+
   return (
     <>
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
           { domingos.map(d => {
-            const selectedStyle = d.getTime() == selectedSunday.getTime() ? { backgroundColor: '#101820', borderColor: '#101820' } : {};
+            const selectedStyle = d.getTime() == selectedSunday.getTime() ? { backgroundColor: '#101820', borderColor: '#101820', color: 'whitesmoke' } : {};
             const hasAssociatedTeam = compromissos.get(d.toISOString().substring(0, 10));
             return (<Sunday key={d}
                             sunday={d}
@@ -88,6 +91,8 @@ export const SundaySelector = ({ value, selectDomingo, select, clearSelected, co
                             hasAssociatedTeam={hasAssociatedTeam}
                             selectSunday={selectSunday}
                             enhanced={enhanced}
+                            compromissosBySunday={compromissosBySunday}
+                            salas={salas}
                     />);
           })
           }

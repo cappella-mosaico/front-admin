@@ -1,43 +1,8 @@
 import { useState, useEffect } from 'react';
+import { generateHighContrastHexColor } from './hexColorGenerator';
 
-/*
-                  baseado na lista de compromissos carregados para esse ministerio
-                  eu devo carregar as atividades (História, Atividade, Louvor...)
-                  e também devo carregar as salas (3-5 anos, Berçário...)
-
-                  pretendo usar o nome do compromisso pra gerar essa estrutura:
-                  "História_3-5 anos" carrega uma atividade com nome "História" e uma sala com nome "3-5 anos"
-*/
-
-function generateHighContrastHexColor(seed) {
-  let hash = 0;
-  for (let i = 0; i < seed.length; i++) {
-    hash = seed.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  let color = '#';
-  for (let i = 0; i < 3; i++) {
-    let value = (hash >> (i * 8)) & 0xff;
-    color += value.toString(16).padStart(2, '0');
-  }
-  let r = parseInt(color.slice(1, 3), 16);
-  let g = parseInt(color.slice(3, 5), 16);
-  let b = parseInt(color.slice(5, 7), 16);
-  let luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  while (luma > 255 / 2) {
-    // if the color is too bright, darken it
-    r = Math.max(0, r - 25);
-    g = Math.max(0, g - 25);
-    b = Math.max(0, b - 25);
-    luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  }
-  color = '#' + r.toString(16).padStart(2, '0') + g.toString(16).padStart(2, '0') + b.toString(16).padStart(2, '0');
-  return color;
-}
-
-
-export const EnhancedCompromissosTable = ({ compromissos }) => {
+export const EnhancedCompromissosTable = ({ compromissos, salas, loadCompromisso, selectedSunday }) => {
   const [atividades, setAtividades] = useState([]);
-  const [salas, setSalas] = useState([]);
 
   useEffect(() => {
     const atividades = new Set();
@@ -51,9 +16,21 @@ export const EnhancedCompromissosTable = ({ compromissos }) => {
       });
 
       setAtividades([...atividades]);
-      setSalas([...salas]);
     }
   }, [compromissos]);
+
+  const Equipe = ({ id, equipe, sala, atividade, ebd }) => {
+    return(<div style={{cursor: 'pointer'}} 
+                onClick={() => loadCompromisso({
+                  id: id,
+                  nome: `${sala}_${atividade}`,
+                  inicio: `${selectedSunday}T${ebd ? '10' : '19'}:00`,
+                  equipe: equipe
+                })}>
+             {ebd ? '🌄' : '🌃'}
+             {equipe || '☹'}
+           </div>);
+  };
 
   const showEquipe = (compromissos, sala, atividade) => {
     const compromissosBySalaByAtividade = compromissos.filter(c => (c.sala === sala && c.atividade === atividade));
@@ -61,13 +38,15 @@ export const EnhancedCompromissosTable = ({ compromissos }) => {
     const culto = compromissosBySalaByAtividade.find(c => !c.ebd);
 
     if (!ebd && !culto) {
-      return '☹';
+      return(<Equipe sala={sala} 
+                     atividade={atividade} 
+                     ebd={!ebd} />);
     }
 
     return (<>
-              ☀ { ebd?.equipes[0].equipe || '☹' }
+              <Equipe id={ebd?.id} equipe={ebd?.equipes[0].equipe} sala={sala} atividade={atividade} ebd={true}/>
               <br />
-              🌙 { culto?.equipes[0].equipe || '☹' }
+              <Equipe id={culto?.id} equipe={culto?.equipes[0].equipe} sala={sala} atividade={atividade} ebd={false}/>
             </>);
   };
 

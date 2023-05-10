@@ -4,7 +4,7 @@ import { SundaySelector } from './SundaySelector';
 import { EnhancedCompromissosTable } from './EnhancedCompromissosTable';
 
 const DEFAULT_TIPO = 'ESCALA';
-const DEFAULT_MINISTERIO = 'MUSICA';
+const DEFAULT_MINISTERIO = 'MOSAIKIDS';
 
 function getNextSunday() {
   const today = new Date();
@@ -43,13 +43,15 @@ export const CompromissoForm = ({
 
     const [compromissos, setCompromissos] = useState([]);
     const [compromissosByDate, setCompromissosByDate] = useState(new Map());
+    const [salas, setSalas] = useState([]);
+    const [enhanced, setEnhanced] = useState(ministerio === 'MOSAIKIDS');
 
     useEffect(() => {
       if (selected) {
         setId(selected.id);
         setNome(selected.nome);
         setInicio(selected.inicio.split("T")[0]);
-        setEquipe(selected.equipes[0].equipe || "");
+        setEquipe(selected.equipes?.[0].equipe || selected.equipe || "");
         setEbd(isEbd(selected.inicio));
       } else {
         setTipo(DEFAULT_TIPO);
@@ -60,6 +62,8 @@ export const CompromissoForm = ({
       }
 
     }, [selected]);
+
+    useEffect(() => setEnhanced(ministerio === 'MOSAIKIDS'), [ministerio]);
 
     useEffect(() => {
       if (token) {
@@ -82,13 +86,20 @@ export const CompromissoForm = ({
     }, [token, ministerio]);
 
     useEffect(() => {
+      const salas = new Set();
       const byDate = compromissos.reduce((acc, compromisso) => {
-        acc.set(compromisso.inicio.substr(0, 10), compromisso);
+        if (compromisso.sala) {
+          salas.add(compromisso.sala);
+        }
+        console.log(compromisso.sala + " - " + compromisso.id);
+        const date = compromisso.inicio.substr(0, 10);
+        acc.set(date, [compromisso, ...(acc.get(date) || [])]);
         return acc;
       }, new Map());
       setCompromissosByDate(byDate);
+      setSalas([...salas]);
 
-      if (byDate.get(inicio)) {
+      if (byDate.get(inicio) && !enhanced) {
         select(byDate.get(inicio));
       } else {
         clearSelected();
@@ -135,7 +146,7 @@ export const CompromissoForm = ({
           if (compromisso.id) {
             resetForm();
             compromisso.equipes[0].equipe = compromisso.equipes[0].equipe.join(", ");
-            if (selected) {
+            if (selected?.id) {
               alert(`O compromisso ${compromisso.nome} alterado com sucesso.`);
               updateCompromisso(compromisso);
             } else {
@@ -186,16 +197,12 @@ export const CompromissoForm = ({
                     Acampamento
                   </label>
 
-                  <EnhancedCompromissosTable compromissos={compromissos} />
-
+                  { enhanced && <EnhancedCompromissosTable compromissos={compromissos}
+                                                           salas={salas}
+                                                           loadCompromisso={select}
+                                                           selectedSunday={inicio}
+                                /> }
                 </fieldset>
-
-{/*                <ul>
-                  <li>mosaikids precisa inserir vários compromissos para o mesmo dia, uns de EBD e uns dos subministerios</li>
-                  <li>mosaikids precisa visualizar quais compromissos deveriam estar cadastrados, mas não estão</li>
-                  <li>mosaikids precisa visualizar com facilidade quem foi cadastrado em cada dia e o que vai fazer</li>
-                  <li>os outros ministerios talvez também precisem cadastrar duas escalas por causa da EBD (mas não acho que seja o caso)</li>
-                </ul>*/}
 
                 <fieldset>
                   <SundaySelector value={inicio}
@@ -203,8 +210,10 @@ export const CompromissoForm = ({
                                   compromissos={compromissosByDate}
                                   select={select}
                                   clearSelected={clearSelected}
-                                  enhanced={ministerio === 'MOSAIKIDS'}
+                                  enhanced={enhanced}
+                                  salas={salas}
                   />
+                  <label style={{fontWeight: 'bold', fontSize: 'x-small'}}>{id  && `#${id.split('-')[0]}`}</label>
                   <label htmlFor="ebd">
                     EBD:&nbsp;
                     <input type="checkbox" id="ebd" onChange={(e) => setEbd(!ebd)} checked={ebd} />
@@ -227,10 +236,8 @@ export const CompromissoForm = ({
                            onChange={(e) => setEquipe(e.target.value)}
                            required />
                   </label>
+                  <button>salvar compromisso</button>
                 </fieldset>
-              </div>
-              <div className="grid">
-                <button>salvar compromisso</button>
               </div>
             </form>);
 

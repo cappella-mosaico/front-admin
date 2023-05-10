@@ -1,24 +1,7 @@
 import { useState, useEffect } from 'react';
 import { generateHighContrastHexColor } from './hexColorGenerator';
 
-export const EnhancedCompromissosTable = ({ compromissos, salas, loadCompromisso, selectedSunday }) => {
-  const [atividades, setAtividades] = useState([]);
-
-  useEffect(() => {
-    const atividades = new Set();
-    const salas = new Set();
-    if (compromissos) {
-      compromissos.forEach(compromisso => {
-        if (compromisso.atividade)
-          atividades.add(compromisso.atividade);
-        if (compromisso.sala)
-          salas.add(compromisso.sala);
-      });
-
-      setAtividades([...atividades]);
-    }
-  }, [compromissos]);
-
+export const EnhancedCompromissosTable = ({ compromissos, salas, atividades, loadCompromisso, selectedSunday }) => {
   const Equipe = ({ id, equipe, sala, atividade, ebd }) => {
     return(<div style={{cursor: 'pointer'}} 
                 onClick={() => loadCompromisso({

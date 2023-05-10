@@ -56,7 +56,7 @@ function formatDate(date) {
   return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + (date.getUTCDate() -1).toString().padStart(2, "0");
 }
 
-export const SundaySelector = ({ value, selectDomingo, select, clearSelected, compromissos, enhanced, salas }) => {
+export const SundaySelector = ({ value, selectDomingo, select, clearSelected, compromissos, enhanced, salas, atividades }) => {
   const [selectedSunday, selectSunday] = useState(new Date(value.split('-')[0], value.split('-')[1]-1, value.split('-')[2]));
   const [domingos, setDomingos] = useState([]);
   const [compromissosBySunday, setCompromissosBySunday] = useState();
@@ -93,6 +93,7 @@ export const SundaySelector = ({ value, selectDomingo, select, clearSelected, co
                             enhanced={enhanced}
                             compromissosBySunday={compromissosBySunday}
                             salas={salas}
+                            atividades={atividades}
                     />);
           })
           }

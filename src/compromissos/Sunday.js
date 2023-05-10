@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ReactComponent as TeamIcon } from './team_icon.svg';
 import { generateHighContrastHexColor } from './hexColorGenerator';
 
@@ -9,14 +9,21 @@ export const Sunday = ({
   hasAssociatedTeam,
   enhanced,
   compromissosBySunday,
-  salas
+  salas,
+  atividades
 }) => {
-  const ColoredTeams = () => {
-    console.log(compromissosBySunday);
-    const isSalaVazia = (sala) => {
-      return Math.floor(Math.random() * 10) % 2 === 0;
-    };
+  const [salasVazias, setSalasVazias] = useState(new Map());
+  console.log(compromissosBySunday);
 
+  useEffect(() => {
+    const vazias = new Map();
+    salas.forEach(sala => {
+      vazias.set(sala, compromissosBySunday?.filter(compromisso => compromisso.sala === sala).length !== 2 * atividades.length); // 2 pq tem ebd e culto
+    });
+    setSalasVazias(vazias);
+  }, [salas, atividades, compromissosBySunday, sunday]);
+
+  const ColoredTeams = () => {
     return (<div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
 
               {salas.map(sala => {
@@ -33,7 +40,7 @@ export const Sunday = ({
                                justifyContent: 'center',
                                marginBottom: '-18px',
                                zIndex: '1'}}>
-                    { isSalaVazia(sala) &&
+                    { salasVazias.get(sala) &&
                       <div style={{borderRadius: '5px',
                                    width: '10px',
                                    height: '10px',

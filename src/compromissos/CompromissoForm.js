@@ -44,6 +44,7 @@ export const CompromissoForm = ({
     const [compromissos, setCompromissos] = useState([]);
     const [compromissosByDate, setCompromissosByDate] = useState(new Map());
     const [salas, setSalas] = useState([]);
+    const [atividades, setAtividades] = useState([]);
     const [enhanced, setEnhanced] = useState(ministerio === 'MOSAIKIDS');
 
     useEffect(() => {
@@ -87,17 +88,22 @@ export const CompromissoForm = ({
 
     useEffect(() => {
       const salas = new Set();
+      const atividades = new Set();
       const byDate = compromissos.reduce((acc, compromisso) => {
         if (compromisso.sala) {
           salas.add(compromisso.sala);
         }
-        console.log(compromisso.sala + " - " + compromisso.id);
+        if (compromisso.atividade) {
+          atividades.add(compromisso.atividade);
+        }
+
         const date = compromisso.inicio.substr(0, 10);
         acc.set(date, [compromisso, ...(acc.get(date) || [])]);
         return acc;
       }, new Map());
       setCompromissosByDate(byDate);
       setSalas([...salas]);
+      setAtividades([...atividades]);
 
       if (byDate.get(inicio) && !enhanced) {
         select(byDate.get(inicio));
@@ -199,6 +205,7 @@ export const CompromissoForm = ({
 
                   { enhanced && <EnhancedCompromissosTable compromissos={compromissos}
                                                            salas={salas}
+                                                           atividades={atividades}
                                                            loadCompromisso={select}
                                                            selectedSunday={inicio}
                                 /> }
@@ -212,6 +219,7 @@ export const CompromissoForm = ({
                                   clearSelected={clearSelected}
                                   enhanced={enhanced}
                                   salas={salas}
+                                  atividades={atividades}
                   />
                   <label style={{fontWeight: 'bold', fontSize: 'x-small'}}>{id  && `#${id.split('-')[0]}`}</label>
                   <label htmlFor="ebd">

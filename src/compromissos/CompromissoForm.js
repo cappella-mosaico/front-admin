@@ -1,6 +1,7 @@
 import { ROOT_URL } from "../App";
 import { useState, useCallback, useEffect } from 'react';
 import { SundaySelector } from './SundaySelector';
+import { EnhancedCompromissosTable } from './EnhancedCompromissosTable';
 
 const DEFAULT_TIPO = 'ESCALA';
 const DEFAULT_MINISTERIO = 'MUSICA';
@@ -65,15 +66,24 @@ export const CompromissoForm = ({
         fetch(`${ROOT_URL}/compromissos?ministerio=${ministerio}&compromissosDoPassado=true`)
           .then(response => response.json())
           .then(d => {
-            d.map(comp => comp.equipes.forEach(e => e.equipe = e.equipe.join(", ")));
+            d.map(comp => {
+              comp.equipes.forEach(e => e.equipe = e.equipe.join(", "));
+              if (comp.nome.indexOf("_") >= 0) {
+                const sala = comp.nome.split("_")[0];
+                const atividade = comp.nome.split("_")[1];
+
+                comp.sala = sala;
+                comp.atividade = atividade;
+              }
+            });
             setCompromissos(d);
           }).catch(error => console.error(error));
       }
     }, [token, ministerio]);
 
     useEffect(() => {
-      const byDate = compromissos.reduce((acc, obj) => {
-        acc.set(obj.inicio.substr(0, 10), obj);
+      const byDate = compromissos.reduce((acc, compromisso) => {
+        acc.set(compromisso.inicio.substr(0, 10), compromisso);
         return acc;
       }, new Map());
       setCompromissosByDate(byDate);
@@ -175,77 +185,9 @@ export const CompromissoForm = ({
                     <input type="radio" id="acampamento" name="ministerio" value="ACAMPAMENTO" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "ACAMPAMENTO"} />
                     Acampamento
                   </label>
-                  <table>
-                    <thead>
-                      <tr>
-                        <td>Nome</td>
-                        <td>História</td>
-                        <td>Atividade</td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td style={{color: '#C0392B'}}>3-5 anos</td>
-                        <td>
-                          ☀ João
-                          <br />
-                          🌙 Maria
-                        </td>
-                        <td>
-                          ☀ João
-                          <br />
-                          🌙 Maria
-                        </td>
-                        {/*                      <td><button>editar</button></td>
-                           <td><button>apagar</button></td>*/}
-                      </tr>
-                      <tr>
-                        <td style={{color: '#8E44AD'}}>6-11 anos</td>
-                        <td>
-                          ☀ Mateus
-                          <br />
-                          🌙 Mia, Isaac
-                        </td>
-                        <td>
-                          ☀ Mateus
-                          <br />
-                          🌙 Mia, Isaac
-                        </td>
-                        {/*                      <td><button>editar</button></td>
-                           <td><button>apagar</button></td>*/}
-                      </tr>
-                      <tr>
-                        <td style={{color: '#27AE60'}}>Berçário</td>
-                        <td>
-                          ☀ Joyce, Fabiana
-                          <br />
-                          🌙 Mariana, Alana
-                        </td>
-                        <td>
-                          ☀ Joyce, Fabiana
-                          <br />
-                          🌙 Mariana, Alana
-                        </td>
-                        {/*                      <td><button>editar</button></td>
-                           <td><button>apagar</button></td>*/}
-                      </tr>
-                      <tr>
-                        <td style={{color: '#34495E'}}>Louvor</td>
-                        <td>
-                          ☀ Walvir
-                          <br />
-                          🌙 Alberto
-                        </td>
-                        <td>
-                          ☀ Walvir
-                          <br />
-                          🌙 Alberto
-                        </td>
-                        {/*                      <td><button>editar</button></td>
-                           <td><button>apagar</button></td>*/}
-                      </tr>
-                    </tbody>
-                  </table>
+
+                  <EnhancedCompromissosTable compromissos={compromissos} />
+
                 </fieldset>
 
 {/*                <ul>

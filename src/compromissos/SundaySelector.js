@@ -91,7 +91,7 @@ export const SundaySelector = ({ value, selectDomingo, select, clearSelected, co
                             hasAssociatedTeam={hasAssociatedTeam}
                             selectSunday={selectSunday}
                             enhanced={enhanced}
-                            compromissosBySunday={compromissosBySunday}
+                            compromissosBySunday={compromissos}
                             salas={salas}
                             atividades={atividades}
                     />);

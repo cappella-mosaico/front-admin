@@ -203,11 +203,13 @@ export const CompromissoForm = ({
                     Acampamento
                   </label>
 
-                  { enhanced && <EnhancedCompromissosTable compromissos={compromissos}
+                  { enhanced && <EnhancedCompromissosTable compromissos={compromissosByDate.get(inicio)}
                                                            salas={salas}
                                                            atividades={atividades}
                                                            loadCompromisso={select}
                                                            selectedSunday={inicio}
+                                                           token={token}
+                                                           setToken={setToken}
                                 /> }
                 </fieldset>
 

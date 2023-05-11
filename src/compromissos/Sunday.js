@@ -13,12 +13,12 @@ export const Sunday = ({
   atividades
 }) => {
   const [salasVazias, setSalasVazias] = useState(new Map());
-  console.log(compromissosBySunday);
-
   useEffect(() => {
     const vazias = new Map();
     salas.forEach(sala => {
-      vazias.set(sala, compromissosBySunday?.filter(compromisso => compromisso.sala === sala).length !== 2 * atividades.length); // 2 pq tem ebd e culto
+      const isoSunday = sunday.toISOString().substring(0, 10);
+      const numberCompromissosThisSunday = compromissosBySunday?.get(isoSunday)?.filter(compromisso => compromisso.sala === sala).length;
+      vazias.set(sala, numberCompromissosThisSunday !== (2 * atividades.length)); // 2 pq tem ebd e culto
     });
     setSalasVazias(vazias);
   }, [salas, atividades, compromissosBySunday, sunday]);

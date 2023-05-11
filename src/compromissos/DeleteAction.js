@@ -1,7 +1,7 @@
 import { ROOT_URL } from "../App";
 import { useCallback } from "react";
 
-export const DeleteAction = ({ token, setToken, compromisso, deleteCompromissoListado }) => {
+export const DeleteAction = ({ children, token, setToken, compromisso, deleteCompromissoListado }) => {
 
     const _delete = useCallback(({ id }) => {
     fetch(`${ROOT_URL}/compromissos/${id}`, {
@@ -24,15 +24,15 @@ export const DeleteAction = ({ token, setToken, compromisso, deleteCompromissoLi
         }
       });
   }, [token, setToken, deleteCompromissoListado]);
-
-  return (<button
+  return (<span
             onClick={
-              () => {
+              (e) => {
+                e.preventDefault();
                 if (window.confirm('Deseja apagar "' + compromisso.nome + '"?')) {
                   _delete(compromisso);
                 }
               }
             }>
-            apagar
-          </button>);
+            {children}
+          </span>);
 };

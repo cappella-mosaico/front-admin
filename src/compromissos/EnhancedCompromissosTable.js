@@ -1,17 +1,49 @@
 import { useState, useEffect } from 'react';
 import { generateHighContrastHexColor } from './hexColorGenerator';
+import { DeleteAction } from './DeleteAction';
 
-export const EnhancedCompromissosTable = ({ compromissos, salas, atividades, loadCompromisso, selectedSunday }) => {
-  const Equipe = ({ id, equipe, sala, atividade, ebd }) => {
-    return(<div style={{cursor: 'pointer'}} 
-                onClick={() => loadCompromisso({
-                  id: id,
-                  nome: `${sala}_${atividade}`,
-                  inicio: `${selectedSunday}T${ebd ? '10' : '19'}:00`,
-                  equipe: equipe
-                })}>
-             {ebd ? '🌄' : '🌃'}
-             {equipe || '☹'}
+export const EnhancedCompromissosTable = ({ compromissos = [], salas, atividades, loadCompromisso, selectedSunday, token, setToken}) => {
+  const Equipe = ({ compromisso, sala, atividade, ebd }) => {
+    const id = compromisso?.id;
+    const equipe = compromisso?.equipes[0]?.equipe;
+
+    const timingIcon = ebd ? '🌄' : '🌃';
+    const timingBackgroundStyle = ebd ? "linear-gradient(to bottom, #FFDAB9, #F08080, #CD5C5C)" : "linear-gradient(to bottom, #9b935d, #151558, #0e0e3e)";
+    return(<div style={{display: 'flex', flexDirection: 'column', width: '180px', marginBottom: '10px'}}>
+             <div style={{width: '100%',
+                          background: timingBackgroundStyle,
+                          borderRadius: '5px 5px 0px 0px',
+                          boxSizing: 'border-box',
+                          padding: '3px'}}>
+               {timingIcon}
+             </div>
+             <div title='Selecionar equipe'
+                  onClick={() => loadCompromisso({
+               id: id,
+               nome: `${sala}_${atividade}`,
+               inicio: `${selectedSunday}T${ebd ? '10' : '19'}:00`,
+               equipe: equipe
+             })}
+                  style={{cursor: 'pointer',
+                          width: '100%',
+                          backgroundColor: 'whitesmoke',
+                          padding: '3px',
+                          display: 'flex',
+                          boxSizing: 'border-box',
+                          borderLeft: '1px solid lightgray',
+                          borderRight: '1px solid lightgray',
+                          borderBottom: '1px solid lightgray'
+                         }}>
+               <div>{equipe || '☹'}</div>
+               { compromisso && <DeleteAction token={token}
+                                              setToken={setToken}
+                                              compromisso={compromisso}
+                                              deleteCompromissoListado={() => (console.log('delete compromisso listado'))}>
+                                  🗑
+                                </DeleteAction>
+               }
+             </div>
+
            </div>);
   };
 
@@ -19,17 +51,24 @@ export const EnhancedCompromissosTable = ({ compromissos, salas, atividades, loa
     const compromissosBySalaByAtividade = compromissos.filter(c => (c.sala === sala && c.atividade === atividade));
     const ebd = compromissosBySalaByAtividade.find(c => c.ebd);
     const culto = compromissosBySalaByAtividade.find(c => !c.ebd);
-
     if (!ebd && !culto) {
-      return(<Equipe sala={sala} 
-                     atividade={atividade} 
+      return(<Equipe sala={sala}
+                     atividade={atividade}
                      ebd={!ebd} />);
     }
 
     return (<>
-              <Equipe id={ebd?.id} equipe={ebd?.equipes[0].equipe} sala={sala} atividade={atividade} ebd={true}/>
-              <br />
-              <Equipe id={culto?.id} equipe={culto?.equipes[0].equipe} sala={sala} atividade={atividade} ebd={false}/>
+              <Equipe compromisso={ebd}
+                      sala={sala}
+                      atividade={atividade}
+                      ebd={true}
+              />
+              {ebd && culto && <br />}
+              <Equipe compromisso={culto}
+                      sala={sala}
+                      atividade={atividade}
+                      ebd={false}
+              />
             </>);
   };
 

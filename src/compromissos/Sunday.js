@@ -35,6 +35,8 @@ export const Sunday = ({
                                width: '17.5px', 
                                height: '18px',
                                backgroundColor: color,
+                               boxSizing: 'border-box',
+                               borderBottom: '1px solid white',
                                display: 'flex',
                                alignItems: 'center',
                                justifyContent: 'center',

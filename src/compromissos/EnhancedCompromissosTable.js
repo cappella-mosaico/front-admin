@@ -52,9 +52,17 @@ export const EnhancedCompromissosTable = ({ compromissos = [], salas, atividades
     const ebd = compromissosBySalaByAtividade.find(c => c.ebd);
     const culto = compromissosBySalaByAtividade.find(c => !c.ebd);
     if (!ebd && !culto) {
-      return(<Equipe sala={sala}
-                     atividade={atividade}
-                     ebd={!ebd} />);
+      return (<>
+                <Equipe sala={sala}
+                        atividade={atividade}
+                        ebd={true}
+                />
+                {ebd && culto && <br />}
+                <Equipe sala={sala}
+                        atividade={atividade}
+                        ebd={false}
+                />
+              </>);
     }
 
     return (<>

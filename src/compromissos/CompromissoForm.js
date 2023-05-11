@@ -6,6 +6,7 @@ import { EnhancedCompromissosTable } from './EnhancedCompromissosTable';
 const DEFAULT_TIPO = 'ESCALA';
 const DEFAULT_MINISTERIO = 'MOSAIKIDS';
 
+
 function getNextSunday() {
   const today = new Date();
   const daysUntilNextSunday = 7 - today.getDay();
@@ -27,21 +28,23 @@ function isEbd(inicio) {
 export const CompromissoForm = ({
   token,
   setToken,
+  compromissos,
+  ministerio,
+  setMinisterio,
   addCompromisso,
   updateCompromisso,
   select,
   selected,
-  clearSelected }) => {
+  clearSelected,
+  deleteCompromissoListado}) => {
 
     const [tipo, setTipo] = useState(DEFAULT_TIPO);
-    const [ministerio, setMinisterio] = useState(DEFAULT_MINISTERIO);
     const [id, setId] = useState(selected?.id || "");
     const [nome, setNome] = useState(selected?.nome || "");
     const [inicio, setInicio] = useState(selected?.inicio || getNextSunday());
     const [equipe, setEquipe] = useState(selected?.equipe || "");
     const [ebd, setEbd] = useState(isEbd(selected?.inicio));
 
-    const [compromissos, setCompromissos] = useState([]);
     const [compromissosByDate, setCompromissosByDate] = useState(new Map());
     const [salas, setSalas] = useState([]);
     const [atividades, setAtividades] = useState([]);
@@ -65,26 +68,6 @@ export const CompromissoForm = ({
     }, [selected]);
 
     useEffect(() => setEnhanced(ministerio === 'MOSAIKIDS'), [ministerio]);
-
-    useEffect(() => {
-      if (token) {
-        fetch(`${ROOT_URL}/compromissos?ministerio=${ministerio}&compromissosDoPassado=true`)
-          .then(response => response.json())
-          .then(d => {
-            d.map(comp => {
-              comp.equipes.forEach(e => e.equipe = e.equipe.join(", "));
-              if (comp.nome.indexOf("_") >= 0) {
-                const sala = comp.nome.split("_")[0];
-                const atividade = comp.nome.split("_")[1];
-
-                comp.sala = sala;
-                comp.atividade = atividade;
-              }
-            });
-            setCompromissos(d);
-          }).catch(error => console.error(error));
-      }
-    }, [token, ministerio]);
 
     useEffect(() => {
       const salas = new Set();
@@ -181,39 +164,6 @@ export const CompromissoForm = ({
                      onChange={(e) => setId(e.target.value)} />
               <div className="grid">
                 <fieldset>
-                  <legend>Ministério:</legend>
-                  <label htmlFor="musica">
-                    <input type="radio" id="musica" name="ministerio" value="MUSICA" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MUSICA"} />
-                    Música
-                  </label>
-                  <label htmlFor="midia">
-                    <input type="radio" id="midia" name="ministerio" value="MIDIA" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MIDIA"} />
-                    Mídia
-                  </label>
-                  <label htmlFor="infantil">
-                    <input type="radio" id="infantil" name="ministerio" value="MOSAIKIDS" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MOSAIKIDS"} />
-                    MOSAIKIDS
-                  </label>
-                  <label htmlFor="diaconos">
-                    <input type="radio" id="diaconos" name="ministerio" value="DIACONOS" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "DIACONOS"} />
-                    Diáconos
-                  </label>
-                  <label htmlFor="acampamento">
-                    <input type="radio" id="acampamento" name="ministerio" value="ACAMPAMENTO" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "ACAMPAMENTO"} />
-                    Acampamento
-                  </label>
-
-                  { enhanced && <EnhancedCompromissosTable compromissos={compromissosByDate.get(inicio)}
-                                                           salas={salas}
-                                                           atividades={atividades}
-                                                           loadCompromisso={select}
-                                                           selectedSunday={inicio}
-                                                           token={token}
-                                                           setToken={setToken}
-                                /> }
-                </fieldset>
-
-                <fieldset>
                   <SundaySelector value={inicio}
                                   selectDomingo={ domingo => setInicio(domingo) }
                                   compromissos={compromissosByDate}
@@ -247,7 +197,16 @@ export const CompromissoForm = ({
                            required />
                   </label>
                   <button>salvar compromisso</button>
-                </fieldset>
+                { enhanced && <EnhancedCompromissosTable compromissos={compromissosByDate.get(inicio)}
+                                                         salas={salas}
+                                                         atividades={atividades}
+                                                         loadCompromisso={select}
+                                                         selectedSunday={inicio}
+                                                         token={token}
+                                                         setToken={setToken}
+                                                         deleteCompromissoListado={deleteCompromissoListado}
+                              /> }
+            </fieldset>
               </div>
             </form>);
 

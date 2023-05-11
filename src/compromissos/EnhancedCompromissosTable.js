@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import { generateHighContrastHexColor } from './hexColorGenerator';
 import { DeleteAction } from './DeleteAction';
 
-export const EnhancedCompromissosTable = ({ compromissos = [], salas, atividades, loadCompromisso, selectedSunday, token, setToken}) => {
+export const EnhancedCompromissosTable = ({ compromissos = [], salas, atividades, loadCompromisso, selectedSunday, token, setToken, deleteCompromissoListado}) => {
   const Equipe = ({ compromisso, sala, atividade, ebd }) => {
     const id = compromisso?.id;
     const equipe = compromisso?.equipes[0]?.equipe;
 
     const timingIcon = ebd ? '🌄' : '🌃';
-    const timingBackgroundStyle = ebd ? "linear-gradient(to bottom, #FFDAB9, #F08080, #CD5C5C)" : "linear-gradient(to bottom, #9b935d, #151558, #0e0e3e)";
+    const timingBackgroundStyle = ebd ? "lightgray" : "lightgray";
     return(<div style={{display: 'flex', flexDirection: 'column', width: '180px', marginBottom: '10px'}}>
              <div style={{width: '100%',
                           background: timingBackgroundStyle,
@@ -38,7 +38,7 @@ export const EnhancedCompromissosTable = ({ compromissos = [], salas, atividades
                { compromisso && <DeleteAction token={token}
                                               setToken={setToken}
                                               compromisso={compromisso}
-                                              deleteCompromissoListado={() => (console.log('delete compromisso listado'))}>
+                                              deleteCompromissoListado={deleteCompromissoListado}>
                                   🗑
                                 </DeleteAction>
                }

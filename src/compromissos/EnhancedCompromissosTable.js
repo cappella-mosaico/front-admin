@@ -14,7 +14,7 @@ export const EnhancedCompromissosTable = ({ compromissos = [], salas, atividades
                     <h6>{ formatted }</h6>
                   </hgroup>
                 </header>
-                Preencha os nomes no formulário ao lado salve.
+                Preencha os nomes no formulário ao lado e salve.
             </article>);
   }
 

@@ -48,14 +48,13 @@ export const CompromissoForm = ({
     const [compromissosByDate, setCompromissosByDate] = useState(new Map());
     const [salas, setSalas] = useState([]);
     const [atividades, setAtividades] = useState([]);
-    const [enhanced, setEnhanced] = useState(ministerio === 'MOSAIKIDS');
 
     useEffect(() => {
       if (selected) {
         setId(selected.id);
         setNome(selected.nome);
         setInicio(selected.inicio.split("T")[0]);
-        setEquipe(selected.equipes?.[0].equipe || selected.equipe || "");
+        setEquipe(selected.equipes?.[0]?.equipe || selected.equipe || "");
         setEbd(isEbd(selected.inicio));
       } else {
         setTipo(DEFAULT_TIPO);
@@ -67,12 +66,12 @@ export const CompromissoForm = ({
 
     }, [selected]);
 
-    useEffect(() => setEnhanced(ministerio === 'MOSAIKIDS'), [ministerio]);
-
     useEffect(() => {
       const salas = new Set();
       const atividades = new Set();
       const byDate = compromissos.reduce((acc, compromisso) => {
+        const dateCompromisso = compromisso.inicio.substr(0, 10);
+
         if (compromisso.sala) {
           salas.add(compromisso.sala);
         }
@@ -80,16 +79,15 @@ export const CompromissoForm = ({
           atividades.add(compromisso.atividade);
         }
 
-        const date = compromisso.inicio.substr(0, 10);
-        acc.set(date, [compromisso, ...(acc.get(date) || [])]);
+        acc.set(dateCompromisso, [compromisso, ...(acc.get(dateCompromisso) || [])]);
         return acc;
       }, new Map());
       setCompromissosByDate(byDate);
       setSalas([...salas].sort());
       setAtividades([...atividades].sort());
 
-      if (byDate.get(inicio) && !enhanced) {
-        select(byDate.get(inicio));
+      if (byDate.get(inicio)?.length > 0) {
+        select(byDate.get(inicio)[0]);
       } else {
         clearSelected();
       }
@@ -107,6 +105,7 @@ export const CompromissoForm = ({
 
     const publish = (e) => {
       e.preventDefault();
+      const finalNome = nome.indexOf('_') >= 0 ? nome : `Templo_${nome}`;
 
       const requestOptions = {
         method: 'POST',
@@ -116,7 +115,7 @@ export const CompromissoForm = ({
         },
         body: JSON.stringify({
           id,
-          nome,
+          nome: finalNome,
           local: "IP Mosaico",
           endereco: "Rua T-53, 480 - Setor Marista",
           inicio: inicio + (ebd ? "T10:00:00" : "T19:00:00"),
@@ -165,85 +164,102 @@ export const CompromissoForm = ({
     return (<>
               <div style={{display: 'flex', width: '100%'}}>
                 <div style={{flex: '1'}}>
-                  <legend>Ministério:</legend>
-                  <label htmlFor="musica">
-                    <input type="radio" id="musica" name="ministerio" value="MUSICA" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MUSICA"} />
-                    Música
-                  </label>
-                  <label htmlFor="midia">
-                    <input type="radio" id="midia" name="ministerio" value="MIDIA" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MIDIA"} />
-                    Mídia
-                  </label>
-                  <label htmlFor="infantil">
-                    <input type="radio" id="infantil" name="ministerio" value="MOSAIKIDS" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MOSAIKIDS"} />
-                    MOSAIKIDS
-                  </label>
-                  <label htmlFor="diaconos">
-                    <input type="radio" id="diaconos" name="ministerio" value="DIACONOS" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "DIACONOS"} />
-                    Diáconos
-                  </label>
-                  <label htmlFor="acampamento">
-                    <input type="radio" id="acampamento" name="ministerio" value="ACAMPAMENTO" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "ACAMPAMENTO"} />
-                    Acampamento
-                  </label>
-                </div>
-                <div style={{flex: '2'}}>
-                <form id="formCompromisso" onSubmit={publish}>
-                  <input type="hidden"
-                         name="id"
-                         value={id}
-                         onChange={(e) => setId(e.target.value)} />
-                  <div className="grid">
-                    <fieldset>
-                      <SundaySelector value={inicio}
-                                      selectDomingo={ domingo => setInicio(domingo) }
-                                      compromissos={compromissosByDate}
-                                      select={select}
-                                      clearSelected={clearSelected}
-                                      enhanced={enhanced}
-                                      salas={salas}
-                                      atividades={atividades}
-                      />
-                      <label style={{fontWeight: 'bold', fontSize: 'x-small'}}>{id  && `#${id.split('-')[0]}`}</label>
-                      <label htmlFor="ebd">
-                        EBD:&nbsp;
-                        <input type="checkbox" id="ebd" onChange={(e) => setEbd(!ebd)} checked={ebd} />
-                      </label>
-                      <label>
-                        Nome:
-                        <input type="text"
-                               name="nome"
-                               placeholder="Louvor Culto"
-                               value={nome}
-                               onChange={(e) => setNome(e.target.value)}
-                               required />
-                      </label>
-                      <label htmlFor="equipe">
-                        Equipe:
-                        <input id="equipe"
-                               type="text"
-                               placeholder="José, Maria, João"
-                               value={equipe}
-                               onChange={(e) => setEquipe(e.target.value)}
-                               required />
-                      </label>
-                      <button>salvar compromisso</button>
-                    </fieldset>
+                  <div style={{ width: '100%' }}>
+                    <legend>Ministério:</legend>
+                    <label htmlFor="musica">
+                      <input type="radio" id="musica" name="ministerio" value="MUSICA" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MUSICA"} />
+                      Música
+                    </label>
+                    <label htmlFor="midia">
+                      <input type="radio" id="midia" name="ministerio" value="MIDIA" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MIDIA"} />
+                      Mídia
+                    </label>
+                    <label htmlFor="infantil">
+                      <input type="radio" id="infantil" name="ministerio" value="MOSAIKIDS" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MOSAIKIDS"} />
+                      MOSAIKIDS
+                    </label>
+                    <label htmlFor="diaconos">
+                      <input type="radio" id="diaconos" name="ministerio" value="DIACONOS" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "DIACONOS"} />
+                      Diáconos
+                    </label>
                   </div>
-                </form>
+                  { atividades.length <= 2 && <EnhancedCompromissosTable 
+                                                compromissos={compromissosByDate.get(inicio)}
+                                                salas={salas}
+                                                atividades={atividades}
+                                                loadCompromisso={select}
+                                                selectedSunday={inicio}
+                                                token={token}
+                                                setToken={setToken}
+                                                deleteCompromissoListado={deleteCompromissoListado}
+                                              />
+                  }
                 </div>
 
+                <div style={{flex: '1'}}>
+                  <form id="formCompromisso" onSubmit={publish}>
+                    <input type="hidden"
+                           name="id"
+                           value={id}
+                           onChange={(e) => setId(e.target.value)} />
+                    <div className="grid">
+                      <fieldset>
+                        <SundaySelector value={inicio}
+                                        selectDomingo={ domingo => setInicio(domingo) }
+                                        compromissos={compromissosByDate}
+                                        select={select}
+                                        clearSelected={clearSelected}
+                                        salas={salas}
+                                        atividades={atividades}
+                        />
+                        <label style={{fontWeight: 'bold', fontSize: 'x-small'}}>{id  && `#${id.split('-')[0]}`}</label>
+                        <label htmlFor="ebd">
+                          EBD:&nbsp;
+                          <input type="checkbox" id="ebd" onChange={(e) => setEbd(!ebd)} checked={ebd} />
+                        </label>
+                        <label>
+                          Nome:
+                          <input type="text"
+                                 name="nome"
+                                 placeholder="Louvor Culto"
+                                 value={nome}
+                                 onChange={(e) => setNome(e.target.value)}
+                                 required />
+                        </label>
+                        <label htmlFor="equipe">
+                          Equipe:
+                          <input id="equipe"
+                                 type="text"
+                                 placeholder="José, Maria, João"
+                                 value={equipe}
+                                 onChange={(e) => setEquipe(e.target.value)}
+                                 required />
+                        </label>
+                        <div className="grid">
+                          <button>{id ? 'alterar' : 'salvar'}</button>
+                          {id && <button onClick={(e) => {
+                            e.preventDefault();
+                            resetForm();
+                          }}>novo</button>}
+                        </div>
+                      </fieldset>
+                    </div>
+                  </form>
+                </div>
+                
               </div>
 
-              { enhanced && <EnhancedCompromissosTable compromissos={compromissosByDate.get(inicio)}
-                                                       salas={salas}
-                                                       atividades={atividades}
-                                                       loadCompromisso={select}
-                                                       selectedSunday={inicio}
-                                                       token={token}
-                                                       setToken={setToken}
-                                                       deleteCompromissoListado={deleteCompromissoListado}
-                            /> }
+              { atividades.length > 2 && <EnhancedCompromissosTable 
+                                            compromissos={compromissosByDate.get(inicio)}
+                                            salas={salas}
+                                            atividades={atividades}
+                                            loadCompromisso={select}
+                                            selectedSunday={inicio}
+                                            token={token}
+                                            setToken={setToken}
+                                            deleteCompromissoListado={deleteCompromissoListado}
+                                          />
+              }              
             </>);
 
   };

@@ -7,7 +7,6 @@ export const Sunday = ({
   selectedStyle,
   selectSunday,
   hasAssociatedTeam,
-  enhanced,
   compromissosBySunday,
   salas,
   atividades
@@ -59,7 +58,7 @@ export const Sunday = ({
                            display: 'flex',
                            flexDirection: 'column',
                            alignItems: 'center'}}>
-                { enhanced && (<ColoredTeams />)}
+                { (<ColoredTeams />)}
                 <button style={{maxWidth: '70px',
                                 backgroundColor: 'whitesmoke',
                                 color: '#101820',
@@ -70,7 +69,6 @@ export const Sunday = ({
                           e.preventDefault();
                           selectSunday(sunday);
                         }}>
-                  { !enhanced && hasAssociatedTeam && <TeamIcon /> }
                   { sunday.getDate() }
                 </button>
               </div>

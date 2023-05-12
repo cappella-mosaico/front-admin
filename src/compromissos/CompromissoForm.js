@@ -213,7 +213,7 @@ export const CompromissoForm = ({
                                         atividades={atividades}
                         />
                         <label style={{fontWeight: 'bold', fontSize: 'x-small'}}>{id  && `#${id.split('-')[0]}`}</label>
-                        <label htmlFor="ebd">
+                        <label htmlFor="ebd" style={{padding: '20px 0px 20px 0px'}}>
                           { ebd ? '🌄' : '🌃'}
                           EBD:&nbsp;
                           <input type="checkbox" id="ebd" onChange={(e) => setEbd(!ebd)} checked={ebd} />

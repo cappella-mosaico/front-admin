@@ -85,8 +85,8 @@ export const CompromissoForm = ({
         return acc;
       }, new Map());
       setCompromissosByDate(byDate);
-      setSalas([...salas]);
-      setAtividades([...atividades]);
+      setSalas([...salas].sort());
+      setAtividades([...atividades].sort());
 
       if (byDate.get(inicio) && !enhanced) {
         select(byDate.get(inicio));
@@ -98,10 +98,8 @@ export const CompromissoForm = ({
     const resetForm = () => {
       const nextSunday = getNextSunday();
       setTipo(DEFAULT_TIPO);
-      setMinisterio(DEFAULT_MINISTERIO);
       setId("");
       setNome("");
-      setInicio(nextSunday);
       setEquipe("");
       setEbd(isEbd(nextSunday));
       clearSelected();
@@ -135,6 +133,13 @@ export const CompromissoForm = ({
           if (compromisso.id) {
             resetForm();
             compromisso.equipes[0].equipe = compromisso.equipes[0].equipe.join(", ");
+            if (compromisso.nome.indexOf("_") >= 0) {
+              const sala = compromisso.nome.split("_")[0];
+              const atividade = compromisso.nome.split("_")[1];
+
+              compromisso.sala = sala;
+              compromisso.atividade = atividade;
+            }
             if (selected?.id) {
               alert(`O compromisso ${compromisso.nome} alterado com sucesso.`);
               updateCompromisso(compromisso);
@@ -157,57 +162,88 @@ export const CompromissoForm = ({
 
     };
 
-    return (<form id="formCompromisso" onSubmit={publish}>
-              <input type="hidden"
-                     name="id"
-                     value={id}
-                     onChange={(e) => setId(e.target.value)} />
-              <div className="grid">
-                <fieldset>
-                  <SundaySelector value={inicio}
-                                  selectDomingo={ domingo => setInicio(domingo) }
-                                  compromissos={compromissosByDate}
-                                  select={select}
-                                  clearSelected={clearSelected}
-                                  enhanced={enhanced}
-                                  salas={salas}
-                                  atividades={atividades}
-                  />
-                  <label style={{fontWeight: 'bold', fontSize: 'x-small'}}>{id  && `#${id.split('-')[0]}`}</label>
-                  <label htmlFor="ebd">
-                    EBD:&nbsp;
-                    <input type="checkbox" id="ebd" onChange={(e) => setEbd(!ebd)} checked={ebd} />
+    return (<>
+              <div style={{display: 'flex', width: '100%'}}>
+                <div style={{flex: '1'}}>
+                  <legend>Ministério:</legend>
+                  <label htmlFor="musica">
+                    <input type="radio" id="musica" name="ministerio" value="MUSICA" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MUSICA"} />
+                    Música
                   </label>
-                  <label>
-                    Nome:
-                    <input type="text"
-                           name="nome"
-                           placeholder="Louvor Culto"
-                           value={nome}
-                           onChange={(e) => setNome(e.target.value)}
-                           required />
+                  <label htmlFor="midia">
+                    <input type="radio" id="midia" name="ministerio" value="MIDIA" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MIDIA"} />
+                    Mídia
                   </label>
-                  <label htmlFor="equipe">
-                    Equipe:
-                    <input id="equipe"
-                           type="text"
-                           placeholder="José, Maria, João"
-                           value={equipe}
-                           onChange={(e) => setEquipe(e.target.value)}
-                           required />
+                  <label htmlFor="infantil">
+                    <input type="radio" id="infantil" name="ministerio" value="MOSAIKIDS" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MOSAIKIDS"} />
+                    MOSAIKIDS
                   </label>
-                  <button>salvar compromisso</button>
-                { enhanced && <EnhancedCompromissosTable compromissos={compromissosByDate.get(inicio)}
-                                                         salas={salas}
-                                                         atividades={atividades}
-                                                         loadCompromisso={select}
-                                                         selectedSunday={inicio}
-                                                         token={token}
-                                                         setToken={setToken}
-                                                         deleteCompromissoListado={deleteCompromissoListado}
-                              /> }
-            </fieldset>
+                  <label htmlFor="diaconos">
+                    <input type="radio" id="diaconos" name="ministerio" value="DIACONOS" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "DIACONOS"} />
+                    Diáconos
+                  </label>
+                  <label htmlFor="acampamento">
+                    <input type="radio" id="acampamento" name="ministerio" value="ACAMPAMENTO" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "ACAMPAMENTO"} />
+                    Acampamento
+                  </label>
+                </div>
+                <div style={{flex: '2'}}>
+                <form id="formCompromisso" onSubmit={publish}>
+                  <input type="hidden"
+                         name="id"
+                         value={id}
+                         onChange={(e) => setId(e.target.value)} />
+                  <div className="grid">
+                    <fieldset>
+                      <SundaySelector value={inicio}
+                                      selectDomingo={ domingo => setInicio(domingo) }
+                                      compromissos={compromissosByDate}
+                                      select={select}
+                                      clearSelected={clearSelected}
+                                      enhanced={enhanced}
+                                      salas={salas}
+                                      atividades={atividades}
+                      />
+                      <label style={{fontWeight: 'bold', fontSize: 'x-small'}}>{id  && `#${id.split('-')[0]}`}</label>
+                      <label htmlFor="ebd">
+                        EBD:&nbsp;
+                        <input type="checkbox" id="ebd" onChange={(e) => setEbd(!ebd)} checked={ebd} />
+                      </label>
+                      <label>
+                        Nome:
+                        <input type="text"
+                               name="nome"
+                               placeholder="Louvor Culto"
+                               value={nome}
+                               onChange={(e) => setNome(e.target.value)}
+                               required />
+                      </label>
+                      <label htmlFor="equipe">
+                        Equipe:
+                        <input id="equipe"
+                               type="text"
+                               placeholder="José, Maria, João"
+                               value={equipe}
+                               onChange={(e) => setEquipe(e.target.value)}
+                               required />
+                      </label>
+                      <button>salvar compromisso</button>
+                    </fieldset>
+                  </div>
+                </form>
+                </div>
+
               </div>
-            </form>);
+
+              { enhanced && <EnhancedCompromissosTable compromissos={compromissosByDate.get(inicio)}
+                                                       salas={salas}
+                                                       atividades={atividades}
+                                                       loadCompromisso={select}
+                                                       selectedSunday={inicio}
+                                                       token={token}
+                                                       setToken={setToken}
+                                                       deleteCompromissoListado={deleteCompromissoListado}
+                            /> }
+            </>);
 
   };

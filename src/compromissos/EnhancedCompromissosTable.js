@@ -3,6 +3,7 @@ import { generateHighContrastHexColor } from './hexColorGenerator';
 import { DeleteAction } from './DeleteAction';
 
 export const EnhancedCompromissosTable = ({ compromissos = [], salas, atividades, loadCompromisso, selectedSunday, token, setToken, deleteCompromissoListado}) => {
+
   const Equipe = ({ compromisso, sala, atividade, ebd }) => {
     const id = compromisso?.id;
     const equipe = compromisso?.equipes[0]?.equipe;
@@ -18,12 +19,16 @@ export const EnhancedCompromissosTable = ({ compromissos = [], salas, atividades
                {timingIcon}
              </div>
              <div title='Selecionar equipe'
-                  onClick={() => loadCompromisso({
-               id: id,
-               nome: `${sala}_${atividade}`,
-               inicio: `${selectedSunday}T${ebd ? '10' : '19'}:00`,
-               equipe: equipe
-             })}
+                  onClick={() => {
+                    window.scrollTo({ top: 250, behavior: 'smooth' });
+                    loadCompromisso({
+                      id: id,
+                      nome: `${sala}_${atividade}`,
+                      inicio: `${selectedSunday}T${ebd ? '10' : '19'}:00`,
+                      equipe: equipe
+                    });
+                  }
+                          }
                   style={{cursor: 'pointer',
                           width: '100%',
                           backgroundColor: 'whitesmoke',
@@ -47,17 +52,18 @@ export const EnhancedCompromissosTable = ({ compromissos = [], salas, atividades
            </div>);
   };
 
-  const showEquipe = (compromissos, sala, atividade) => {
+  const ShowEquipe = ({compromissos, sala, atividade}) => {
     const compromissosBySalaByAtividade = compromissos.filter(c => (c.sala === sala && c.atividade === atividade));
     const ebd = compromissosBySalaByAtividade.find(c => c.ebd);
     const culto = compromissosBySalaByAtividade.find(c => !c.ebd);
+
+    console.log({compromissos, sala, atividade, compromissosBySalaByAtividade, ebd, culto});
     if (!ebd && !culto) {
       return (<>
                 <Equipe sala={sala}
                         atividade={atividade}
                         ebd={true}
                 />
-                {ebd && culto && <br />}
                 <Equipe sala={sala}
                         atividade={atividade}
                         ebd={false}
@@ -71,7 +77,6 @@ export const EnhancedCompromissosTable = ({ compromissos = [], salas, atividades
                       atividade={atividade}
                       ebd={true}
               />
-              {ebd && culto && <br />}
               <Equipe compromisso={culto}
                       sala={sala}
                       atividade={atividade}
@@ -92,7 +97,9 @@ export const EnhancedCompromissosTable = ({ compromissos = [], salas, atividades
                                  <td style={{color: generateHighContrastHexColor(sala)}}>{sala}</td>
                                     {atividades.map(atividade => (
                                       <td key={sala + '-' + atividade}>
-                                        {showEquipe(compromissos, sala, atividade)}
+                                        <ShowEquipe compromissos={compromissos}
+                                                    sala={sala}
+                                                    atividade={atividade} />
                                       </td>))}
                                   </tr>))}
             </tbody>

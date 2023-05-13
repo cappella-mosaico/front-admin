@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { ROOT_URL } from "../App";
-import { CompromissosList } from './CompromissosList';
 import { CompromissoForm } from './CompromissoForm';
 
-const DEFAULT_MINISTERIO = 'MOSAIKIDS';
+const DEFAULT_MINISTERIO = 'MUSICA';
 
 export const Compromissos = ({ token, setToken }) => {
   const [ministerio, setMinisterio] = useState(DEFAULT_MINISTERIO);

@@ -4,7 +4,7 @@ import { SundaySelector } from './SundaySelector';
 import { EnhancedCompromissosTable } from './EnhancedCompromissosTable';
 
 const DEFAULT_TIPO = 'ESCALA';
-const DEFAULT_MINISTERIO = 'MOSAIKIDS';
+const DEFAULT_MINISTERIO = 'MUSICA';
 
 
 function getNextSunday() {
@@ -14,8 +14,7 @@ function getNextSunday() {
   const year = nextSunday.getFullYear();
   const month = String(nextSunday.getMonth() + 1).padStart(2, '0');
   const day = String(nextSunday.getDate()).padStart(2, '0');
-  const formattedDate = `${year}-${month}-${day}`;
-  return formattedDate;
+  return `${year}-${month}-${day}`;
 }
 
 function isEbd(inicio) {
@@ -72,16 +71,21 @@ export const CompromissoForm = ({
       const byDate = compromissos.reduce((acc, compromisso) => {
         const dateCompromisso = compromisso.inicio.substr(0, 10);
 
-        if (compromisso.sala) {
-          salas.add(compromisso.sala);
-        }
-        if (compromisso.atividade) {
-          atividades.add(compromisso.atividade);
-        }
-
         acc.set(dateCompromisso, [compromisso, ...(acc.get(dateCompromisso) || [])]);
         return acc;
       }, new Map());
+
+      compromissos.forEach(compromisso => {
+        if (compromisso.inicio.substr(0, 8) === inicio.substr(0, 8)) {
+          if (compromisso.sala) {
+            salas.add(compromisso.sala);
+          }
+          if (compromisso.atividade) {
+            atividades.add(compromisso.atividade);
+          }          
+        }
+      });
+
       setCompromissosByDate(byDate);
       setSalas([...salas].sort());
       setAtividades([...atividades].sort());
@@ -91,7 +95,7 @@ export const CompromissoForm = ({
       } else {
         clearSelected();
       }
-    }, [compromissos]);
+    }, [compromissos, inicio]);
 
     const resetForm = () => {
       const nextSunday = getNextSunday();

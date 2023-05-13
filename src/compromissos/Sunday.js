@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { ReactComponent as TeamIcon } from './team_icon.svg';
 import { generateHighContrastHexColor } from './hexColorGenerator';
 
 export const Sunday = ({
@@ -45,7 +44,7 @@ export const Sunday = ({
                       <div style={{borderRadius: '5px',
                                    width: '10px',
                                    height: '10px',
-                                   backgroundColor: selectedStyle.backgroundColor || 'white'}} />
+                                   backgroundColor: 'white'}} />
                     }
 
                   </div>);

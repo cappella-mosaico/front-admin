@@ -6,6 +6,11 @@ import { EnhancedCompromissosTable } from './EnhancedCompromissosTable';
 const DEFAULT_TIPO = 'ESCALA';
 const DEFAULT_MINISTERIO = 'MUSICA';
 
+const AMBOS = {name: 'AMBOS', label: '🌄🌃 Ambos', hour: 0, fullTime: 'T00:00:00'};
+const EBD = {name: 'EBD', label: '🌄 EBD', hour: 10, fullTime: 'T10:00:00'};
+const CULTO = {name: 'CULTO', label: '🌃 Culto', hour: 19, fullTime: 'T19:00:00'};
+const periods = [AMBOS, EBD, CULTO];
+
 
 function getNextSunday() {
   const today = new Date();
@@ -17,12 +22,27 @@ function getNextSunday() {
   return `${year}-${month}-${day}`;
 }
 
-function isEbd(inicio) {
+function loadEbd(inicio) {
   if (!inicio) {
-    return false;
+    return AMBOS;
   }
-  return new Date(inicio).getHours() < 12;
-}
+
+  const hour = new Date(inicio).getHours();
+  let p;
+  switch(hour) {
+    case 0:
+    p = AMBOS;
+    break;
+
+    case 10:
+    p = EBD;
+    break;
+
+    default:
+    p = CULTO;
+  }
+  return p;
+};
 
 export const CompromissoForm = ({
   token,
@@ -42,7 +62,7 @@ export const CompromissoForm = ({
     const [nome, setNome] = useState(selected?.nome || "");
     const [inicio, setInicio] = useState(selected?.inicio || getNextSunday());
     const [equipe, setEquipe] = useState(selected?.equipe || "");
-    const [ebd, setEbd] = useState(isEbd(selected?.inicio));
+    const [period, setPeriod] = useState(loadEbd(selected?.inicio));
 
     const [compromissosByDate, setCompromissosByDate] = useState(new Map());
     const [salas, setSalas] = useState([]);
@@ -54,13 +74,13 @@ export const CompromissoForm = ({
         setNome(selected.nome);
         setInicio(selected.inicio.split("T")[0]);
         setEquipe(selected.equipes?.[0]?.equipe || selected.equipe || "");
-        setEbd(isEbd(selected.inicio));
+        setPeriod(loadEbd(selected.inicio));
       } else {
         setTipo(DEFAULT_TIPO);
         setId("");
         setNome("");
         setEquipe("");
-        setEbd(false);
+        setPeriod(AMBOS);
       }
 
     }, [selected]);
@@ -103,7 +123,7 @@ export const CompromissoForm = ({
       setId("");
       setNome("");
       setEquipe("");
-      setEbd(isEbd(nextSunday));
+      setPeriod(loadEbd(nextSunday));
       clearSelected();
     };
 
@@ -122,7 +142,7 @@ export const CompromissoForm = ({
           nome: finalNome,
           local: "IP Mosaico",
           endereco: "Rua T-53, 480 - Setor Marista",
-          inicio: inicio + (ebd ? "T10:00:00" : "T19:00:00"),
+          inicio: inicio + period.fullTime,
           fim: "2023-04-22T21:00:00",
           tipo,
           ministerio,
@@ -164,6 +184,15 @@ export const CompromissoForm = ({
         });
 
     };
+
+    useEffect(() => {
+      const compromissos = compromissosByDate.get(inicio) || [];
+      const compromisso = compromissos.find(c => (c.nome === nome && ('T' + c.inicio.split('T')[1]) === period.fullTime)) || {
+        nome,
+        inicio: inicio.split('T')[0] + period.fullTime
+      };
+      select(compromisso);
+    }, [period]);
 
     return (<>
               <div style={{display: 'flex', width: '100%'}}>
@@ -216,11 +245,25 @@ export const CompromissoForm = ({
                                         salas={salas}
                                         atividades={atividades}
                         />
-                        <label style={{fontWeight: 'bold', fontSize: 'x-small'}}>{id  && `#${id.split('-')[0]}`}</label>
                         <label htmlFor="ebd" style={{padding: '20px 0px 20px 0px'}}>
-                          { ebd ? '🌄' : '🌃'}
-                          EBD:&nbsp;
-                          <input type="checkbox" id="ebd" onChange={(e) => setEbd(!ebd)} checked={ebd} />
+                          <div className="grid">
+                            {periods.map(p => {
+                              return (<div style={{width: '100%', marginBottom: '-40px'}}>
+                                        <button key={p.name}
+                                                style={{
+                                                  backgroundColor: 'whitesmoke',
+                                                  color: '#101820',
+                                                  borderColor: '#7B7D70',
+                                                  ...(period == p ? { backgroundColor: '#101820', borderColor: '#101820', color: 'whitesmoke' } : {})}}
+                                                onClick={(e) => {e.preventDefault(); 
+                                                                 setPeriod(p);
+                                                                }}>
+                                          {p.label}
+                                        </button>
+                                        <label style={{fontWeight: 'bold', fontSize: 'x-small'}}>&nbsp;{id && period === p  && `#${id.split('-')[0]}`}</label>
+                                      </div>);
+                            })}
+                          </div>
                         </label>
                         <label>
                           Nome:

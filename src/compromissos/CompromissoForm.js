@@ -260,7 +260,12 @@ export const CompromissoForm = ({
                                                                 }}>
                                           {p.label}
                                         </button>
-                                        <label style={{fontWeight: 'bold', fontSize: 'x-small'}}>&nbsp;{id && period === p  && `#${id.split('-')[0]}`}</label>
+                                        <label style={{ fontSize: 'x-small', 
+                                                        textAlign: 'center', 
+                                                        marginTop: '-20px',
+                                                        color: 'lightgray'}}>
+                                          &nbsp;{id && period === p  && `#${id.split('-')[0]}`}
+                                        </label>
                                       </div>);
                             })}
                           </div>

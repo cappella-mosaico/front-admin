@@ -27,7 +27,7 @@ export const EnhancedCompromissosTable = ({ compromissos = [], salas, atividades
             </thead>
             <tbody>
               {salas.map(sala => (<tr key={sala}>
-                                 <td style={{color: generateHighContrastHexColor(sala)}}>{sala}</td>
+                                 <td><div style={{color: 'white', backgroundColor: generateHighContrastHexColor(sala), borderRadius: '5px', padding: '5px'}}>{sala}</div></td>
                                     {atividades.map(atividade => (
                                       <td key={sala + '-' + atividade}>
                                         <Equipes compromissos={compromissos}

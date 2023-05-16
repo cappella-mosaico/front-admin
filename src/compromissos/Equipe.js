@@ -1,18 +1,33 @@
 import { DeleteAction } from './DeleteAction';
+import { mappedPeriods } from './CompromissoForm';
 
-export const Equipe = ({ compromisso, sala, atividade, ebd, loadCompromisso, selectedSunday, token, setToken, deleteCompromissoListado }) => {
+export const Equipe = ({ compromisso, sala, atividade, loadCompromisso, selectedSunday, token, setToken, deleteCompromissoListado, periodo }) => {
   const id = compromisso?.id;
-  const equipe = compromisso?.equipes[0]?.equipe;
-  
-  const timingIcon = ebd ? '☀' : '🌙';
-  const timingBackgroundStyle = '#373737';
+  const equipe = compromisso?.equipe?.equipe;
+  const period = mappedPeriods.get(compromisso?.periodo || periodo || 'AMBOS');
+
   return(<div style={{display: 'flex', flexDirection: 'column', width: '180px', marginBottom: '10px'}}>
            <div style={{width: '100%',
-                        background: timingBackgroundStyle,
+                        background: '#101820',
                         borderRadius: '5px 5px 0px 0px',
                         boxSizing: 'border-box',
-                        padding: '3px'}}>
-             {timingIcon} <span style={{fontSize: '10pt', fontWeight: 'bold', color: 'white'}}>{ebd ? '10' : '19'}:00</span>
+                        padding: '3px',
+                        display: 'flex',
+                        justifyContent: 'space-between'}}>
+             <div style={{display: 'flex', alignItems: 'center'}}>
+               <span style={{fontSize: '10pt', fontWeight: 'bold', color: 'whitesmoke'}}>
+                 {period.label}
+               </span>
+             </div>
+             <div style={{cursor: 'pointer'}}>
+               { compromisso && <DeleteAction token={token}
+                                            setToken={setToken}
+                                            compromisso={compromisso}
+                                            deleteCompromissoListado={deleteCompromissoListado}>
+                                🗑
+                              </DeleteAction>
+             }
+             </div>
            </div>
            <div title='Selecionar equipe'
                 onClick={() => {
@@ -20,7 +35,7 @@ export const Equipe = ({ compromisso, sala, atividade, ebd, loadCompromisso, sel
                   loadCompromisso({
                     id: id,
                     nome: `${sala}_${atividade}`,
-                    inicio: `${selectedSunday}T${ebd ? '10' : '19'}:00`,
+                    inicio: `${selectedSunday}${period.fullTime}`,
                     equipe: equipe
                   });
                 }
@@ -36,14 +51,8 @@ export const Equipe = ({ compromisso, sala, atividade, ebd, loadCompromisso, sel
                         borderBottom: '1px solid lightgray'
                        }}>
              <div>{equipe || <>☹<span style={{fontSize: '10pt'}}>Sem pessoas</span></> }</div>
-             { compromisso && <DeleteAction token={token}
-                                            setToken={setToken}
-                                            compromisso={compromisso}
-                                            deleteCompromissoListado={deleteCompromissoListado}>
-                                🗑
-                              </DeleteAction>
-             }
+
            </div>
-           
+
          </div>);
 };

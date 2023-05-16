@@ -15,7 +15,7 @@ export const Sunday = ({
     const vazias = new Map();
     salas.forEach(sala => {
       const isoSunday = sunday.toISOString().substring(0, 10);
-      const numberCompromissosThisSunday = compromissosBySunday?.get(isoSunday)?.filter(compromisso => compromisso.sala === sala).length;
+      const numberCompromissosThisSunday = compromissosBySunday?.get(isoSunday)?.filter(compromisso => compromisso.sala === sala).reduce((acc, compromisso) => acc + (compromisso.periodo === 'AMBOS' ? 2 : 1), 0);
       vazias.set(sala, numberCompromissosThisSunday !== (2 * atividades.length)); // 2 pq tem ebd e culto
     });
     setSalasVazias(vazias);

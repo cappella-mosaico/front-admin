@@ -18,11 +18,11 @@ export const Compromisso = ({ compromisso, token, setToken, deleteCompromissoLis
               <tbody>
                 <tr>
                   <td><b>Líder</b></td>
-                  <td>{compromisso.equipes[0].lider}</td>
+                  <td>{compromisso.equipe.lider}</td>
                 </tr>
                 <tr>
                   <td><b>Equipe:</b></td>
-                  <td>{compromisso.equipes[0].equipe}</td>
+                  <td>{compromisso.equipe.equipe}</td>
                 </tr>
                 <tr>
                   <td><b>Nome:</b></td>

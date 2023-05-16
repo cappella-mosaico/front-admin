@@ -6,10 +6,11 @@ import { EnhancedCompromissosTable } from './EnhancedCompromissosTable';
 const DEFAULT_TIPO = 'ESCALA';
 const DEFAULT_MINISTERIO = 'MUSICA';
 
-const AMBOS = {name: 'AMBOS', label: '🌄🌃 Ambos', hour: 0, fullTime: 'T00:00:00'};
-const EBD = {name: 'EBD', label: '🌄 EBD', hour: 10, fullTime: 'T10:00:00'};
-const CULTO = {name: 'CULTO', label: '🌃 Culto', hour: 19, fullTime: 'T19:00:00'};
+const AMBOS = {name: 'AMBOS', icon: '☀🌙', label: '☀🌙 Ambos', hour: 0, fullTime: 'T00:00:00'};
+const EBD = {name: 'EBD', icon: '☀', label: '☀ EBD', hour: 10, fullTime: 'T10:00:00'};
+const CULTO = {name: 'CULTO', icon: '🌙', label: '🌙 Culto', hour: 19, fullTime: 'T19:00:00'};
 const periods = [AMBOS, EBD, CULTO];
+export const mappedPeriods = periods.reduce((acc, p) => acc.set(p.name, p), new Map());
 
 
 function getNextSunday() {
@@ -73,7 +74,7 @@ export const CompromissoForm = ({
         setId(selected.id);
         setNome(selected.nome);
         setInicio(selected.inicio.split("T")[0]);
-        setEquipe(selected.equipes?.[0]?.equipe || selected.equipe || "");
+        setEquipe(selected.equipe?.equipe || selected.equipe || "");
         setPeriod(loadEbd(selected.inicio));
       } else {
         setTipo(DEFAULT_TIPO);
@@ -123,7 +124,6 @@ export const CompromissoForm = ({
       setId("");
       setNome("");
       setEquipe("");
-      setPeriod(loadEbd(nextSunday));
       clearSelected();
     };
 
@@ -155,7 +155,7 @@ export const CompromissoForm = ({
         .then(compromisso => {
           if (compromisso.id) {
             resetForm();
-            compromisso.equipes[0].equipe = compromisso.equipes[0].equipe.join(", ");
+            compromisso.equipe.equipe = compromisso.equipe.equipe.join(", ");
             if (compromisso.nome.indexOf("_") >= 0) {
               const sala = compromisso.nome.split("_")[0];
               const atividade = compromisso.nome.split("_")[1];
@@ -248,9 +248,9 @@ export const CompromissoForm = ({
                         <label htmlFor="ebd" style={{padding: '20px 0px 20px 0px'}}>
                           <div className="grid">
                             {periods.map(p => {
-                              return (<div style={{width: '100%', marginBottom: '-40px'}}>
-                                        <button key={p.name}
-                                                style={{
+                              return (<div style={{width: '100%', marginBottom: '-40px'}} 
+                                           key={p.name}>
+                                        <button style={{
                                                   backgroundColor: 'whitesmoke',
                                                   color: '#101820',
                                                   borderColor: '#7B7D70',

@@ -3,7 +3,7 @@ import { generateHighContrastHexColor } from './hexColorGenerator';
 import { Equipes } from './Equipes'; 
 
 export const EnhancedCompromissosTable = ({ compromissos = [], salas, atividades, loadCompromisso, selectedSunday, token, setToken, deleteCompromissoListado}) => {
-  if (compromissos.length === 0 || selectedSunday.split('-')[1] !== new Date().toISOString().split('-')[1]) {
+  if (compromissos.length === 0 && salas.length === 0 && atividades.length === 0) {
     const split = selectedSunday.split('-');
     const date = new Date(split[0], split[1]-1, split[2]);
     const formatted = date.toLocaleString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });

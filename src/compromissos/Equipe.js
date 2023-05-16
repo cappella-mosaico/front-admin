@@ -3,7 +3,7 @@ import { mappedPeriods } from './CompromissoForm';
 
 export const Equipe = ({ compromisso, sala, atividade, loadCompromisso, selectedSunday, token, setToken, deleteCompromissoListado, periodo }) => {
   const id = compromisso?.id;
-  const equipe = compromisso?.equipe?.equipe;
+  const equipe = compromisso?.equipe?.participantes;
   const period = mappedPeriods.get(compromisso?.periodo || periodo || 'AMBOS');
 
   return(<div style={{display: 'flex', flexDirection: 'column', width: '180px', marginBottom: '10px'}}>

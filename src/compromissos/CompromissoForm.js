@@ -74,7 +74,7 @@ export const CompromissoForm = ({
         setId(selected.id);
         setNome(selected.nome);
         setInicio(selected.inicio.split("T")[0]);
-        setEquipe(selected.equipe?.equipe || selected.equipe || "");
+        setEquipe(selected.equipe?.participantes || selected.equipe || "");
         setPeriod(loadEbd(selected.inicio));
       } else {
         setTipo(DEFAULT_TIPO);
@@ -155,7 +155,7 @@ export const CompromissoForm = ({
         .then(compromisso => {
           if (compromisso.id) {
             resetForm();
-            compromisso.equipe.equipe = compromisso.equipe.equipe.join(", ");
+            compromisso.equipe.participantes = compromisso.equipe.participantes.join(", ");
             if (compromisso.nome.indexOf("_") >= 0) {
               const sala = compromisso.nome.split("_")[0];
               const atividade = compromisso.nome.split("_")[1];

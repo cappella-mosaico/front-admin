@@ -27,7 +27,7 @@ export const Compromissos = ({ token, setToken }) => {
         .then(response => response.json())
         .then(d => {
           d.map(comp => {
-            comp.equipe.equipe = comp.equipe.equipe.join(", ");
+            comp.equipe.participantes = comp.equipe.participantes.join(", ");
             if (comp.nome.indexOf("_") >= 0) {
               const sala = comp.nome.split("_")[0];
               const atividade = comp.nome.split("_")[1];

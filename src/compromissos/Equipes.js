@@ -33,13 +33,13 @@ export const Equipes = ({compromissos, sala, atividade, loadCompromisso, selecte
                                     backgroundColor: 'hsl(10, 85%, 95%)',
                                     borderRadius: '5px',
                                     border: '1px solid hsl(10, 85%, 41%)',
-                                    width: '100%',
+                                    width: '180px',
                                     padding: '5px',
                                     whiteSpace: 'break-spaces',
                                     display: 'block',
                                     marginBottom: '5px'
                                    }}>
-                        *Escala de <b>EBD</b> encontrada. Apague a escala de <b>Ambos</b> os períodos para visualizar.
+                        Escala de <b>EBD</b> encontrada. Apague a escala de <b>Ambos</b> os períodos para visualizar.
                       </span>}
 
               {culto && <span style={{fontSize: '8pt',
@@ -47,12 +47,12 @@ export const Equipes = ({compromissos, sala, atividade, loadCompromisso, selecte
                                       backgroundColor: 'hsl(10, 85%, 95%)',
                                       borderRadius: '5px',
                                       border: '1px solid hsl(10, 85%, 41%)',
-                                      width: '100%',
+                                      width: '180px',
                                       padding: '5px',
                                       whiteSpace: 'break-spaces',
                                       display: 'block',
                                       marginBottom:'5px'}}>
-                        *Escala de <b>Culto</b> encontrada. Apague a escala de <b>Ambos</b> os períodos para visualizar.
+                        Escala de <b>Culto</b> encontrada. Apague a escala de <b>Ambos</b> os períodos para visualizar.
                       </span>}
             </>);
   }

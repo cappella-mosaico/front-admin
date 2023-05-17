@@ -51,9 +51,12 @@ export const AuthForm = ({token, setToken, tokenExpirationTime}) => {
   }
 
   return (
-    <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '200px'}}>
-      <h1>Administração do aplicativo da IP Mosaico</h1>
-      <div style={{maxWidth: '600px'}}>
+    <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '200px', backgroundColor: 'whitesmoke', border: '1px solid lightgray', borderRadius: '5px', padding: '40px'}}>
+      <div>
+        
+        <h1>Administração do aplicativo da IP Mosaico</h1>
+      </div>
+      <div style={{maxWidth: '600px', backgroundColor: 'white', padding: '10px', borderRadius: '10px'}}>
         <form onSubmit={login}>
           <input placeholder="usuario" name="usuario" autoComplete="username"/>
           <input type="password" name="senha" placeholder="senha" autoComplete="current-password"/>

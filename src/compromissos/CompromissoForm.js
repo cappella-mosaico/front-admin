@@ -339,7 +339,7 @@ export const CompromissoForm = ({
                                            token={token}
                                            setToken={setToken}
                                            deleteCompromissoListado={deleteCompromissoListado}
-                                           selectedId={id}
+                                           selected={selected}
                                           />
               }
             </div>);

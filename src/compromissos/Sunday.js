@@ -7,24 +7,24 @@ export const Sunday = ({
   selectSunday,
   hasAssociatedTeam,
   compromissosBySunday,
-  salas,
+  locais,
   atividades
 }) => {
   const [salasVazias, setSalasVazias] = useState(new Map());
   useEffect(() => {
     const vazias = new Map();
-    salas.forEach(sala => {
+    locais.forEach(sala => {
       const isoSunday = sunday.toISOString().substring(0, 10);
-      const numberCompromissosThisSunday = compromissosBySunday?.get(isoSunday)?.filter(compromisso => compromisso.sala === sala).reduce((acc, compromisso) => acc + (compromisso.periodo === 'AMBOS' ? 2 : 1), 0);
+      const numberCompromissosThisSunday = compromissosBySunday?.get(isoSunday)?.filter(compromisso => compromisso.local === sala).reduce((acc, compromisso) => acc + (compromisso.periodo === 'AMBOS' ? 2 : 1), 0);
       vazias.set(sala, numberCompromissosThisSunday !== (2 * atividades.length)); // 2 pq tem ebd e culto
     });
     setSalasVazias(vazias);
-  }, [salas, atividades, compromissosBySunday, sunday]);
+  }, [locais, atividades, compromissosBySunday, sunday]);
 
   const ColoredTeams = () => {
     return (<div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
 
-              {salas.map(sala => {
+              {locais.map(sala => {
                 const color = generateHighContrastHexColor(sala);
                 return (
                   <div key={sala} 

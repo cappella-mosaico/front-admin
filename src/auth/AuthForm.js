@@ -13,7 +13,7 @@ export const AuthForm = ({token, setToken, tokenExpirationTime}) => {
         username,
         password
       })
-    }
+    };
 
     fetch(`${ROOT_URL}/login`, requestOptions)
       .then(response => (response.json()))
@@ -38,15 +38,29 @@ export const AuthForm = ({token, setToken, tokenExpirationTime}) => {
   });
 
   if (token) {
-    return (<button className="contrast"
-                    onClick={() => setToken(null)}>
-      sair
-    </button>)
+    return (
+      <div style={{display: 'flex', alignItems: 'center'}}>
+        <h3 style={{flex: 6}}>Administração do aplicativo da IP Mosaico</h3>
+        <div style={{flex: 1}}>
+          <button className="contrast"
+                  onClick={() => setToken(null)}>
+            sair
+          </button>
+        </div>
+      </div>);
   }
 
-  return (<form onSubmit={login}>
-    <input placeholder="usuario" name="usuario" autoComplete="username"/>
-    <input type="password" name="senha" placeholder="senha" autoComplete="current-password"/>
-    <button>entrar</button>
-  </form>);
-}
+  return (
+    <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '200px'}}>
+      <h1>Administração do aplicativo da IP Mosaico</h1>
+      <div style={{maxWidth: '600px'}}>
+        <form onSubmit={login}>
+          <input placeholder="usuario" name="usuario" autoComplete="username"/>
+          <input type="password" name="senha" placeholder="senha" autoComplete="current-password"/>
+          <button>entrar</button>
+        </form>
+      </div>
+    </div>
+    
+  );
+};

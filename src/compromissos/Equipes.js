@@ -1,32 +1,33 @@
 import { Equipe } from './Equipe';
 
-export const Equipes = ({compromissos, sala, atividade, loadCompromisso, selectedSunday, token, setToken, deleteCompromissoListado}) => {
-  const compromissosBySalaByAtividade = compromissos.filter(c => (c.sala === sala && c.atividade === atividade));
+export const Equipes = ({compromissos, local, atividade, loadCompromisso, selectedSunday, token, setToken, deleteCompromissoListado, selected}) => {
+  const compromissosBySalaByAtividade = compromissos.filter(c => (c.local === local && c.atividade === atividade));
   const ebd = compromissosBySalaByAtividade.find(c => c.periodo === 'EBD');
   const culto = compromissosBySalaByAtividade.find(c => c.periodo === 'CULTO');
   const ambos = compromissosBySalaByAtividade.find(c => c.periodo === 'AMBOS');
 
   if (!ebd && !culto && !ambos) {
-    return (<Equipe sala={sala}
-                    atividade={atividade}
+    return (<Equipe atividade={atividade}
                     {...({loadCompromisso,
                           selectedSunday,
                           token,
                           setToken,
-                          deleteCompromissoListado})}
+                          deleteCompromissoListado,
+                          local})}
             />);
   }
 
   if (ambos) {
     return (<>
             <Equipe compromisso={ambos}
-                    sala={sala}
                     atividade={atividade}
                     {...({loadCompromisso,
                           selectedSunday,
                           token,
                           setToken,
-                          deleteCompromissoListado})}
+                          deleteCompromissoListado,
+                          selected,
+                          local})}
             />
               {ebd && <span style={{fontSize: '8pt',
                                     color: '#101820',
@@ -59,24 +60,26 @@ export const Equipes = ({compromissos, sala, atividade, loadCompromisso, selecte
 
   return (<>
             <Equipe compromisso={ebd}
-                    sala={sala}
                     atividade={atividade}
                     periodo='EBD'
                     {...({loadCompromisso,
                           selectedSunday,
                           token,
                           setToken,
-                          deleteCompromissoListado})}
+                          deleteCompromissoListado,
+                          selected,
+                          local})}
             />
             <Equipe compromisso={culto}
-                    sala={sala}
                     atividade={atividade}
                     periodo='CULTO'
                     {...({loadCompromisso,
                           selectedSunday,
                           token,
                           setToken,
-                          deleteCompromissoListado})}
+                          deleteCompromissoListado,
+                          selected,
+                          local})}
             />
           </>);
 };

@@ -28,13 +28,7 @@ export const Compromissos = ({ token, setToken }) => {
         .then(d => {
           d.map(comp => {
             comp.equipe.participantes = comp.equipe.participantes.join(", ");
-            if (comp.nome.indexOf("_") >= 0) {
-              const sala = comp.nome.split("_")[0];
-              const atividade = comp.nome.split("_")[1];
-              
-              comp.sala = sala;
-              comp.atividade = atividade;
-            }
+            comp.atividade = comp.nome;
           });
           setCompromissos(d);
         }).catch(error => console.error(error));
@@ -42,20 +36,18 @@ export const Compromissos = ({ token, setToken }) => {
   }, [token, ministerio]);
 
   return (<>
-          <h3>Compromissos e Equipes</h3>
-
-          <CompromissoForm
-            compromissos={compromissos}
-            ministerio={ministerio}
-            setMinisterio={setMinisterio}
-            token={token}
-            setToken={setToken}
-            updateCompromisso={updateCompromisso}
-            addCompromisso={addCompromisso}
-            selected={selected}
-            clearSelected={clearSelected}
-            select={select}
-            deleteCompromissoListado={deleteCompromissoListado}
+            <CompromissoForm
+              compromissos={compromissos}
+              ministerio={ministerio}
+              setMinisterio={setMinisterio}
+              token={token}
+              setToken={setToken}
+              updateCompromisso={updateCompromisso}
+              addCompromisso={addCompromisso}
+              selected={selected}
+              clearSelected={clearSelected}
+              select={select}
+              deleteCompromissoListado={deleteCompromissoListado}
           />
           </>);
 

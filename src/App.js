@@ -16,10 +16,11 @@ function App() {
 
   return (
     <>
-      <h1>Administração do aplicativo da IP Mosaico</h1>
-
+      <AuthForm token={token}
+                setToken={setToken}
+                tokenExpirationTime={tokenExpirationTime}/>
       { token &&
-      <>
+        <>
         <nav className="grid">
           <NavLink to="pastorais">Pastorais</NavLink>
           <NavLink to="financeiro">Financeiro</NavLink>
@@ -51,9 +52,6 @@ function App() {
         </Routes>
       </>
       }
-      <AuthForm token={token}
-                setToken={setToken}
-                tokenExpirationTime={tokenExpirationTime}/>
     </>
   );
 };

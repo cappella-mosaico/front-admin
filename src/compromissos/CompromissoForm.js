@@ -1,7 +1,7 @@
 import { ROOT_URL } from "../App";
 import { useState, useCallback, useEffect } from 'react';
 import { SundaySelector } from './SundaySelector';
-import { EnhancedCompromissosTable } from './EnhancedCompromissosTable';
+import { TableCompromissos } from './TableCompromissos';
 
 const DEFAULT_TIPO = 'ESCALA';
 const DEFAULT_MINISTERIO = 'MUSICA';
@@ -60,26 +60,29 @@ export const CompromissoForm = ({
 
     const [tipo, setTipo] = useState(DEFAULT_TIPO);
     const [id, setId] = useState(selected?.id || "");
-    const [nome, setNome] = useState(selected?.nome || "");
+    const [atividade, setAtividade] = useState(selected?.nome || "");
+    const [local, setLocal] = useState(selected?.local || "Templo");
     const [inicio, setInicio] = useState(selected?.inicio || getNextSunday());
     const [equipe, setEquipe] = useState(selected?.equipe || "");
     const [period, setPeriod] = useState(loadEbd(selected?.inicio));
 
     const [compromissosByDate, setCompromissosByDate] = useState(new Map());
-    const [salas, setSalas] = useState([]);
+    const [locais, setLocais] = useState([]);
     const [atividades, setAtividades] = useState([]);
 
     useEffect(() => {
       if (selected) {
         setId(selected.id);
-        setNome(selected.nome);
+        setAtividade(selected.nome || "");
+        setLocal(selected.local || "Templo");
         setInicio(selected.inicio.split("T")[0]);
         setEquipe(selected.equipe?.participantes || selected.equipe || "");
         setPeriod(loadEbd(selected.inicio));
       } else {
         setTipo(DEFAULT_TIPO);
         setId("");
-        setNome("");
+        setAtividade("");
+        setLocal("Templo");
         setEquipe("");
         setPeriod(AMBOS);
       }
@@ -87,7 +90,20 @@ export const CompromissoForm = ({
     }, [selected]);
 
     useEffect(() => {
-      const salas = new Set();
+      const compromissos = compromissosByDate.get(inicio) || [];
+      const compromisso = compromissos.find(c => (c.nome === atividade && c.local === local && ('T' + c.inicio.split('T')[1]) === period.fullTime)) || {
+        nome: atividade,
+        inicio: inicio.split('T')[0] + period.fullTime,
+        local,
+        equipe: ''
+      };
+      if (local) {
+        select(compromisso);
+      }
+    }, [period]);
+
+    useEffect(() => {
+      const locais = new Set();
       const atividades = new Set();
       const byDate = compromissos.reduce((acc, compromisso) => {
         const dateCompromisso = compromisso.inicio.substr(0, 10);
@@ -98,17 +114,13 @@ export const CompromissoForm = ({
 
       compromissos.forEach(compromisso => {
         if (compromisso.inicio.substr(0, 8) === inicio.substr(0, 8)) {
-          if (compromisso.sala) {
-            salas.add(compromisso.sala);
-          }
-          if (compromisso.atividade) {
-            atividades.add(compromisso.atividade);
-          }          
+          locais.add(compromisso.local);
+          atividades.add(compromisso.atividade);
         }
       });
 
       setCompromissosByDate(byDate);
-      setSalas([...salas].sort());
+      setLocais([...locais].sort());
       setAtividades([...atividades].sort());
 
       if (byDate.get(inicio)?.length > 0) {
@@ -122,14 +134,14 @@ export const CompromissoForm = ({
       const nextSunday = getNextSunday();
       setTipo(DEFAULT_TIPO);
       setId("");
-      setNome("");
+      setAtividade("");
+      setLocal("Templo");
       setEquipe("");
       clearSelected();
     };
 
     const publish = (e) => {
       e.preventDefault();
-      const finalNome = nome.indexOf('_') >= 0 ? nome : `Templo_${nome}`;
 
       const requestOptions = {
         method: 'POST',
@@ -139,8 +151,8 @@ export const CompromissoForm = ({
         },
         body: JSON.stringify({
           id,
-          nome: finalNome,
-          local: "IP Mosaico",
+          nome: atividade,
+          local: local || 'Templo',
           endereco: "Rua T-53, 480 - Setor Marista",
           inicio: inicio + period.fullTime,
           fim: "2023-04-22T21:00:00",
@@ -156,13 +168,7 @@ export const CompromissoForm = ({
           if (compromisso.id) {
             resetForm();
             compromisso.equipe.participantes = compromisso.equipe.participantes.join(", ");
-            if (compromisso.nome.indexOf("_") >= 0) {
-              const sala = compromisso.nome.split("_")[0];
-              const atividade = compromisso.nome.split("_")[1];
-
-              compromisso.sala = sala;
-              compromisso.atividade = atividade;
-            }
+            compromisso.atividade = compromisso.nome;
             if (selected?.id) {
               alert(`O compromisso ${compromisso.nome} alterado com sucesso.`);
               updateCompromisso(compromisso);
@@ -185,46 +191,58 @@ export const CompromissoForm = ({
 
     };
 
-    useEffect(() => {
-      const compromissos = compromissosByDate.get(inicio) || [];
-      const compromisso = compromissos.find(c => (c.nome === nome && ('T' + c.inicio.split('T')[1]) === period.fullTime)) || {
-        nome,
-        inicio: inicio.split('T')[0] + period.fullTime
-      };
-      select(compromisso);
-    }, [period]);
-
-    return (<>
+    return (<div style={{marginTop: '20px'}}>
               <div style={{display: 'flex', width: '100%'}}>
                 <div style={{flex: '1'}}>
                   <div style={{ width: '100%' }}>
                     <legend>Ministério:</legend>
                     <label htmlFor="musica">
-                      <input type="radio" id="musica" name="ministerio" value="MUSICA" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MUSICA"} />
+                      <input type="radio"
+                             id="musica"
+                             name="ministerio"
+                             value="MUSICA"
+                             onChange={(e) => setMinisterio(e.target.value)}
+                             checked={ministerio == "MUSICA"} />
                       Música
                     </label>
                     <label htmlFor="midia">
-                      <input type="radio" id="midia" name="ministerio" value="MIDIA" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MIDIA"} />
+                      <input type="radio"
+                             id="midia"
+                             name="ministerio"
+                             value="MIDIA"
+                             onChange={(e) => setMinisterio(e.target.value)}
+                             checked={ministerio == "MIDIA"} />
                       Mídia
                     </label>
                     <label htmlFor="infantil">
-                      <input type="radio" id="infantil" name="ministerio" value="MOSAIKIDS" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "MOSAIKIDS"} />
+                      <input type="radio"
+                             id="infantil"
+                             name="ministerio"
+                             value="MOSAIKIDS"
+                             onChange={(e) => setMinisterio(e.target.value)}
+                             checked={ministerio == "MOSAIKIDS"} />
                       MOSAIKIDS
                     </label>
                     <label htmlFor="diaconos">
-                      <input type="radio" id="diaconos" name="ministerio" value="DIACONOS" onChange={(e) => setMinisterio(e.target.value)} checked={ministerio == "DIACONOS"} />
+                      <input type="radio"
+                             id="diaconos"
+                             name="ministerio"
+                             value="DIACONOS"
+                             onChange={(e) => setMinisterio(e.target.value)}
+                             checked={ministerio == "DIACONOS"} />
                       Diáconos
                     </label>
                   </div>
-                  { atividades.length <= 2 && <EnhancedCompromissosTable 
+                  { atividades.length <= 2 && <TableCompromissos
                                                 compromissos={compromissosByDate.get(inicio)}
-                                                salas={salas}
+                                                locais={locais}
                                                 atividades={atividades}
                                                 loadCompromisso={select}
                                                 selectedSunday={inicio}
                                                 token={token}
                                                 setToken={setToken}
                                                 deleteCompromissoListado={deleteCompromissoListado}
+                                                selected={selected}
                                               />
                   }
                 </div>
@@ -242,26 +260,26 @@ export const CompromissoForm = ({
                                         compromissos={compromissosByDate}
                                         select={select}
                                         clearSelected={clearSelected}
-                                        salas={salas}
+                                        locais={locais}
                                         atividades={atividades}
                         />
                         <label htmlFor="ebd" style={{padding: '20px 0px 20px 0px'}}>
                           <div className="grid">
                             {periods.map(p => {
-                              return (<div style={{width: '100%', marginBottom: '-40px'}} 
+                              return (<div style={{width: '100%', marginBottom: '-40px'}}
                                            key={p.name}>
                                         <button style={{
                                                   backgroundColor: 'whitesmoke',
                                                   color: '#101820',
                                                   borderColor: '#7B7D70',
                                                   ...(period == p ? { backgroundColor: '#101820', borderColor: '#101820', color: 'whitesmoke' } : {})}}
-                                                onClick={(e) => {e.preventDefault(); 
+                                                onClick={(e) => {e.preventDefault();
                                                                  setPeriod(p);
                                                                 }}>
                                           {p.label}
                                         </button>
-                                        <label style={{ fontSize: 'x-small', 
-                                                        textAlign: 'center', 
+                                        <label style={{ fontSize: 'x-small',
+                                                        textAlign: 'center',
                                                         marginTop: '-20px',
                                                         color: 'lightgray'}}>
                                           &nbsp;{id && period === p  && `#${id.split('-')[0]}`}
@@ -270,15 +288,25 @@ export const CompromissoForm = ({
                             })}
                           </div>
                         </label>
-                        <label>
-                          Nome:
-                          <input type="text"
-                                 name="nome"
-                                 placeholder="Louvor Culto"
-                                 value={nome}
-                                 onChange={(e) => setNome(e.target.value)}
-                                 required />
-                        </label>
+                        <div className="grid">
+                          <label>
+                            Nome:
+                            <input type="text"
+                                   name="nome"
+                                   placeholder="Transmissão"
+                                   value={atividade}
+                                   onChange={(e) => setAtividade(e.target.value)}
+                                   required />
+                          </label>
+                          <label>
+                            Local:
+                            <input type="text"
+                                   name="local"
+                                   placeholder="Templo"
+                                   value={local}
+                                   onChange={(e) => setLocal(e.target.value)} />
+                          </label>
+                        </div>
                         <label htmlFor="equipe">
                           Equipe:
                           <input id="equipe"
@@ -299,20 +327,21 @@ export const CompromissoForm = ({
                     </div>
                   </form>
                 </div>
-                
+
               </div>
 
-              { atividades.length > 2 && <EnhancedCompromissosTable 
-                                            compromissos={compromissosByDate.get(inicio)}
-                                            salas={salas}
-                                            atividades={atividades}
-                                            loadCompromisso={select}
-                                            selectedSunday={inicio}
-                                            token={token}
-                                            setToken={setToken}
-                                            deleteCompromissoListado={deleteCompromissoListado}
+              { atividades.length > 2 && <TableCompromissos
+                                           compromissos={compromissosByDate.get(inicio)}
+                                           locais={locais}
+                                           atividades={atividades}
+                                           loadCompromisso={select}
+                                           selectedSunday={inicio}
+                                           token={token}
+                                           setToken={setToken}
+                                           deleteCompromissoListado={deleteCompromissoListado}
+                                           selectedId={id}
                                           />
-              }              
-            </>);
+              }
+            </div>);
 
   };

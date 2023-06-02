@@ -23,4 +23,45 @@ nav a.active {
   color: #fff;
 }
 
+.authForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 200px;
+    background-color: whitesmoke;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 40px;
+}
 
+.compromissoFormContainer {
+    display: flex;
+    width: 100%;
+}
+
+.periodosContainer {
+    padding: 20px 0px 20px 0px;
+}
+
+.periodoWrapper {
+    width: 100%;
+    margin-Bottom: -40px;
+}
+
+@media (max-width: 768px) {
+    .authForm {
+        flex-Direction: column;
+    }
+
+    .compromissoFormContainer {
+        flex-Direction: column;
+    }
+
+}
+
+@media (max-width: 992px) {
+    .periodoWrapper {
+        margin: 0px;
+        padding: 0px 60px;
+    }
+}

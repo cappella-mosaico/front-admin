@@ -140,8 +140,21 @@ export const CompromissoForm = ({
       clearSelected();
     };
 
+    const calculateStartEndDates = (inicio, ministerio, time) => {
+      const start = inicio + time;
+      const end = new Date(inicio.split('-')[0], inicio.split('-')[1]-1, inicio.split('-')[2]);
+      if (ministerio == 'DIACONOS') {
+        end.setDate(end.getDate() + 6);
+      }
+
+      const formatted = end.toISOString().substring(0, 10) + "T23:59:00";
+      return { start, end: formatted };
+    };
+
     const publish = (e) => {
       e.preventDefault();
+
+      const { start, end } = calculateStartEndDates(inicio, ministerio, period.fullTime);
 
       const requestOptions = {
         method: 'POST',
@@ -154,8 +167,8 @@ export const CompromissoForm = ({
           nome: atividade,
           local: local || 'Igreja',
           endereco: "Rua T-53, 480 - Setor Marista",
-          inicio: inicio + period.fullTime,
-          fim: "2023-04-22T21:00:00",
+          inicio: start,
+          fim: end,
           tipo,
           ministerio,
           equipe

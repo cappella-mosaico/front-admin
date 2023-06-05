@@ -45,7 +45,7 @@ nav a.active {
 
 .periodoWrapper {
     width: 100%;
-    margin-Bottom: -40px;
+    margin-Bottom: -20px;
 }
 
 @media (max-width: 768px) {

@@ -31,7 +31,7 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais, selected
             autor: {value: autor},
             titulo: {value: titulo},
             descricao: {value: descricao}
-    } = event.target.children;
+          } = event.target.children;
 
     if (!autor?.trim()) {
       alert('Toda pastoral precisa de um autor.');
@@ -63,7 +63,13 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais, selected
     }
 
     fetch(`${ROOT_URL}/pastorais`, requestOptions)
-      .then(response => response.json())
+      .then(response => {
+        if (response.status === 200) {
+          return response.json();
+        } else if (response.status === 409) {
+          alert("O título dessa pastoral já está em uso");
+        }
+      })
       .then(pastoral => {
         const novasPastorais = new Map();
         pastorais.forEach(p => novasPastorais.set(p.id, p));
@@ -92,19 +98,19 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais, selected
   }
 
   return (<form onSubmit={publish}>
-    <input name="id" type="hidden"/>
-    <input name="autor" placeholder="autor"/>
-    <input name="titulo" placeholder="titulo"/>
-    <textarea
+          <input name="id" type="hidden"/>
+          <input name="autor" placeholder="autor"/>
+          <input name="titulo" placeholder="titulo"/>
+          <textarea
           name="descricao"
           placeholder="descricao"
           value={descricao}
           onChange={((e) => setDescricao(e.target.value))}
           {...(descricao ? {style: {height: '50rem'}} : {})}
           />
-    <div className="grid">
-      <button>salvar</button>
-      {selectedPastoral && <button type="reset" className="secondary" onClick={resetForm}>cancelar</button>}
-    </div>
-  </form>);
+          <div className="grid">
+          <button>salvar</button>
+          {selectedPastoral && <button type="reset" className="secondary" onClick={resetForm}>cancelar</button>}
+          </div>
+          </form>);
 }

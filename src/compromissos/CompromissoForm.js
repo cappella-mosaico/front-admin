@@ -31,15 +31,15 @@ function loadEbd(inicio) {
   const hour = new Date(inicio).getHours();
   let p;
   switch(hour) {
-    case 0:
+  case 0:
     p = AMBOS;
     break;
 
-    case 10:
+  case 10:
     p = EBD;
     break;
 
-    default:
+  default:
     p = CULTO;
   }
   return p;
@@ -286,29 +286,29 @@ export const CompromissoForm = ({
                                         atividades={atividades}
                         />
                         <div className="grid periodosContainer" style={{}}>
-                            {periods.map(p => {
-                              return (<div className='periodoWrapper'
-                                           key={p.name}>
-                                        <button style={{
-                                          backgroundColor: 'whitesmoke',
-                                          color: '#101820',
-                                          borderColor: '#7B7D70',
-                                          ...(period == p ? { backgroundColor: '#101820',
-                                                              borderColor: '#101820',
-                                                              color: 'whitesmoke' } : {})}}
-                                                onClick={(e) => {e.preventDefault();
-                                                                 setPeriod(p);
-                                                                }}>
-                                          {p.label}
-                                        </button>
-                                        <label style={{ fontSize: 'x-small',
-                                                        textAlign: 'center',
-                                                        marginTop: '-20px',
-                                                        color: 'lightgray'}}>
-                                          &nbsp;{id && period === p  && `#${id.split('-')[0]}`}
-                                        </label>
-                                      </div>);
-                            })}
+                          {periods.map(p => {
+                            return (<div className='periodoWrapper'
+                                         key={p.name}>
+                                      <button style={{
+                                                backgroundColor: 'whitesmoke',
+                                                color: '#101820',
+                                                borderColor: '#7B7D70',
+                                                ...(period == p ? { backgroundColor: '#101820',
+                                                                    borderColor: '#101820',
+                                                                    color: 'whitesmoke' } : {})}}
+                                              onClick={(e) => {e.preventDefault();
+                                                               setPeriod(p);
+                                                              }}>
+                                        {p.label}
+                                      </button>
+                                      <label style={{ fontSize: 'x-small',
+                                                      textAlign: 'center',
+                                                      marginTop: '-20px',
+                                                      color: 'lightgray'}}>
+                                        &nbsp;{id && period === p  && `#${id.split('-')[0]}`}
+                                      </label>
+                                    </div>);
+                          })}
                         </div>
                         <div className="grid">
                           <label>
@@ -341,9 +341,9 @@ export const CompromissoForm = ({
                         <div className="grid">
                           <button>{id ? 'alterar' : 'salvar'}</button>
                           {id && <button onClick={(e) => {
-                            e.preventDefault();
-                            resetForm();
-                          }}>novo</button>}
+                                           e.preventDefault();
+                                           resetForm();
+                                         }}>novo</button>}
                         </div>
                       </fieldset>
                     </div>
@@ -362,7 +362,7 @@ export const CompromissoForm = ({
                                            setToken={setToken}
                                            deleteCompromissoListado={deleteCompromissoListado}
                                            selected={selected}
-                                          />
+                                         />
               }
             </div>);
 

@@ -2,6 +2,7 @@ import { ROOT_URL } from "../App";
 import { useState, useCallback, useEffect } from 'react';
 import { SundaySelector } from './SundaySelector';
 import { TableCompromissos } from './TableCompromissos';
+import { EquipeInput } from './EquipeInput';
 
 const DEFAULT_TIPO = 'ESCALA';
 const DEFAULT_MINISTERIO = 'MUSICA';
@@ -69,6 +70,7 @@ export const CompromissoForm = ({
     const [compromissosByDate, setCompromissosByDate] = useState(new Map());
     const [locais, setLocais] = useState([]);
     const [atividades, setAtividades] = useState([]);
+    const [sugestoesByMinisterio, setSugestoesByMinisterio] = useState(new Map());
 
     useEffect(() => {
       if (selected) {
@@ -129,6 +131,17 @@ export const CompromissoForm = ({
         clearSelected();
       }
     }, [compromissos, inicio]);
+
+    useEffect(() => {
+      const sugestoes = new Map();
+      sugestoes.set('MUSICA', ['Walvir', 'Alberto']);
+      sugestoes.set('MIDIA', ['Igor', 'Guilherme', 'Pedro', 'Rodrigo', 'Tubal', 'Paulo', 'Raubher']);
+      sugestoes.set('MOSAIKIDS', ['Juliana', 'Alana', 'Brenna', 'Gabriella', 'Grace', 'Sandra Mara', 'Elisa', 'Ana Lúcia', 'Alessandra', 'Matheus', 'Thaisa', 'Priscilla', 'Fabiana', 'Izabella', 'Catarina', 'Camila', 'Lara', 'Kariny', 'Victoria', 'Aline']);
+      sugestoes.set('DIACONOS', ['Marco Antônio (62)98155-7459', 'André Guedes (62)98207-1072', 'Carlos Freitas (62)98122-9724', 'Paulo Lobo (62)98531-4864', 'Jairo Tipple (62)99969-9949', 'Hugo Tipple (62)98113-3370', 'André Costa (62)99177-1344', 'Weder (62)98159-2955']);
+      sugestoes.set('LANCHE', ['Tonia', 'Denise', 'Enoide' ]);
+
+      setSugestoesByMinisterio(sugestoes);
+    }, [ministerio]);
 
     const resetForm = () => {
       const nextSunday = getNextSunday();
@@ -255,17 +268,19 @@ export const CompromissoForm = ({
                       Lanche
                     </label>
                   </div>
-                  { atividades.length <= 2 && <TableCompromissos
-                                                compromissos={compromissosByDate.get(inicio)}
-                                                locais={locais}
-                                                atividades={atividades}
-                                                loadCompromisso={select}
-                                                selectedSunday={inicio}
-                                                token={token}
-                                                setToken={setToken}
-                                                deleteCompromissoListado={deleteCompromissoListado}
-                                                selected={selected}
-                                              />
+                  { atividades.length <= 2 && <div style={{paddingRight: '10px'}}>
+                                                <TableCompromissos
+                                                  compromissos={compromissosByDate.get(inicio)}
+                                                  locais={locais}
+                                                  atividades={atividades}
+                                                  loadCompromisso={select}
+                                                  selectedSunday={inicio}
+                                                  token={token}
+                                                  setToken={setToken}
+                                                  deleteCompromissoListado={deleteCompromissoListado}
+                                                  selected={selected}
+                                                />
+                                              </div>
                   }
                 </div>
 
@@ -303,7 +318,7 @@ export const CompromissoForm = ({
                                       </button>
                                       <label style={{ fontSize: 'x-small',
                                                       textAlign: 'center',
-                                                      marginTop: '-20px',
+                                                      marginTop: '-15px',
                                                       color: 'lightgray'}}>
                                         &nbsp;{id && period === p  && `#${id.split('-')[0]}`}
                                       </label>
@@ -329,15 +344,10 @@ export const CompromissoForm = ({
                                    onChange={(e) => setLocal(e.target.value)} />
                           </label>
                         </div>
-                        <label htmlFor="equipe">
-                          Equipe:
-                          <input id="equipe"
-                                 type="text"
-                                 placeholder="José, Maria, João"
-                                 value={equipe}
-                                 onChange={(e) => setEquipe(e.target.value)}
-                                 required />
-                        </label>
+                        <EquipeInput equipe={equipe}
+                                     setEquipe={setEquipe}
+                                     sugestoes={sugestoesByMinisterio.get(ministerio)}
+                        />
                         <div className="grid">
                           <button>{id ? 'alterar' : 'salvar'}</button>
                           {id && <button onClick={(e) => {

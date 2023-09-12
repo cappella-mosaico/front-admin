@@ -137,7 +137,7 @@ export const CompromissoForm = ({
       sugestoes.set('MUSICA', ['Walvir', 'Alberto']);
       sugestoes.set('MIDIA', ['Igor', 'Guilherme', 'Pedro', 'Rodrigo', 'Tubal', 'Paulo', 'Raubher']);
       sugestoes.set('MOSAIKIDS', ['Juliana', 'Alana', 'Brenna', 'Gabriella', 'Grace', 'Sandra Mara', 'Elisa', 'Ana Lúcia', 'Alessandra', 'Matheus', 'Thaisa', 'Priscilla', 'Fabiana', 'Izabella', 'Catarina', 'Camila', 'Lara', 'Kariny', 'Victoria', 'Aline']);
-      sugestoes.set('DIACONOS', ['Marco Antônio (62)98155-7459', 'André Guedes (62)98207-1072', 'Carlos Freitas (62)98122-9724', 'Paulo Lobo (62)98531-4864', 'Jairo Tipple (62)99969-9949', 'Hugo Tipple (62)98113-3370', 'André Costa (62)99177-1344', 'Weder (62)98159-2955']);
+      sugestoes.set('DIACONOS', ['Marco Antônio (62)98155-7459', 'André Guedes (62)98207-1072', 'Carlos Freitas (62) 98122-9724', 'Paulo Lobo (62)98531-4864', 'Jairo Tipple (62)99969-9949', 'Hugo Tipple (62)98118-0204', 'André Costa (62)99177-1344', 'Weder (62)98159-2955', 'Álvaro (62)99153-4535']);
       sugestoes.set('LANCHE', ['Tonia', 'Denise', 'Enoide' ]);
 
       setSugestoesByMinisterio(sugestoes);
@@ -218,162 +218,162 @@ export const CompromissoForm = ({
     };
 
     return (<div style={{marginTop: '20px'}}>
-              <div className='compromissoFormContainer'>
-                <div style={{flex: '1'}}>
-                  <div style={{ width: '100%' }}>
-                    <legend>Ministério:</legend>
-                    <label htmlFor="musica">
-                      <input type="radio"
-                             id="musica"
-                             name="ministerio"
-                             value="MUSICA"
-                             onChange={(e) => setMinisterio(e.target.value)}
-                             checked={ministerio == "MUSICA"} />
-                      Música
-                    </label>
-                    <label htmlFor="midia">
-                      <input type="radio"
-                             id="midia"
-                             name="ministerio"
-                             value="MIDIA"
-                             onChange={(e) => setMinisterio(e.target.value)}
-                             checked={ministerio == "MIDIA"} />
-                      Mídia
-                    </label>
-                    <label htmlFor="infantil">
-                      <input type="radio"
-                             id="infantil"
-                             name="ministerio"
-                             value="MOSAIKIDS"
-                             onChange={(e) => setMinisterio(e.target.value)}
-                             checked={ministerio == "MOSAIKIDS"} />
-                      MOSAIKIDS
-                    </label>
-                    <label htmlFor="diaconos">
-                      <input type="radio"
-                             id="diaconos"
-                             name="ministerio"
-                             value="DIACONOS"
-                             onChange={(e) => setMinisterio(e.target.value)}
-                             checked={ministerio == "DIACONOS"} />
-                      Diáconos
-                    </label>
-                    <label htmlFor="lanche">
-                      <input type="radio"
-                             id="lanche"
-                             name="ministerio"
-                             value="LANCHE"
-                             onChange={(e) => setMinisterio(e.target.value)}
-                             checked={ministerio == "LANCHE"} />
-                      Lanche
-                    </label>
-                  </div>
-                  { atividades.length <= 2 && <div style={{paddingRight: '10px'}}>
-                                                <TableCompromissos
-                                                  compromissos={compromissosByDate.get(inicio)}
-                                                  locais={locais}
-                                                  atividades={atividades}
-                                                  loadCompromisso={select}
-                                                  selectedSunday={inicio}
-                                                  token={token}
-                                                  setToken={setToken}
-                                                  deleteCompromissoListado={deleteCompromissoListado}
-                                                  selected={selected}
-                                                />
-                                              </div>
-                  }
-                </div>
-
-                <div style={{flex: '1'}}>
-                  <form id="formCompromisso" onSubmit={publish}>
-                    <input type="hidden"
-                           name="id"
-                           value={id}
-                           onChange={(e) => setId(e.target.value)} />
-                    <div className="grid">
-                      <fieldset>
-                        <SundaySelector value={inicio}
-                                        selectDomingo={ domingo => setInicio(domingo) }
-                                        compromissos={compromissosByDate}
-                                        select={select}
-                                        clearSelected={clearSelected}
-                                        locais={locais}
-                                        atividades={atividades}
-                        />
-                        <div className="grid periodosContainer" style={{}}>
-                          {periods.map(p => {
-                            return (<div className='periodoWrapper'
-                                         key={p.name}>
-                                      <button style={{
-                                                backgroundColor: 'whitesmoke',
-                                                color: '#101820',
-                                                borderColor: '#7B7D70',
-                                                ...(period == p ? { backgroundColor: '#101820',
-                                                                    borderColor: '#101820',
-                                                                    color: 'whitesmoke' } : {})}}
-                                              onClick={(e) => {e.preventDefault();
-                                                               setPeriod(p);
-                                                              }}>
-                                        {p.label}
-                                      </button>
-                                      <label style={{ fontSize: 'x-small',
-                                                      textAlign: 'center',
-                                                      marginTop: '-15px',
-                                                      color: 'lightgray'}}>
-                                        &nbsp;{id && period === p  && `#${id.split('-')[0]}`}
-                                      </label>
-                                    </div>);
-                          })}
-                        </div>
-                        <div className="grid">
-                          <label>
-                            Atividade:
-                            <input type="text"
-                                   name="nome"
-                                   placeholder="Transmissão"
-                                   value={atividade}
-                                   onChange={(e) => setAtividade(e.target.value)}
-                                   required />
-                          </label>
-                          <label>
-                            Local:
-                            <input type="text"
-                                   name="local"
-                                   placeholder="Igreja"
-                                   value={local}
-                                   onChange={(e) => setLocal(e.target.value)} />
-                          </label>
-                        </div>
-                        <EquipeInput equipe={equipe}
-                                     setEquipe={setEquipe}
-                                     sugestoes={sugestoesByMinisterio.get(ministerio)}
-                        />
-                        <div className="grid">
-                          <button>{id ? 'alterar' : 'salvar'}</button>
-                          {id && <button onClick={(e) => {
-                                           e.preventDefault();
-                                           resetForm();
-                                         }}>novo</button>}
-                        </div>
-                      </fieldset>
-                    </div>
-                  </form>
-                </div>
-
+            <div className='compromissoFormContainer'>
+            <div style={{flex: '1'}}>
+            <div style={{ width: '100%' }}>
+            <legend>Ministério:</legend>
+            <label htmlFor="musica">
+            <input type="radio"
+            id="musica"
+            name="ministerio"
+            value="MUSICA"
+            onChange={(e) => setMinisterio(e.target.value)}
+            checked={ministerio == "MUSICA"} />
+            Música
+            </label>
+            <label htmlFor="midia">
+            <input type="radio"
+            id="midia"
+            name="ministerio"
+            value="MIDIA"
+            onChange={(e) => setMinisterio(e.target.value)}
+            checked={ministerio == "MIDIA"} />
+            Mídia
+            </label>
+            <label htmlFor="infantil">
+            <input type="radio"
+            id="infantil"
+            name="ministerio"
+            value="MOSAIKIDS"
+            onChange={(e) => setMinisterio(e.target.value)}
+            checked={ministerio == "MOSAIKIDS"} />
+            MOSAIKIDS
+            </label>
+            <label htmlFor="diaconos">
+            <input type="radio"
+            id="diaconos"
+            name="ministerio"
+            value="DIACONOS"
+            onChange={(e) => setMinisterio(e.target.value)}
+            checked={ministerio == "DIACONOS"} />
+            Diáconos
+            </label>
+            <label htmlFor="lanche">
+            <input type="radio"
+            id="lanche"
+            name="ministerio"
+            value="LANCHE"
+            onChange={(e) => setMinisterio(e.target.value)}
+            checked={ministerio == "LANCHE"} />
+            Lanche
+            </label>
+            </div>
+            { atividades.length <= 2 && <div style={{paddingRight: '10px'}}>
+              <TableCompromissos
+              compromissos={compromissosByDate.get(inicio)}
+              locais={locais}
+              atividades={atividades}
+              loadCompromisso={select}
+              selectedSunday={inicio}
+              token={token}
+              setToken={setToken}
+              deleteCompromissoListado={deleteCompromissoListado}
+              selected={selected}
+              />
               </div>
+            }
+            </div>
 
-              { atividades.length > 2 && <TableCompromissos
-                                           compromissos={compromissosByDate.get(inicio)}
-                                           locais={locais}
-                                           atividades={atividades}
-                                           loadCompromisso={select}
-                                           selectedSunday={inicio}
-                                           token={token}
-                                           setToken={setToken}
-                                           deleteCompromissoListado={deleteCompromissoListado}
-                                           selected={selected}
-                                         />
-              }
+            <div style={{flex: '1'}}>
+            <form id="formCompromisso" onSubmit={publish}>
+            <input type="hidden"
+            name="id"
+            value={id}
+            onChange={(e) => setId(e.target.value)} />
+            <div className="grid">
+            <fieldset>
+            <SundaySelector value={inicio}
+            selectDomingo={ domingo => setInicio(domingo) }
+            compromissos={compromissosByDate}
+            select={select}
+            clearSelected={clearSelected}
+            locais={locais}
+            atividades={atividades}
+            />
+            <div className="grid periodosContainer" style={{}}>
+            {periods.map(p => {
+              return (<div className='periodoWrapper'
+                      key={p.name}>
+                      <button style={{
+                        backgroundColor: 'whitesmoke',
+                        color: '#101820',
+                        borderColor: '#7B7D70',
+                        ...(period == p ? { backgroundColor: '#101820',
+                                            borderColor: '#101820',
+                                            color: 'whitesmoke' } : {})}}
+                      onClick={(e) => {e.preventDefault();
+                                       setPeriod(p);
+                                      }}>
+                      {p.label}
+                      </button>
+                      <label style={{ fontSize: 'x-small',
+                                      textAlign: 'center',
+                                      marginTop: '-15px',
+                                      color: 'lightgray'}}>
+                      &nbsp;{id && period === p  && `#${id.split('-')[0]}`}
+                      </label>
+                      </div>);
+            })}
+            </div>
+            <div className="grid">
+            <label>
+            Atividade:
+            <input type="text"
+            name="nome"
+            placeholder="Transmissão"
+            value={atividade}
+            onChange={(e) => setAtividade(e.target.value)}
+            required />
+            </label>
+            <label>
+            Local:
+            <input type="text"
+            name="local"
+            placeholder="Igreja"
+            value={local}
+            onChange={(e) => setLocal(e.target.value)} />
+            </label>
+            </div>
+            <EquipeInput equipe={equipe}
+            setEquipe={setEquipe}
+            sugestoes={sugestoesByMinisterio.get(ministerio)}
+            />
+            <div className="grid">
+            <button>{id ? 'alterar' : 'salvar'}</button>
+            {id && <button onClick={(e) => {
+              e.preventDefault();
+              resetForm();
+            }}>novo</button>}
+            </div>
+            </fieldset>
+            </div>
+            </form>
+            </div>
+
+            </div>
+
+            { atividades.length > 2 && <TableCompromissos
+              compromissos={compromissosByDate.get(inicio)}
+              locais={locais}
+              atividades={atividades}
+              loadCompromisso={select}
+              selectedSunday={inicio}
+              token={token}
+              setToken={setToken}
+              deleteCompromissoListado={deleteCompromissoListado}
+              selected={selected}
+              />
+            }
             </div>);
 
   };

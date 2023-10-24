@@ -136,7 +136,7 @@ export const CompromissoForm = ({
       const sugestoes = new Map();
       sugestoes.set('MUSICA', ['Walvir', 'Alberto']);
       sugestoes.set('MIDIA', ['Igor', 'Guilherme', 'Pedro', 'Rodrigo', 'Tubal', 'Paulo', 'Raubher']);
-      sugestoes.set('MOSAIKIDS', ['Juliana', 'Alana', 'Brenna', 'Gabriella', 'Grace', 'Sandra Mara', 'Elisa', 'Ana Lúcia', 'Alessandra', 'Matheus', 'Thaisa', 'Priscilla', 'Fabiana', 'Izabella', 'Catarina', 'Camila', 'Lara', 'Kariny', 'Victoria', 'Aline']);
+      sugestoes.set('MOSAIKIDS', ['Juliana', 'Alana', 'Brenna', 'Gabriella', 'Grace', 'Sandra Mara', 'Elisa', 'Ana Lúcia', 'Alessandra', 'Matheus', 'Thaisa', 'Priscilla', 'Fabiana', 'Izabella', 'Catarina', 'Camila', 'Lara', 'Kariny', 'Victoria', 'Aline', 'Carol Tipple', 'Luise', 'Theísa', 'Roberta', 'Sandra Bastos', 'Vitória Franco', 'Cenir']);
       sugestoes.set('DIACONOS', ['Marco Antônio (62) 98155-7459', 'André Guedes (62) 98207-1072', 'Carlos Freitas (62) 98122-9724', 'Paulo Lobo (62) 98531-4864', 'Jairo Tipple (62) 99969-9949', 'Hugo Tipple (62) 98118-0204', 'André Costa (62) 99177-1344', 'Weder (62) 98159-2955', 'Álvaro (62) 99153-4535']);
       sugestoes.set('LANCHE', ['Tonia', 'Denise', 'Enoide' ]);
 

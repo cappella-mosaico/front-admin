@@ -61,6 +61,7 @@ nav a.active {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    padding: 20px;
 }
 
 .eventoDescription {
@@ -74,16 +75,13 @@ nav a.active {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 5px;
-    padding-bottom: 45px;
 }
 
 .eventoHeader {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
 
-    background-color: #fafafa;
     padding: 5px;
     border-radius: 5px;
 }

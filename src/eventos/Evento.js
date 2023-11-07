@@ -51,11 +51,12 @@ export const Evento = ({evento, token, setToken}) => {
   return (
     <div className="evento">
       <div className="eventoHeader">
-        <h2>{evento.titulo}</h2>
+        <h2 style={{marginTop: '0px', marginBottom: '0px', color: '#3d3d3d'}}>{evento.titulo}</h2>
       </div>
       <div className="eventoContainer">
         <div className="eventoImage">
-          <img src={evento.imagem} style={{maxWidth: '350px', borderRadius: '25px'}} />
+          <img src={evento.imagem}
+               style={{maxWidth: '350px', borderRadius: '25px'}} />
         </div>
         <div className="eventoDescription">
           <span style={{fontWeight: 'bold', fontSize: '16pt'}}>{new Date(evento.dataInicial).toLocaleDateString('pt-BR')}</span>
@@ -64,8 +65,8 @@ export const Evento = ({evento, token, setToken}) => {
 
       </div>
       {!showParticipantes && <button onClick={() => setShowParticipantes(true)}>
-                               carregar participantes
-                             </button>}
+                                   carregar participantes
+                                 </button>}
       {showFormParticipantes &&
        <ParticipanteForm token={token}
                          setToken={setToken}
@@ -91,13 +92,13 @@ export const Evento = ({evento, token, setToken}) => {
                <th>Isento</th>
              </tr>
              {participantes.map(p => <Participante
-                                       key={p.id}
-                                       participante={p}
-                                       eventoId={evento.id}
-                                       token={token}
-                                       familias={familias}
-                                       familiaLoadCallback={temporarilyDisallowExport}
-                                     />)}
+                                              key={p.id}
+                                              participante={p}
+                                              eventoId={evento.id}
+                                              token={token}
+                                              familias={familias}
+                                              familiaLoadCallback={temporarilyDisallowExport}
+                                 />)}
            </tbody>
          </table>
        </>

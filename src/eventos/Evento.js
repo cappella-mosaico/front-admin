@@ -41,7 +41,7 @@ export const Evento = ({evento, token, setToken}) => {
     if (showExportButton && allowExport) {
       return <CSVLink data={familias.current}><button>baixar inscritos</button></CSVLink>;
     } else {
-      return <button aria-busy={exportLoading} 
+      return <button aria-busy={exportLoading}
                      onClick={() => setShowExportButton(true)}>
                carregando
              </button>;
@@ -49,40 +49,39 @@ export const Evento = ({evento, token, setToken}) => {
   };
 
   return (
-    <>
-      <div className="grid">
-        <div>
-          <span style={{fontWeight: 'bold', fontSize: '20pt'}}>{evento.titulo}</span>
-          <br />
-          <span style={{fontWeight: 'bold', fontSize: '16pt'}}>
-            {new Date(evento.dataInicial).toLocaleDateString('pt-BR')}
-          </span>
-          <br />
+    <div className="evento">
+      <div className="eventoHeader">
+        <h2>{evento.titulo}</h2>
+      </div>
+      <div className="eventoContainer">
+        <div className="eventoImage">
+          <img src={evento.imagem} style={{maxWidth: '350px', borderRadius: '25px'}} />
+        </div>
+        <div className="eventoDescription">
+          <span style={{fontWeight: 'bold', fontSize: '16pt'}}>{new Date(evento.dataInicial).toLocaleDateString('pt-BR')}</span>
           <span>Inscritos: {evento.quantidadePessoas}</span>
         </div>
-        <div>
-          <img src={evento.imagem} style={{maxWidth: '350px'}} />
-        </div>
+
       </div>
       {!showParticipantes && <button onClick={() => setShowParticipantes(true)}>
                                carregar participantes
                              </button>}
-      {showFormParticipantes && 
-       <ParticipanteForm token={token} 
+      {showFormParticipantes &&
+       <ParticipanteForm token={token}
                          setToken={setToken}
-                         eventoId={evento.id} 
+                         eventoId={evento.id}
                          hideForm={() => setShowFormParticipantes(false)}
        />
       }
-      
-      {showParticipantes &&    
+
+      {showParticipantes &&
        <>
          <div className="grid">
            <button onClick={() => setShowFormParticipantes(true)}>adicionar participante</button>
            <button onClick={() => setShowParticipantes(false)}>esconder participantes</button>
            <DownloadButton />
          </div>
-         
+
          <table>
            <tbody>
              <tr>
@@ -91,19 +90,18 @@ export const Evento = ({evento, token, setToken}) => {
                <th>Valor Pago</th>
                <th>Isento</th>
              </tr>
-             {participantes.map(p => <Participante 
-                                       key={p.id} 
-                                       participante={p} 
-                                       eventoId={evento.id} 
+             {participantes.map(p => <Participante
+                                       key={p.id}
+                                       participante={p}
+                                       eventoId={evento.id}
                                        token={token}
                                        familias={familias}
                                        familiaLoadCallback={temporarilyDisallowExport}
-/>)}
+                                     />)}
            </tbody>
          </table>
        </>
       }
-      <hr />
-    </>
+    </div>
   );
 };

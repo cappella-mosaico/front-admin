@@ -48,8 +48,52 @@ nav a.active {
     margin-Bottom: -20px;
 }
 
+.evento {
+
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgray;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.eventoContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.eventoDescription {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.eventoImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    padding-bottom: 45px;
+}
+
+.eventoHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #fafafa;
+    padding: 5px;
+    border-radius: 5px;
+}
+
 @media (max-width: 768px) {
     .authForm {
+        flex-Direction: column;
+    }
+
+    .eventoContainer {
         flex-Direction: column;
     }
 

@@ -1,7 +1,9 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ROOT_URL } from "../App";
 
 export const AuthForm = ({token, setToken, tokenExpirationTime}) => {
+  const [error, setError] = useState("");
+
   const login = useCallback((event) => {
     event.preventDefault();
 
@@ -17,9 +19,13 @@ export const AuthForm = ({token, setToken, tokenExpirationTime}) => {
 
     fetch(`${ROOT_URL}/login`, requestOptions)
       .then(response => (response.json()))
-      .then(responseBody => setToken(responseBody.token))
+      .then(responseBody => {
+        setToken(responseBody.token);
+        setError('');
+        })
       .catch(error => {
         console.error(error);
+        setError('Usuário ou Senha inválidos');
         if (token) {
           setToken(null);
         }
@@ -53,15 +59,20 @@ export const AuthForm = ({token, setToken, tokenExpirationTime}) => {
   return (
     <div className='authForm'style={{}}>
       <div>
-        
+      {error && <h6>Ocorreu um erro ao logar! {error} </h6>}
         <h1>Administração do aplicativo da IP Mosaico</h1>
       </div>
       <div style={{maxWidth: '600px', backgroundColor: 'white', padding: '10px', borderRadius: '10px'}}>
         <form onSubmit={login}>
           <input placeholder="usuario" name="usuario" autoComplete="username"/>
-          <input type="password" name="senha" placeholder="senha" autoComplete="current-password"/>
+          <input placeholder="senha" type="password" name="senha" autoComplete="current-password"/>
           <button>entrar</button>
         </form>
+
+        
+
+        
+
       </div>
     </div>
     

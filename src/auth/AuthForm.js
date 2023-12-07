@@ -59,20 +59,15 @@ export const AuthForm = ({token, setToken, tokenExpirationTime}) => {
   return (
     <div className='authForm'style={{}}>
       <div>
-      {error && <h6>Ocorreu um erro ao logar! {error} </h6>}
         <h1>Administração do aplicativo da IP Mosaico</h1>
       </div>
       <div style={{maxWidth: '600px', backgroundColor: 'white', padding: '10px', borderRadius: '10px'}}>
         <form onSubmit={login}>
-          <input placeholder="usuario" name="usuario" autoComplete="username"/>
+          <input placeholder="usuário" name="usuario" autoComplete="username"/>
           <input placeholder="senha" type="password" name="senha" autoComplete="current-password"/>
           <button>entrar</button>
-        </form>
-
-        
-
-        
-
+          {error && <h6>Ocorreu um erro ao logar! {error} </h6>}          
+        </form>        
       </div>
     </div>
     

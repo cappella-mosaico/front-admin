@@ -38,8 +38,6 @@ export const EventoForm = ({token, setToken, eventos, setEventos, selectedEvento
 
   const publish = useCallback((event) => {
     event.preventDefault();
-    console.log(event.target);
-    console.log(event.target.children);
 
     const id = document.getElementsByName('id').item(0).value;
     const titulo = document.getElementsByName('titulo').item(0).value;
@@ -135,8 +133,8 @@ export const EventoForm = ({token, setToken, eventos, setEventos, selectedEvento
   return (<form onSubmit={publish}>
           <input name="id" type="hidden"/>
           <LabeledInput label="Título" type="text"/>
-          <LabeledInput label="Data Inicial" type="date"/>
-          <LabeledInput label="Data Final" type="date"/>
+          <LabeledInput label="Data Inicial" type="datetime-local"/>
+          <LabeledInput label="Data Final" type="datetime-local"/>
           <LabeledInput label="Imagem" type="text"/>
           <LabeledInput label="Sobre" type="text"/>
           <LabeledInput label="Valor" type="text"/>

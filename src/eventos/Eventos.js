@@ -20,6 +20,8 @@ export const Eventos = ({ token, setToken }) => {
           <h3>Eventos</h3>
           <EventoForm token={token}
                       setToken={setToken}
+                      setEventos={setEventos}
+                      clearEvento={()=>{}}
                       eventos={eventos}/>
           {eventos.map(e => <Evento key={e.id}
                                     evento={e}

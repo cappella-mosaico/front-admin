@@ -6,6 +6,7 @@ import { EventoForm } from './EventoForm';
 export const Eventos = ({ token, setToken }) => {
 
   const [eventos, setEventos] = useState([]);
+  const [selectedEvento, selectEvento] = useState();
 
   useEffect(() => {
     if (token) {
@@ -22,11 +23,13 @@ export const Eventos = ({ token, setToken }) => {
                       setToken={setToken}
                       setEventos={setEventos}
                       clearEvento={()=>{}}
-                      eventos={eventos}/>
+                      eventos={eventos}
+                      selectedEvento={selectedEvento}/>
           {eventos.map(e => <Evento key={e.id}
                                     evento={e}
                                     token={token}
-                                    setToken={setToken}/>)}
+                                    setToken={setToken}
+                                    selectEvento={selectEvento}/>)}
           </>
          );
 };

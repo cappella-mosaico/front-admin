@@ -7,6 +7,9 @@ export const Eventos = ({ token, setToken }) => {
 
   const [eventos, setEventos] = useState([]);
   const [selectedEvento, selectEvento] = useState();
+  const clearEvento = () => {
+    selectEvento(null);
+  }
 
   useEffect(() => {
     if (token) {
@@ -22,7 +25,7 @@ export const Eventos = ({ token, setToken }) => {
           <EventoForm token={token}
                       setToken={setToken}
                       setEventos={setEventos}
-                      clearEvento={()=>{}}
+                      clearEvento={clearEvento}
                       eventos={eventos}
                       selectedEvento={selectedEvento}/>
           {eventos.map(e => <Evento key={e.id}

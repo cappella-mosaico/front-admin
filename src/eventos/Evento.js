@@ -3,8 +3,9 @@ import { CSVLink } from 'react-csv';
 import { Participante } from './Participante';
 import { ParticipanteForm } from './ParticipanteForm';
 import { ROOT_URL } from '../App.js';
+import { SelectAction } from './actions/SelectAction.js';
 
-export const Evento = ({evento, token, setToken}) => {
+export const Evento = ({evento, token, setToken, selectEvento}) => {
 
   const [showParticipantes, setShowParticipantes] = useState(false);
   const [showFormParticipantes, setShowFormParticipantes] = useState(false);
@@ -64,9 +65,14 @@ export const Evento = ({evento, token, setToken}) => {
         </div>
 
       </div>
-      {!showParticipantes && <button onClick={() => setShowParticipantes(true)}>
+      <div className='grid'>
+        <SelectAction id={evento.id}
+                    select={selectEvento}/>
+        {!showParticipantes && <button onClick={() => setShowParticipantes(true)}>
                                    carregar participantes
-                                 </button>}
+                                </button>}
+      </div>
+      
       {showFormParticipantes &&
        <ParticipanteForm token={token}
                          setToken={setToken}

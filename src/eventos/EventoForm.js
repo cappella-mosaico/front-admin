@@ -8,7 +8,6 @@ export const EventoForm = ({token, setToken, eventos, setEventos, selectedEvento
     const evento = eventos.filter(p => p.id === selectedEvento)?.[0];
     if (evento) {
       document.getElementsByName('id').item(0).value = evento.id;
-      
       document.getElementsByName('titulo').item(0).value = evento.titulo;
       document.getElementsByName('dataInicial').item(0).value = evento.dataInicial;
       document.getElementsByName('dataFinal').item(0).value = evento.dataFinal;
@@ -17,14 +16,12 @@ export const EventoForm = ({token, setToken, eventos, setEventos, selectedEvento
       document.getElementsByName('valor').item(0).value = evento.valor;
       document.getElementsByName('local').item(0).value = evento.local;
       document.getElementsByName('endereco').item(0).value = evento.endereco;
-  
     }
   }, [selectedEvento, eventos]);
 
   const resetForm = () => {
     clearEvento();
     document.getElementsByName('id').item(0).value = '';
- 
     document.getElementsByName('titulo').item(0).value = '';
     document.getElementsByName('dataInicial').item(0).value = '';
     document.getElementsByName('dataFinal').item(0).value = '';
@@ -33,13 +30,10 @@ export const EventoForm = ({token, setToken, eventos, setEventos, selectedEvento
     document.getElementsByName('valor').item(0).value = '';
     document.getElementsByName('local').item(0).value = '';
     document.getElementsByName('endereco').item(0).value = '';
-
   }
 
   const publish = useCallback((event) => {
     event.preventDefault();
-    console.log(event.target);
-    console.log(event.target.children);
 
     const id = document.getElementsByName('id').item(0).value;
     const titulo = document.getElementsByName('titulo').item(0).value;
@@ -135,8 +129,8 @@ export const EventoForm = ({token, setToken, eventos, setEventos, selectedEvento
   return (<form onSubmit={publish}>
           <input name="id" type="hidden"/>
           <LabeledInput label="Título" type="text"/>
-          <LabeledInput label="Data Inicial" type="date"/>
-          <LabeledInput label="Data Final" type="date"/>
+          <LabeledInput label="Data Inicial" type="datetime-local"/>
+          <LabeledInput label="Data Final" type="datetime-local"/>
           <LabeledInput label="Imagem" type="text"/>
           <LabeledInput label="Sobre" type="text"/>
           <LabeledInput label="Valor" type="text"/>

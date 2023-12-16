@@ -106,7 +106,7 @@ export const PastoralForm = ({token, setToken, pastorais, setPastorais, selected
           placeholder="descricao"
           value={descricao}
           onChange={((e) => setDescricao(e.target.value))}
-          {...(descricao ? {style: {height: '50rem'}} : {})}
+          {...(descricao ? {style: {height: '20rem'}} : {})}
           />
           <div className="grid">
           <button>salvar</button>

@@ -20,24 +20,30 @@ export const PastoralList = ({ token, setToken, pastorais, setPastorais, selectP
   }, [token, setPastorais, pastorais.length]);
 
   return (pastorais?.map(pastoral => (<div key={pastoral.id}>
-      <h4>#{pastoral.id} - {pastoral.titulo}</h4>
-      <a href={`${ROOT_URL}/pastorais/${pastoral.pequenoTitulo}`}>({pastoral.pequenoTitulo})</a>
-      <div style={{whiteSpace: "pre-wrap"}}>{pastoral.descricao}</div>
-      <small>{pastoral.autor}</small>
-      <br />
-      <br />
-      <div className="grid">
-        { token && !pastoral.notificado &&
-          <NotifyAction {...{token, setToken, pastorais, setPastorais, pastoral}} />
-        }
-        { token &&
-          <SelectAction {...{token, setToken, pastorais, setPastorais, pastoral, selectPastoral}} />
-        }
-        { token &&
-          <DeleteAction {...{token, setToken, pastorais, setPastorais, pastoral}} />
-        }
-      </div>
-      <hr />
-    </div>)
-  ));
+
+                                        <span style={{color: 'darkgray', fontSize: '12px'}}>#{pastoral.id}</span>
+                                        <br />
+                                        <span style={{fontSize: '14px'}}>Link compartilhável:</span>
+                                        <a href={`${ROOT_URL}/pastoral/${pastoral.pequenoTitulo}`} target="_blank">
+                                          {pastoral.pequenoTitulo}
+                                        </a>
+                                        <h1>{pastoral.titulo}</h1>
+                                        <div style={{whiteSpace: "pre-wrap"}}>{pastoral.descricao}</div>
+                                        <small>{pastoral.autor}</small>
+                                        <br />
+                                        <br />
+                                        <div className="grid">
+                                          { token && !pastoral.notificado &&
+                                            <NotifyAction {...{token, setToken, pastorais, setPastorais, pastoral}} />
+                                          }
+                                          { token &&
+                                            <SelectAction {...{token, setToken, pastorais, setPastorais, pastoral, selectPastoral}} />
+                                          }
+                                          { token &&
+                                            <DeleteAction {...{token, setToken, pastorais, setPastorais, pastoral}} />
+                                          }
+                                        </div>
+                                        <hr />
+                                      </div>)
+                        ));
 }

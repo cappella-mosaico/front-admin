@@ -32,7 +32,9 @@ export const Eventos = ({ token, setToken }) => {
                                     evento={e}
                                     token={token}
                                     setToken={setToken}
-                                    selectEvento={selectEvento}/>)}
+                                    selectEvento={selectEvento}
+                                    eventos={eventos}
+                                    setEventos={setEventos}/>)}
           </>
          );
 };

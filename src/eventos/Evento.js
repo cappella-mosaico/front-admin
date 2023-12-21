@@ -4,8 +4,9 @@ import { Participante } from './Participante';
 import { ParticipanteForm } from './ParticipanteForm';
 import { ROOT_URL } from '../App.js';
 import { SelectAction } from './actions/SelectAction.js';
+import { DeleteAction } from "./actions/DeleteAction";
 
-export const Evento = ({evento, token, setToken, selectEvento}) => {
+export const Evento = ({evento, token, setToken, selectEvento, eventos, setEventos}) => {
 
   const [showParticipantes, setShowParticipantes] = useState(false);
   const [showFormParticipantes, setShowFormParticipantes] = useState(false);
@@ -52,7 +53,7 @@ export const Evento = ({evento, token, setToken, selectEvento}) => {
   return (
     <div className="evento">
       <div className="eventoHeader">
-        <h2 style={{marginTop: '0px', marginBottom: '0px', color: '#3d3d3d'}}>{evento.titulo}</h2>
+        <h2 style={{marginTop: '0px', marginBottom: '0px', color: '#3d3d3d'}}>#{evento.id}-{evento.titulo}</h2>
       </div>
       <div className="eventoContainer">
         <div className="eventoImage">
@@ -68,6 +69,9 @@ export const Evento = ({evento, token, setToken, selectEvento}) => {
       <div className='grid'>
         <SelectAction id={evento.id}
                     select={selectEvento}/>
+        { token &&
+          <DeleteAction {...{token, setToken, eventos, setEventos, evento}} />
+        }
         {!showParticipantes && <button onClick={() => setShowParticipantes(true)}>
                                    carregar participantes
                                 </button>}

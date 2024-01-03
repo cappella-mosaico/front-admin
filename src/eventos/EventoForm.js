@@ -46,10 +46,29 @@ export const EventoForm = ({token, setToken, eventos, setEventos, selectedEvento
     const endereco = document.getElementsByName('endereco').item(0).value;
 
     if (!titulo?.trim()) {
-      alert('É importante preencher o título de eventos.');
+      alert('O campo título está vazio.');
       return;
     }
 
+    // Validação da data final para que ela nao seja anterior à data inicial
+    const dataInicialObjeto = new Date(dataInicial);
+    const dataFinalObjeto = new Date(dataFinal);
+
+    if (dataFinalObjeto < dataInicialObjeto) {
+      alert('A Data Final não deve ser anterior à Data Inicial. Por favor, corrija.');
+      return;
+    }
+
+    const dataAtual = new Date(); // Obtém a data atual
+    if (dataAtual > dataInicialObjeto) {
+      alert('Não é permitido cadastrar um evento com data anterior à data atual. Por favor, corrija.')
+      return;
+    }
+
+    if (!confirm('Tem certeza que deseja salvar o evento?')) {
+      return;
+    }
+    
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -133,10 +152,10 @@ export const EventoForm = ({token, setToken, eventos, setEventos, selectedEvento
           <LabeledInput label="Data Final" type="datetime-local"/>
           <LabeledInput label="Imagem" type="text"/>
           <LabeledInput label="Sobre" type="text"/>
-          <LabeledInput label="Valor" type="text"/>
+          <LabeledInput label="Valor" type="number"/>
           <LabeledInput label="Local" type="text"/>
           <LabeledInput label="Endereço" type="text"/>
-         
+          
           <div className="grid">
           <button>salvar</button>
           {selectedEvento && <button type="reset" className="secondary" onClick={resetForm}>cancelar</button>}

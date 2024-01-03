@@ -1,5 +1,6 @@
 import {useCallback} from "react";
 import {ROOT_URL} from "../../App";
+import { Participante } from "../Participante";
 
 export const DeleteAction = ({
                                token,
@@ -8,6 +9,7 @@ export const DeleteAction = ({
                                setEventos,
                                evento
                              }) => {
+                              const botaoDeleteHabilitado = (evento.quantidadePessoas == 0);
   const _delete = useCallback(({id}) => {
     fetch(`${ROOT_URL}/eventos/${id}`, {
       method: 'DELETE',
@@ -42,5 +44,6 @@ export const DeleteAction = ({
                       }
                     }
                   }
+                  disabled={!botaoDeleteHabilitado}
   >apagar</button>)
 }

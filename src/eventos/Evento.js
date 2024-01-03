@@ -68,11 +68,15 @@ export const Evento = ({evento, token, setToken, selectEvento, eventos, setEvent
       </div>
       <div className='grid'>
         <SelectAction id={evento.id}
-                    select={selectEvento}/>
+                    select={selectEvento}
+                    dataInicial={evento.dataInicial}/>
         { token &&
           <DeleteAction {...{token, setToken, eventos, setEventos, evento}} />
         }
-        {!showParticipantes && <button onClick={() => setShowParticipantes(true)}>
+        {!showParticipantes && evento.quantidadePessoas == 0 && <button onClick={() => setShowParticipantes(true)}>
+                                   cadastrar participantes
+                                </button>}
+        {!showParticipantes && evento.quantidadePessoas > 0 && <button onClick={() => setShowParticipantes(true)}>
                                    carregar participantes
                                 </button>}
       </div>
